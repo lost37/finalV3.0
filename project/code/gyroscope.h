@@ -22,6 +22,8 @@ extern float gyro_z;
  ************************************/
 
 float calculate_pitch_angle();
+void gyroscope_init(void);
+void gyroscope_reset_runtime(void);
 void gyroscope_interrupt_handler(void);
 void call_gyroscope_thread(void);
 void Zero_Point_Detect(void);
