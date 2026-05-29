@@ -6,5 +6,5 @@ CXX_FLAGS =  -O3 -pthread -Wall   -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../../libraries/zf_components/ncnn/include" -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../user" -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../code" -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../../libraries/zf_common" -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../../libraries/zf_device" -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../../libraries/zf_driver" -I"/home/lost37/Desktop/temp/finalV0(1/project/user/../../libraries/zf_components" -isystem /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4 
+CXX_INCLUDES = -I/home/lost37/Desktop/temp/finalV3.0/project/user/../../libraries/zf_components/ncnn/include -I/home/lost37/Desktop/temp/finalV3.0/project/user/../user -I/home/lost37/Desktop/temp/finalV3.0/project/user/../code -I/home/lost37/Desktop/temp/finalV3.0/project/user/../../libraries/zf_common -I/home/lost37/Desktop/temp/finalV3.0/project/user/../../libraries/zf_device -I/home/lost37/Desktop/temp/finalV3.0/project/user/../../libraries/zf_driver -I/home/lost37/Desktop/temp/finalV3.0/project/user/../../libraries/zf_components -isystem /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4 
 

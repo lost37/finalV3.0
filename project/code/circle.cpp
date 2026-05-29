@@ -21,25 +21,11 @@ volatile uint8 imu_ring_exit_beeped = 0;
 volatile uint8 imu_ring_exit_counter = 0;
 int l_land_num = 0;
 static uint8 l_land_cooldown = 0;
-static uint8 l_land_is_cooling = 0;
-static double l_land_cooldown_start_sec = 0.0;
-static const double L_LAND_COOLDOWN_SEC = 5.0;
 static uint8 l_case23_confirm = 0;
 static uint8 l_case10_time = 0;
 static uint8 r_land_cooldown = 0;
 static uint8 r_case23_confirm = 0;
 static uint8 r_case10_time = 0;
-static int32_t l_ring_phase_start_encoder = 0;
-
-#define LEFT_RING_ENCODER_SWITCH 0
-static const int32_t L_RING_IN_TO_RUNNING_DISTANCE = 300;
-
-static double circle_get_time_sec(void)
-{
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
-}
 
 //----------------------------------------------------------------------------------------------------------------
 // 函数名称 l_land_judge()
@@ -55,15 +41,9 @@ void l_land_judge()
     int16 i, j;
     static int8 m = 5;
     land_line = 0;
-    if (l_land_is_cooling)
-    {
-        if (circle_get_time_sec() - l_land_cooldown_start_sec >= L_LAND_COOLDOWN_SEC)
-        {
-            l_land_is_cooling = 0;
-            l_land_cooldown = 0;
-        }
-    }
-    if (l_land_flag == 0 && l_land_is_cooling == 0 && cross_flag == 0 /*&& white_length_max[0] < 10 */&& r_effect_num > 55 && r_land_flag == 0 && left_down) //&& (r_start + 1 - r_effect_num) < 5 && (l_start + 1 - l_effect_num) > 5)
+    if (l_land_cooldown > 0)
+        l_land_cooldown--;
+    if (l_land_flag == 0 && l_land_cooldown == 0 && cross_flag == 0 /*&& white_length_max[0] < 10 */&& r_effect_num > 42 && r_land_flag == 0 && left_down) //&& (r_start + 1 - r_effect_num) < 5 && (l_start + 1 - l_effect_num) > 5)
     {// 左方检测直道          没有进入十字        最长白列正常                 左下角点存在   右边界有效数大于115      右方检测直道
         lianxu = 1;
         dizeng = 1;
@@ -83,7 +63,7 @@ void l_land_judge()
         //     if (r_border[i-1] >= r_border[i])    //判断数组边界单调
         //         dizeng = 0;
         // }
-        for (j = 3; j < left_down - 6; j++)
+        for (j = /*white_length_max[0]*/ 0; j < left_down - 6; j++)
         {
             land_line = 0;  //弧点位置
 
@@ -193,7 +173,7 @@ void l_land_judge()
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
                 // int tmp = (int)l_border[i] + (int)Straight_track_width[i]*0.97;
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //1.01
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.00; //0.91
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
@@ -203,51 +183,22 @@ void l_land_judge()
                 printf("[LEFT_RING] 3->4 left_up=%d l_loss=%d right_up=%d w1=%d\n", left_up, l_start + 1 - l_effect_num, right_up, white_length_max[1]);
                 l_land_flag = 4;
                 l_land_time = 0;
-                l_ring_phase_start_encoder = encoder_acc_avg;
             }
             break;
         case 4: //入环岛
             l_land_time++;
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //1.04
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.01; //1.04
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
-#if LEFT_RING_ENCODER_SWITCH
-            {
-                const int32_t encoder_progress = func_abs(encoder_acc_avg - l_ring_phase_start_encoder);
-                const uint8 vision_ready = (
-                    right_up == 0 &&
-                    r_effect_num > 50 &&
-                    r_start > 45 &&
-                    l_land_time > 30
-                );
-
-                if (encoder_progress >= L_RING_IN_TO_RUNNING_DISTANCE || vision_ready)
-                {
-                    printf(
-                        "[LEFT_RING] 4->6 progress=%d/%d vision=%u time=%d right_up=%d r_effect=%d r_start=%d\n",
-                        encoder_progress,
-                        L_RING_IN_TO_RUNNING_DISTANCE,
-                        vision_ready,
-                        l_land_time,
-                        right_up,
-                        r_effect_num,
-                        r_start
-                    );
-                    l_land_flag = 6;
-                    l_land_time = 0;
-                }
-            }
-#else
-            // 找到右侧稳定线后切换到绕环阶段，旧视觉切换逻辑保留用于回退
-            if (right_up == 0 && r_effect_num > 50 && r_start > 45 && l_land_time > 25)
+            //找到角点 并且在30~100之间
+            if (right_up == 0 && r_effect_num > 50 && r_start > 45 && l_land_time > 5)
             {
                 printf("[LEFT_RING] 4->6 time=%d right_up=%d r_effect=%d r_start=%d\n", l_land_time, right_up, r_effect_num, r_start);
                 l_land_flag = 6;
                 l_land_time = 0;
             }
-#endif
             break;
         // case 6: //绕环岛
         //     for (i = Cut_ROW - 1; i >= white_length_max[0]; i--)   //寻找弧点
@@ -275,7 +226,7 @@ void l_land_judge()
         case 6: //绕环岛
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
-                int tmp = (int)r_border[i] - (int)Straight_track_width[i]*0.86;
+                int tmp = (int)r_border[i] - (int)Straight_track_width[i];
                 l_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
@@ -290,12 +241,12 @@ void l_land_judge()
         case 8: // 出T字后准备出环
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.06;
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.05;
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
             // 加速度判断：车身变正
-            if (imu_acc_y < AY_EXIT_THRESHOLD && imu_acc_y > -AY_EXIT_THRESHOLD)
+            if (imu660ra_acc_y < AY_EXIT_THRESHOLD && imu660ra_acc_y > -AY_EXIT_THRESHOLD)
                 imu_ring_exit_counter++;
             else
                 imu_ring_exit_counter = 0;
@@ -338,13 +289,11 @@ void l_land_judge()
 
                 if (l_case10_time >= 50)
                 {
-                    printf("[LEFT_RING] 10->0 出环完成 cooldown=5.0s time=%d\n", l_case10_time);
+                    printf("[LEFT_RING] 10->0 出环完成 cooldown=40 time=%d\n", l_case10_time);
                     l_land_flag = 0;
                     l_land_time = 0;
                     l_land_num++;
-                    l_land_is_cooling = 1;
-                    l_land_cooldown_start_sec = circle_get_time_sec();
-                    l_land_cooldown = 0;
+                    l_land_cooldown = 40;
                     l_case23_confirm = 0;
                     l_case10_time = 0;
 
@@ -372,7 +321,7 @@ void l_xie_land_judge()
             if (func_abs(r_border[i+1] - r_border[i]) > 2)
                 lianxu = 0;
         }
-        for (j = 3; j < l_start; j++)
+        for (j = 0; j < l_start; j++)
         {
             land_line = 0;
             if (l_border[j] >= l_border[j + 3] && l_border[j] >= l_border[j - 3]
@@ -524,14 +473,7 @@ void l_xie_land_judge()
         }
     }
 }
-//----------------------------------------------------------------------------------------------------------------
-// 函数名称 r_land_judge()
-// 函数简介 右环岛
-// 参数说明 void
-// 返回参数 void
-// 使用示例
-// 备注信息
-//----------------------------------------------------------------------------------------------------------------
+
 void r_land_judge()
 {
     int16 i, j;
@@ -539,11 +481,11 @@ void r_land_judge()
     land_line = 0;
     if (r_land_cooldown > 0)
         r_land_cooldown--;
-    if (r_land_flag == 0 && r_land_cooldown == 0 && cross_flag == 0 && l_effect_num > 60 && l_land_flag == 0 && right_down && 0)
+    if (r_land_flag == 0 && r_land_cooldown == 0 && cross_flag == 0 && l_effect_num > 40 && l_land_flag == 0 && right_down)
     {
         lianxu = 1;
         dizeng = 1;
-        //判断右边界是否连续
+
         imu_ring_exit_counter = 0;
         imu_ring_exit_beeped = 0;
 
@@ -561,7 +503,7 @@ void r_land_judge()
                     && r_border[j] <= r_border[j + 1] && r_border[j] <= r_border[j - 1])
             {
                 if(r_border[j] < Cut_COL - 31)
-                    land_line = (uint8)j;//弧点位置正确
+                    land_line = (uint8)j;
 
                 if (land_line && lianxu == 1 && dizeng == 1 && white_length_max[0] < 25
                 && cross_flag == 0 && compare_border_judge(right, land_line, right_down, 3, 7))
@@ -584,7 +526,7 @@ void r_land_judge()
         case 1:
             imu_ring_exit_counter = 0;
             imu_ring_exit_beeped = 0;
-            for (i = white_length_max[0] + 5; i < right_down - 12; i++)
+            for (i = white_length_max[0] + 5; i < right_down - 16; i++)
             {
                 if (r_border[i] < r_border[i + 5] && r_border[i] < r_border[i + 4]
                         && r_border[i] <= r_border[i + 3] && r_border[i] <= r_border[i - 3]
@@ -618,7 +560,7 @@ void r_land_judge()
             else
                 fill_line(r_border, Cut_ROW - 2, Cut_COL - 2, land_line, r_border[land_line]);
 
-            if (land_line > 15 && right_up && right_down)
+            if (land_line > 14 && right_up && right_down)
             {
                 r_case23_confirm++;
             }
@@ -700,7 +642,7 @@ void r_land_judge()
                 l_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
-            if (imu_acc_y < AY_EXIT_THRESHOLD && imu_acc_y > -AY_EXIT_THRESHOLD)
+            if (imu660ra_acc_y < AY_EXIT_THRESHOLD && imu660ra_acc_y > -AY_EXIT_THRESHOLD)
                 imu_ring_exit_counter++;
             else
                 imu_ring_exit_counter = 0;
@@ -736,7 +678,7 @@ void r_land_judge()
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
-            if (r_case10_time >= 40)
+            if (r_case10_time >= 50)
             {
                 printf("[RIGHT_RING] 10->0 出环完成 cooldown=40 time=%d\n", r_case10_time);
                 r_land_flag = 0;
