@@ -16,5 +16,10 @@ uint8 gpio_get_level(const char *path)
 
     file_read_dat(path, &dat);
 
+    if (dat == '0')
+        return 0;
+    if (dat == '1')
+        return 1;
+
     return dat;
 }
