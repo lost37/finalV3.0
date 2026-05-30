@@ -11,39 +11,16 @@ namespace
 {
     constexpr char MODEL_PARAM_PATH[] = "tiny_classifier_fp32.ncnn.param";
     constexpr char MODEL_BIN_PATH[] = "tiny_classifier_fp32.ncnn.bin";
-    constexpr int MODEL_INPUT_WIDTH = 64;
-    constexpr int MODEL_INPUT_HEIGHT = 64;
+    constexpr int MODEL_INPUT_WIDTH = 96;
+    constexpr int MODEL_INPUT_HEIGHT = 96;
 
-    // 顺序必须与训练产物 artifacts/labels.txt 完全一致。
-    constexpr const char* MODEL_FINE_LABELS[] =
+    constexpr const char* MODEL_LABELS[] =
     {
-        "suppliers/jijiubao",
-        "suppliers/wangyuan",
-        "vehicle/jiuhu",
-        "vehicle/zhuangjia",
-        "weapon/buqiang",
-        "weapon/c4",
-        "weapon/shouliu",
-        "weapon/shouqiang",
-        "weapon/shuzhuang"
-    };
-    constexpr const char* MODEL_COARSE_LABELS[] =
-    {
-        "suppliers",
+        "supplies",
         "vehicle",
         "weapon"
     };
-    // fine index -> coarse index：suppliers / vehicle / weapon。
-    constexpr int MODEL_FINE_TO_COARSE[] =
-    {
-        0, 0,
-        1, 1,
-        2, 2, 2, 2, 2
-    };
-    constexpr int MODEL_FINE_LABEL_COUNT = sizeof(MODEL_FINE_LABELS) / sizeof(MODEL_FINE_LABELS[0]);
-    constexpr int MODEL_COARSE_LABEL_COUNT = sizeof(MODEL_COARSE_LABELS) / sizeof(MODEL_COARSE_LABELS[0]);
-    constexpr int MODEL_FINE_TO_COARSE_COUNT = sizeof(MODEL_FINE_TO_COARSE) / sizeof(MODEL_FINE_TO_COARSE[0]);
-    static_assert(MODEL_FINE_LABEL_COUNT == MODEL_FINE_TO_COARSE_COUNT, "fine label count must match mapping count");
+    constexpr int MODEL_LABEL_COUNT = sizeof(MODEL_LABELS) / sizeof(MODEL_LABELS[0]);
 
     LQ_NCNN g_ncnn;
     bool g_ncnn_initialized = false;
@@ -53,9 +30,7 @@ namespace
     {
         NCNN_Infer_Result result;
         result.class_index = -1;
-        result.coarse_index = -1;
         result.label = "None";
-        result.fine_label = "None";
         result.confidence = 0.0f;
         result.valid = false;
         result.ready = false;
@@ -76,7 +51,7 @@ bool ncnn_infer_init(void)
 
     float mean_vals[3] = {123.675f, 116.28f, 103.53f};
     float norm_vals[3] = {0.01712475f, 0.017507f, 0.01742919f};
-    std::vector<std::string> labels(MODEL_FINE_LABELS, MODEL_FINE_LABELS + MODEL_FINE_LABEL_COUNT);
+    std::vector<std::string> labels(MODEL_LABELS, MODEL_LABELS + MODEL_LABEL_COUNT);
 
     g_ncnn.SetModelPath(MODEL_PARAM_PATH, MODEL_BIN_PATH);
     g_ncnn.SetInputSize(MODEL_INPUT_WIDTH, MODEL_INPUT_HEIGHT);
@@ -118,30 +93,9 @@ NCNN_Infer_Result ncnn_infer_run_once(void)
     const LQ_NCNN_Result infer_result = g_ncnn.InferResult(input_bgr);
 
     result.class_index = infer_result.class_index;
-    result.fine_label = infer_result.label;
+    result.label = infer_result.label;
     result.confidence = infer_result.confidence;
     result.valid = infer_result.valid;
-    if(result.valid &&
-       result.class_index >= 0 &&
-       result.class_index < MODEL_FINE_LABEL_COUNT)
-    {
-        result.coarse_index = MODEL_FINE_TO_COARSE[result.class_index];
-        if(result.coarse_index >= 0 &&
-           result.coarse_index < MODEL_COARSE_LABEL_COUNT)
-        {
-            result.label = MODEL_COARSE_LABELS[result.coarse_index];
-        }
-        else
-        {
-            result.label = "Unknown";
-            result.valid = false;
-        }
-    }
-    else
-    {
-        result.label = "Unknown";
-        result.valid = false;
-    }
     return result;
 }
 
@@ -160,10 +114,8 @@ void ncnn_infer_run(void)
     }
 
     printf(
-        "NCNN infer: fine=%d %s coarse=%d %s confidence=%.4f\n",
+        "NCNN infer: class=%d label=%s confidence=%.4f\n",
         result.class_index,
-        result.fine_label.c_str(),
-        result.coarse_index,
         result.label.c_str(),
         result.confidence
     );
@@ -177,9 +129,7 @@ namespace
     {
         NCNN_Infer_Result result;
         result.class_index = -1;
-        result.coarse_index = -1;
         result.label = "None";
-        result.fine_label = "None";
         result.confidence = 0.0f;
         result.valid = false;
         result.ready = false;

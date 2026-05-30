@@ -12,10 +12,8 @@
 
 struct NCNN_Infer_Result
 {
-    int class_index;        // 模型原始输出：细类 index
-    int coarse_index;       // 映射后的粗类 index，控制逻辑只使用该字段
-    std::string label;      // 粗类 label：suppliers / vehicle / weapon
-    std::string fine_label; // 细类 label：如 suppliers/jijiubao
+    int class_index;
+    std::string label;
     float confidence;
     bool valid;
     bool ready;

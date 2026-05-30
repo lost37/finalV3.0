@@ -7,7 +7,7 @@
 
 #include <opencv2/imgproc/imgproc.hpp>
 
-static uint8 g_my_image_transmitter_ready = 1;
+static uint8 g_my_image_transmitter_ready = 0;
 static uint8 g_my_image_gray[UVC_RAW_HEIGHT][UVC_RAW_WIDTH];
 
 static void my_image_transmitter_send_track_gray(void)

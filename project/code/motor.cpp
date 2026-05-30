@@ -156,7 +156,7 @@ int16 Servo_PID (float Image_err)
     err_last = err;
     err = Image_err;
     out_increment = err * Kp + err * func_abs(err) * Kp2 - (err - err_last) * Kd
-           - imu660ra_gyro_z * GKD;//imu660ra_gyro_transition(imu660ra_gyro_z)
+           - imu_gyro_z * GKD;//imu660ra_gyro_transition(imu_gyro_z)
     if(out_increment > 0)
     {
         out_increment = out_increment * 1.0;    //假如左转输出误差值乘以0.9

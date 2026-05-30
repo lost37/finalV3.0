@@ -15,18 +15,6 @@
 int8 uvc_camera_init(const char *path);
 int8 wait_image_refresh();
 int8 get_rgb_frame_info(const uint8_t **image, int *width, int *height, int *step);
-void uvc_debug_video_write_processed(
-    const volatile uint8_t *gray_image,
-    int width,
-    int height,
-    const uint8_t *left_border,
-    const uint8_t *right_border,
-    const uint8_t *center_line,
-    int row_count,
-    float err,
-    uint8 redblock_state,
-    uint8 redblock_action_phase
-);
 int32 get_begin_time();
 double get_duration(int32 start);
 

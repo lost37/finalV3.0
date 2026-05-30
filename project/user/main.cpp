@@ -1,7 +1,5 @@
 #include "zf_common_headfile.h"
 #include "my_image_transmitter.h"
-#include "redblock.h"
-#include "motor.h"
 
 volatile int dec = 0;
 volatile int motor_mode = 1;   // 0: 开环, 1: 闭环
@@ -84,7 +82,7 @@ int main(int, char**)
     gyroscope_init();
 
     // 控制节拍：
-    // 4ms 编码器反馈，5ms 电机闭环，500ms 发车延时，5ms 陀螺仪采样。
+    // 5ms 编码器反馈，5ms 电机闭环，500ms 发车延时，5ms 陀螺仪采样。
     pit_ms_init(2, encoder_feedback_task);
     pit_ms_init(5, motor_isr);
     pit_ms_init(500, show_isr);
@@ -123,10 +121,6 @@ int main(int, char**)
         {
             // 外环位置误差先进入 Servo_PID，再把结果交给速度决策层。
             dif_speed = Servo_PID(err_new);
-            if(RedBlock_IsBypassActive())
-            {
-                dif_speed = RedBlock_GetBypassDifSpeed();
-            }
 
             if(dec)
             {

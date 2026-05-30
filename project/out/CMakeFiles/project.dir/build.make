@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lost37/Desktop/temp/finalV3.0/project/user
+CMAKE_SOURCE_DIR = /home/lost37/Desktop/temp/fix1/project/user
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lost37/Desktop/temp/finalV3.0/project/out
+CMAKE_BINARY_DIR = /home/lost37/Desktop/temp/fix1/project/out
 
 # Include any dependencies generated for this target.
 include CMakeFiles/project.dir/depend.make
@@ -58,506 +58,506 @@ include CMakeFiles/project.dir/progress.make
 include CMakeFiles/project.dir/flags.make
 
 CMakeFiles/project.dir/main.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/main.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/user/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/project.dir/main.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/main.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/user/main.cpp
+CMakeFiles/project.dir/main.cpp.o: /home/lost37/Desktop/temp/fix1/project/user/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/project.dir/main.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/main.cpp.o -c /home/lost37/Desktop/temp/fix1/project/user/main.cpp
 
 CMakeFiles/project.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/main.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/user/main.cpp > CMakeFiles/project.dir/main.cpp.i
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/user/main.cpp > CMakeFiles/project.dir/main.cpp.i
 
 CMakeFiles/project.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/main.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/user/main.cpp -o CMakeFiles/project.dir/main.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.s
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.o: /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.o"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.o -c /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.i"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.i
-
-CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.s"
-	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.s
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/user/main.cpp -o CMakeFiles/project.dir/main.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/camera.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/camera.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/camera.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/circle.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/circle.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/circle.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/circle.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/control.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/control.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/control.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/control.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/cross.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/cross.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/cross.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/cross.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/key.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/key.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/key.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/key.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/motor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/motor.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/motor.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/motor.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/redblock.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/redblock.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/redblock.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/redblock.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.o: /home/lost37/Desktop/temp/fix1/project/code/zebra.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.o -c /home/lost37/Desktop/temp/fix1/project/code/zebra.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/project/code/zebra.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/project/code/zebra.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.s
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.o: /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.o"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.o -c /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.i"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp > CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.i
+
+CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.s"
+	/opt/ls_2k0300_env/loongson-gnu-toolchain-8.3-x86_64-loongarch64-linux-gnu-rc1.6/bin/loongarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp -o CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.s
 
 # Object files for target project
 project_OBJECTS = \
 "CMakeFiles/project.dir/main.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.o" \
-"CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.o"
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.o" \
+"CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.o"
 
 # External object files for target project
 project_EXTERNAL_OBJECTS =
 
 project: CMakeFiles/project.dir/main.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/camera.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/control.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/cross.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/key.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_fifo.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.cpp.o
-project: CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/camera.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/circle.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/control.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/cross.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/gyroscope.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/key.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/lq_ncnn.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/motor.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/my_image_transmitter.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/ncnn_infer.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/redblock.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/project/code/zebra.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_fifo.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_font.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_common/zf_common_function.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660ra.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu660rb.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu963ra.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_imu_core.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_ips200_fb.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_device/zf_device_uvc.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_adc.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_delay.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_encoder.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_file.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_gpio.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pit.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_pwm.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_tcp_client.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_driver/zf_driver_udp.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant.cpp.o
+project: CMakeFiles/project.dir/home/lost37/Desktop/temp/fix1/libraries/zf_components/seekfree_assistant_interface.cpp.o
 project: CMakeFiles/project.dir/build.make
 project: /opt/ls_2k0300_env/opencv_4_10_build/lib/libopencv_gapi.so.4.10.0
 project: /opt/ls_2k0300_env/opencv_4_10_build/lib/libopencv_highgui.so.4.10.0
@@ -575,7 +575,7 @@ project: /opt/ls_2k0300_env/opencv_4_10_build/lib/libopencv_flann.so.4.10.0
 project: /opt/ls_2k0300_env/opencv_4_10_build/lib/libopencv_imgproc.so.4.10.0
 project: /opt/ls_2k0300_env/opencv_4_10_build/lib/libopencv_core.so.4.10.0
 project: CMakeFiles/project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking CXX executable project"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking CXX executable project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/project.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -588,6 +588,6 @@ CMakeFiles/project.dir/clean:
 .PHONY : CMakeFiles/project.dir/clean
 
 CMakeFiles/project.dir/depend:
-	cd /home/lost37/Desktop/temp/finalV3.0/project/out && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lost37/Desktop/temp/finalV3.0/project/user /home/lost37/Desktop/temp/finalV3.0/project/user /home/lost37/Desktop/temp/finalV3.0/project/out /home/lost37/Desktop/temp/finalV3.0/project/out /home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/lost37/Desktop/temp/fix1/project/out && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lost37/Desktop/temp/fix1/project/user /home/lost37/Desktop/temp/fix1/project/user /home/lost37/Desktop/temp/fix1/project/out /home/lost37/Desktop/temp/fix1/project/out /home/lost37/Desktop/temp/fix1/project/out/CMakeFiles/project.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/project.dir/depend
 

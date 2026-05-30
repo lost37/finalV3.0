@@ -5,8 +5,6 @@
 
 #include "circle.h"
 #include "camera.h"
-#include "motor.h"
-#include <sys/time.h>
 
 uint8 lianxu = 0;
 uint8 dizeng = 0;
@@ -120,14 +118,14 @@ void l_land_judge()
             }
             break;
         case 2: //预环岛
-            for (i = white_length_max[0] + 8; i < Cut_ROW - 35; i++)
+            for (i = white_length_max[0] + 8; i < Cut_ROW - 40; i++)
             {
                 if (l_border[i] > l_border[i + 5] && l_border[i] > l_border[i - 5] && l_border[i] >= l_border[i + 4]
                         && l_border[i] >= l_border[i - 4] && l_border[i] >= l_border[i + 3]
                         && l_border[i] >= l_border[i - 3] && l_border[i] >= l_border[i + 2]
                         && l_border[i] >= l_border[i - 2] && l_border[i] >= l_border[i + 1]
                         && l_border[i] >= l_border[i - 1])
-                if (l_border[i] > 23)
+                if (l_border[i] > 22)
                     land_line = i;  //弧点
             }
             if (r_border[Cut_ROW - 2] - 158 > 2)
@@ -249,7 +247,7 @@ void l_land_judge()
             }
 
             // 加速度判断：车身变正
-            if (imu660ra_acc_y < AY_EXIT_THRESHOLD && imu660ra_acc_y > -AY_EXIT_THRESHOLD)
+            if (imu_acc_y < AY_EXIT_THRESHOLD && imu_acc_y > -AY_EXIT_THRESHOLD)
                 imu_ring_exit_counter++;
             else
                 imu_ring_exit_counter = 0;

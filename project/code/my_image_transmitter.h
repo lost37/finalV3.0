@@ -14,7 +14,7 @@
  * 1: 启用图传初始化与发送
  * 0: 编译期直接关闭整条图传调试链
  */
-#define MY_IMAGE_TRANSMITTER_ENABLE 0
+#define MY_IMAGE_TRANSMITTER_ENABLE 1
 
 /* 调试图传模式
  * FULL_GRAY : 发送整幅灰度图，并叠加红色块搜索框/识别框/ROI

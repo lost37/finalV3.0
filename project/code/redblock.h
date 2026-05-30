@@ -12,7 +12,6 @@ typedef enum
 {
     RB_IDLE = 0,
     RB_CONFIRMING,
-    RB_SLOWDOWN,
     RB_PAUSED,
     RB_MODEL_WAIT,
     RB_CONFIRMED,
@@ -36,16 +35,6 @@ typedef enum
     RB_BYPASS_PHASE_RECOVER,
 } RedBlockBypassPhase;
 
-typedef enum
-{
-    RB_ACT_IDLE = 0,
-    RB_ACT_TURN_OUT,
-    RB_ACT_PASS_1,
-    RB_ACT_TURN_BACK,
-    RB_ACT_PASS_2,
-    RB_ACT_RECOVER,
-} RedBlockActionPhase;
-
 extern uint8 redblock_flag;
 extern uint8 redblock_state_flag;
 extern uint8 redblock_confirm_count;
@@ -59,11 +48,6 @@ extern uint16 redblock_height;
 extern uint8 redblock_bypass_mode_flag;
 extern uint8 redblock_bypass_phase_flag;
 extern uint8 redblock_bypass_active_flag;
-extern uint8 redblock_brake_ticks;
-extern uint8 redblock_action_phase_flag;
-extern volatile float redblock_bypass_dif_speed;
-extern volatile int32_t redblock_bypass_speed_cmd;
-extern volatile int32_t redblock_slowdown_speed_cmd;
 
 void RedBlock_Detect(void);
 void RedBlock_Update(void);
@@ -73,9 +57,6 @@ void RedBlock_ReleasePause(void);
 void RedBlock_ResetState(void);
 void RedBlock_OnModelStarted(void);
 void RedBlock_OnModelConfirmed(void);
-uint8 RedBlock_IsModelPending(void);
-uint8 RedBlock_IsSlowdownActive(void);
-int32_t RedBlock_GetSlowdownSpeedCmd(void);
 void RedBlock_StartBypass(void);
 void RedBlock_StartBypassMode(RedBlockBypassMode mode);
 void RedBlock_FinishBypass(void);
@@ -85,9 +66,6 @@ uint8 RedBlock_IsElementExclusive(void);
 RedBlockBypassMode RedBlock_GetBypassMode(void);
 RedBlockBypassPhase RedBlock_GetBypassPhase(void);
 uint8 RedBlock_ApplyBypass(void);
-RedBlockActionPhase RedBlock_GetActionPhase(void);
-float RedBlock_GetBypassDifSpeed(void);
-int32_t RedBlock_GetBypassSpeedCmd(void);
 
 uint8 RedBlock_GetRect(int16 *x, int16 *y, uint16 *width, uint16 *height);
 uint8 RedBlock_GetSearchRect(int16 *x, int16 *y, uint16 *width, uint16 *height);
