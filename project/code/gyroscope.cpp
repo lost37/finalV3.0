@@ -176,6 +176,7 @@ void get_gyro(void)
     if(gyroscope_inited != 0)
     {
         Gyroscope_GetData();
+        Get_Gyroscope_Angle();
     }
 
     if(l_land_flag != 0)

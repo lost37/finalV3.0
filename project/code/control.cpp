@@ -18,12 +18,12 @@
 int time1=0,timestop=0;      //出界停止时间
 
 int32_t l_speed = 0, r_speed = 0;  //速度赋值临时量
-volatile int32_t set_speed =270 ; //设置的电机速度
+volatile int32_t set_speed =240 ; //设置的电机速度
 volatile int land_s = 450; //环岛速度
 volatile int po_s = 600;   //坡道速度
 volatile int wan_s = 500;   // 弯道速度
 volatile int ru_s = 500;    // 入弯速度
-volatile int zhi_s = 600;   // 直道速度
+volatile int zhi_s = 595;   // 直道速度
 
 //int Speed_dif; //差速
 
@@ -71,8 +71,31 @@ void Speed_control()
     }
     if(pwm0_flag==1)
     {
-        l_out=l_pid(0, enconder_left);
-        r_out=r_pid(0, enconder_right);
+        if(redblock_brake_ticks > 0)
+        {
+            const int32_t redblock_brake_pwm = 850;
+
+            if(enconder_left > 0)      l_out = -redblock_brake_pwm;
+            else if(enconder_left < 0) l_out =  redblock_brake_pwm;
+            else                       l_out = 0;
+
+            if(enconder_right > 0)      r_out = -redblock_brake_pwm;
+            else if(enconder_right < 0) r_out =  redblock_brake_pwm;
+            else                        r_out = 0;
+
+            redblock_brake_ticks--;
+        }
+        else if(RedBlock_IsSlowdownActive())
+        {
+            pwm0_flag = 0;
+            Motor_Control(l_out,r_out);
+            return;
+        }
+        else
+        {
+            l_out=l_pid(0, enconder_left);
+            r_out=r_pid(0, enconder_right);
+        }
         Motor_Control(l_out,r_out);
     }
     // else   //差速控制
@@ -124,28 +147,20 @@ void Speed_decision() {
     float err = func_abs(err_new);
     int speed_chose;
 
+    if(RedBlock_IsSlowdownActive())
+    {
+        set_speed = RedBlock_GetSlowdownSpeedCmd();
+        return;
+    }
+
+    if(RedBlock_IsModelPending())
+    {
+        return;
+    }
+
     if(RedBlock_IsBypassActive())
     {
-        switch(RedBlock_GetBypassMode())
-        {
-            case RB_BYPASS_MODE_STRAIGHT:
-                speed_chose = ru_s;
-                break;
-
-            case RB_BYPASS_MODE_RIGHT:
-            case RB_BYPASS_MODE_LEFT:
-                speed_chose = land_s;
-                break;
-
-            default:
-                speed_chose = wan_s;
-                break;
-        }
-
-        static float redblock_set_speed_f = 500.0f;
-        const float redblock_alpha = 0.2f;
-        redblock_set_speed_f = redblock_alpha * (float)speed_chose + (1.0f - redblock_alpha) * redblock_set_speed_f;
-        set_speed = (int32_t)redblock_set_speed_f;
+        set_speed = RedBlock_GetBypassSpeedCmd();
         return;
     }
 
@@ -273,7 +288,7 @@ void Speed_decision() {
     // 一阶低通滤波：平滑状态切换时的速度跳变
     // alpha 越小过渡越慢越平滑，越大越接近原来的硬切换，先试 0.15
     static float set_speed_f = 500.0f;
-    const float alpha = 0.25f;//第一次尝试0.2 可以往0.15修改
+    const float alpha = 0.4f;//第一次尝试0.2 可以往0.15修改
     set_speed_f = alpha * (float)speed_chose + (1.0f - alpha) * set_speed_f;
     set_speed = (int32_t)set_speed_f;
 
@@ -311,6 +326,7 @@ void go_init() //发车初始化
 {
     l_speed = 0; //左轮速度清零
     r_speed = 0; //右轮速度清零
+    Reset_encoder_accumulator();
     gyroscope_reset_runtime();
     time1 = 0;
     timestop = 0;
