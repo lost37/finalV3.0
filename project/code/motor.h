@@ -57,6 +57,10 @@ int16 Servo_PID (float Image_err);
 
 void Motor_Control(int32_t l_duty,int32_t r_duty);  //电机控制
 void Motor_test(); //电机测试出界保护
-void Get_speed(void);        //获取编码器值 获取速度
+/* 编码器反馈刷新函数
+ * 负责读取左右轮编码器并更新统一反馈变量：
+ * enconder_left / enconder_right / actual_speed
+ */
+void Get_speed(void);
 
 #endif

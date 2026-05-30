@@ -66,7 +66,7 @@ int32_t l_pid(int set_speed ,int speed)//pid控制左电机转速
     static float out_last = 0;
 
     float kp=14.25;
-    float ki=7.63;
+    float ki=4.8;//5
     float A = 0.95;
 
     ek1 = ek;                   //上一次误差
@@ -104,7 +104,7 @@ int32_t r_pid(int set_speed ,int speed)//pid控制右电机转速
     static float out_last = 0;
 
     float kp=14.25;
-    float ki=7.63;
+    float ki=4.8;
     float A = 0.95;
 
     // float kp=14.2;
@@ -143,14 +143,14 @@ int16 Servo_PID (float Image_err)
 
     volatile static int16 err_last = 0;
     volatile static int16 err = 0;
-    float Kp=9.0;
+    float Kp=9.01;
     float Kp2=0;
-    float Kd=5.4;
-    float GKD=0.02;//imu660ra_gyro_transition(imu660ra_gyro_z)6.71
+    float Kd=5.1;
+    float GKD=0.04;//imu660ra_gyro_transition(imu_gyro_z)6.71
     // float Kp=7;
     // float Kp2=0;
     // float Kd=5.2;
-    // float GKD=6.5;//imu660ra_gyro_transition(imu660ra_gyro_z)
+    // float GKD=6.5;//imu660ra_gyro_transition(imu_gyro_z)
     
     //  Servo.Kp = ??;        //动态p值变化函数
     err_last = err;
@@ -165,6 +165,46 @@ int16 Servo_PID (float Image_err)
     out = func_limit_ab(out, -2000, 2000); //限幅
     return out;
 }
+// int16 Servo_PID(float Image_err)
+// {
+//     static float err_last = 0;
+//     static float err = 0;
+    
+//     // --- PID Parameters ---
+//     float Kp = 8.8f;   // Linear proportional
+//     float Kp2 = 0.0f;  // Quadratic proportional (set to >0 for aggressive curves)
+//     float Kd = 5.4f;   // Image-based differential (Dampens overshoot)
+//     float GKD = 6.69f; // Gyroscope differential (Dampens physical rotation)
+
+//     err_last = err;
+//     err = Image_err;
+
+//     // 1. Calculate the PD + Gyro Output
+//     // Term A: Linear P
+//     // Term B: Quadratic P (Aggressive steering for large errors)
+//     // Term C: Image D (Predictive)
+//     // Term D: Gyro D (Fastest physical damping)
+//     float out_increment = (err * Kp) 
+//                         + (err * abs(err) * Kp2) 
+//                         - (err - err_last) * Kd 
+//                         - imu_gyro_z * GKD;
+
+//     // 2. Asymmetric correction (Example: if car turns left easier than right)
+//     if(out_increment > 0) {
+//         out_increment *= 1.0f; // Adjust this if the car pulls to one side
+//     } else {
+//         out_increment *= 1.0f; 
+//     }
+
+//     // 3. Add to Center Offset (The "Center" of your servo PWM)
+//     int16 final_out = (int16)(ServoMID + out_increment);
+
+//     // 4. Safety Limit (Prevent mechanical damage to steering linkage)
+//     // Assuming ServoMID is 1500, limit between 1000 and 2000
+//     final_out = func_limit_ab(final_out, ServoMID - 500, ServoMID + 500); 
+
+//     return final_out;
+// }
 
 //----------------------------------------------------------------------------------------------------------------
 // 函数名称 LeftMotor_Ctrl
@@ -257,6 +297,7 @@ void Motor_test()  //开环
     LeftMotor_Ctrl(left_pwm_out);
     RightMotor_Ctrl(right_pwm_out);
 }
+
 
 //获取编码器值 获取速度
 void Get_speed(void)

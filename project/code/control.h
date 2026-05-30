@@ -56,7 +56,14 @@ extern float mid_k;
   ************************************/
 
 
+ /* 电机控制调度函数
+  * 只负责消费已经更新好的反馈值，不再直接读取编码器。
+  */
  void dianji_control();
+
+ /* 电机速度控制执行函数
+  * 依赖编码器反馈变量已经在外层调度中先被刷新。
+  */
  void Speed_control();
  void Gear_Box();
  void Speed_decision();

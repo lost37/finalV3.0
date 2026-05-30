@@ -22,7 +22,7 @@ volatile int32_t set_speed =270 ; //设置的电机速度
 volatile int land_s = 450; //环岛速度
 volatile int po_s = 600;   //坡道速度
 volatile int wan_s = 500;   // 弯道速度
-volatile int ru_s = 510;    // 入弯速度
+volatile int ru_s = 500;    // 入弯速度
 volatile int zhi_s = 600;   // 直道速度
 
 //int Speed_dif; //差速
@@ -46,8 +46,10 @@ int go_delay_counter =0;
 
 void dianji_control() //电机控制 这个放在中断里
 {
-    Get_speed();//编码器获取速度
-    Speed_control();//电机控制
+    /* 这里不再直接读取编码器。
+     * 编码器反馈由调度层先统一刷新，再由控制层消费。
+     */
+    Speed_control();
 }
 
 void Speed_control()
@@ -309,6 +311,7 @@ void go_init() //发车初始化
 {
     l_speed = 0; //左轮速度清零
     r_speed = 0; //右轮速度清零
+    gyroscope_reset_runtime();
     time1 = 0;
     timestop = 0;
     pwm0_flag = 0;
