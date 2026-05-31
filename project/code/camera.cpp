@@ -168,7 +168,7 @@ namespace
 
     uint8 Model_IsStable(void)
     {
-        return (enconder_left == 0 && enconder_right == 0);
+        return (func_abs(enconder_left) < 20 && func_abs(enconder_right) < 20);
     }
 
     const char *Model_ClassLabel(int class_index)

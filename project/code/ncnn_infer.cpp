@@ -11,8 +11,8 @@ namespace
 {
     constexpr char MODEL_PARAM_PATH[] = "tiny_classifier_fp32.ncnn.param";
     constexpr char MODEL_BIN_PATH[] = "tiny_classifier_fp32.ncnn.bin";
-    constexpr int MODEL_INPUT_WIDTH = 64;
-    constexpr int MODEL_INPUT_HEIGHT = 64;
+    constexpr int MODEL_INPUT_WIDTH = 96;
+    constexpr int MODEL_INPUT_HEIGHT = 96;
 
     // 顺序必须与训练产物 artifacts/labels.txt 完全一致。
     constexpr const char* MODEL_FINE_LABELS[] =

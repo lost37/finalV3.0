@@ -1,3 +1,0 @@
-/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles/rebuild_cache.dir
-/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles/edit_cache.dir
-/home/lost37/Desktop/temp/fix1/project/out/CMakeFiles/project.dir

@@ -20,6 +20,9 @@ int16 speed_right = 0;
 int16 actual_speed = 0;
 int16_t enconder_left = 0;
 int16_t enconder_right = 0;
+volatile int32_t encoder_acc_left = 0;
+volatile int32_t encoder_acc_right = 0;
+volatile int32_t encoder_acc_avg = 0;
 
 //标志位
 uint8 pwm0_flag=0;
@@ -143,10 +146,10 @@ int16 Servo_PID (float Image_err)
 
     volatile static int16 err_last = 0;
     volatile static int16 err = 0;
-    float Kp=9.01;
+    float Kp=9.02;
     float Kp2=0;
     float Kd=5.1;
-    float GKD=0.04;//imu660ra_gyro_transition(imu_gyro_z)6.71
+    float GKD=0.05;//imu660ra_gyro_transition(imu_gyro_z)6.71
     // float Kp=7;
     // float Kp2=0;
     // float Kd=5.2;
@@ -304,5 +307,8 @@ void Get_speed(void)
 {
   enconder_left  = encoder_get_count(ENCODER_1);
   enconder_right= -encoder_get_count(ENCODER_2);
+  encoder_acc_left += enconder_left;
+  encoder_acc_right += enconder_right;
+  encoder_acc_avg = (encoder_acc_left + encoder_acc_right) / 2;
   actual_speed = (enconder_left + enconder_right) / 2; //实际速度
 }

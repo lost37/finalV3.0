@@ -18,12 +18,12 @@
 int time1=0,timestop=0;      //出界停止时间
 
 int32_t l_speed = 0, r_speed = 0;  //速度赋值临时量
-volatile int32_t set_speed =240 ; //设置的电机速度
+volatile int32_t set_speed =260 ; //设置的电机速度
 volatile int land_s = 450; //环岛速度
 volatile int po_s = 600;   //坡道速度
 volatile int wan_s = 500;   // 弯道速度
 volatile int ru_s = 500;    // 入弯速度
-volatile int zhi_s = 595;   // 直道速度
+volatile int zhi_s = 600;   // 直道速度
 
 //int Speed_dif; //差速
 
@@ -326,7 +326,6 @@ void go_init() //发车初始化
 {
     l_speed = 0; //左轮速度清零
     r_speed = 0; //右轮速度清零
-    Reset_encoder_accumulator();
     gyroscope_reset_runtime();
     time1 = 0;
     timestop = 0;

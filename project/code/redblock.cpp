@@ -41,7 +41,7 @@ uint8 redblock_brake_ticks = 0;
 uint8 redblock_action_phase_flag = RB_ACT_IDLE;
 volatile float redblock_bypass_dif_speed = 0.0f;
 volatile int32_t redblock_bypass_speed_cmd = 0;
-volatile int32_t redblock_slowdown_speed_cmd = 170;
+volatile int32_t redblock_slowdown_speed_cmd = 150;
 
 namespace
 {

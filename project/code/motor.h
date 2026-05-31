@@ -34,6 +34,9 @@ extern int16_t speed_right;
 extern int16_t actual_speed;
 extern int16_t enconder_left;
 extern int16_t enconder_right;
+extern volatile int32_t encoder_acc_left;
+extern volatile int32_t encoder_acc_right;
+extern volatile int32_t encoder_acc_avg;
 
 extern int left_pwm_out,right_pwm_out;
 extern uint8 pwm0_flag;

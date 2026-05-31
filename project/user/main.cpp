@@ -121,6 +121,10 @@ int main(int, char**)
         {
             // 外环位置误差先进入 Servo_PID，再把结果交给速度决策层。
             dif_speed = Servo_PID(err_new);
+            if(RedBlock_IsBypassActive())
+            {
+                dif_speed = RedBlock_GetBypassDifSpeed();
+            }
 
             if(dec)
             {

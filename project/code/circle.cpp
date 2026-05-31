@@ -41,8 +41,8 @@ void l_land_judge()
     land_line = 0;
     if (l_land_cooldown > 0)
         l_land_cooldown--;
-    if (l_land_flag == 0 && l_land_cooldown == 0 && cross_flag == 0 /*&& white_length_max[0] < 10 */&& r_effect_num > 44 && r_land_flag == 0 && left_down) //&& (r_start + 1 - r_effect_num) < 5 && (l_start + 1 - l_effect_num) > 5)
-    {// 左方检测直道          没有进入十字        最长白列正常                 左下角点存在   右边界有效数大于115      右方检测直道
+    if (l_land_flag == 0 && cross_flag == 0 && l_land_cooldown == 0 && white_length_max[0] < 10 && r_effect_num > 50 && r_land_flag == 0 && left_down && (r_start + 1 - r_effect_num) < 5 ) //&& (r_start + 1 - r_effect_num) < 5 && (l_start + 1 - l_effect_num) > 5)
+    {   // 左方检测直道       没有进入十字          冷却                      最长白列正常             右方检测直道     右边界有效数大于115      左下角点存在
         lianxu = 1;
         dizeng = 1;
         
@@ -133,7 +133,7 @@ void l_land_judge()
             else
                 fill_line(l_border, Cut_ROW - 2, 2, land_line, l_border[land_line]);    //补出环岛丢线部分的左边界
             //当环岛点大于45行 并且 左上角点存在
-            if (land_line > 14 && left_up && left_down)
+            if (land_line > 20 && left_up && left_down)
             // if (land_line > 25 && left_up && left_down)
             {
                 l_case23_confirm++;
@@ -142,7 +142,7 @@ void l_land_judge()
             {
                 l_case23_confirm = 0;
             }
-            if (l_case23_confirm >= 3)
+            if (l_case23_confirm >= 1)
             {
                 printf("[LEFT_RING] 2->3 land_line=%d left_up=%d left_down=%d confirm=%d\n", land_line, left_up, left_down, l_case23_confirm);
                 l_land_flag = 3;
@@ -171,7 +171,7 @@ void l_land_judge()
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
                 // int tmp = (int)l_border[i] + (int)Straight_track_width[i]*0.97;
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.01; //0.91
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //0.91
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
@@ -187,7 +187,7 @@ void l_land_judge()
             l_land_time++;
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.01; //1.04
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //1.04
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
             //找到角点 并且在30~100之间
