@@ -148,8 +148,8 @@ int16 Servo_PID (float Image_err)
     // float GKD=0.05;//imu660ra_gyro_transition(imu_gyro_z)6.71
     float Kp=2.5;//9.03
     float Kp2=0;
-    float Kd=0; //5.4
-    float GKD=0;//0.04
+    float Kd=0.3; //5.4
+    float GKD=0.01;//0.04
     
     //  Servo.Kp = ??;        //动态p值变化函数
     err_last = err;

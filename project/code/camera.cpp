@@ -61,7 +61,7 @@ extern volatile float dif_speed;
 //uint8 go_flag=0;
 
 // 调参：普通赛道前瞻起始行。越小看得越近、转弯越晚；越大看得越远、转弯越早。
-volatile int w = 50;
+volatile int w = 48;
 
 //弯道
 uint8 Straight_Flag=0;                  //弯道状态位
@@ -1096,9 +1096,9 @@ void chasu_calculation() //阿克曼速度比分配
     // 调参：左右轮距，单位 mm。你提供的轮距为 15.5cm，即 155mm。
     const float ACK_TRACK_WIDTH_MM = 155.0f;
     // 调参：最大等效转角，单位度。越大同样误差下转弯越急。
-    const float ACK_MAX_STEER_DEG = 50.0f;
-    // 调参：Servo_PID 输出满量程。越小转向越灵敏；当前先用 400，避免阿克曼差速过小。
-    const float ACK_DIF_FULL_SCALE = 200.0f;//
+    const float ACK_MAX_STEER_DEG = 50.0f;//51
+    // 调参：Servo_PID 输出满量程。越小转向越灵敏；当前先用 200，避免阿克曼差速过小。
+    const float ACK_DIF_FULL_SCALE = 100.0f;//
     const float PI = 3.1415926f;
 
     float steer_ratio = dif_speed / ACK_DIF_FULL_SCALE;
@@ -1363,12 +1363,12 @@ float Camera_Function (void)
     // }
     search_border(Cut_COL, Cut_ROW);     //搜索边界
 
+    const uint8 land_element_active = (l_land_flag != 0 || r_land_flag != 0);
     const uint8 other_element_exclusive = (
         zebra_flag != 0 ||
         cross_flag != 0 ||
         xie_cross_flag != 0 ||
-        l_land_flag != 0 ||
-        r_land_flag != 0 ||
+        land_element_active ||
         s_wan_flag != 0 ||
         barrier_flag != 0
     );
@@ -1376,33 +1376,44 @@ float Camera_Function (void)
     RedBlock_UpdatePerception();
     const uint8 redblock_exclusive = RedBlock_ShouldSuppressOtherElements();
 
-    if(redblock_exclusive == 0 && other_element_exclusive == 0)
+    if(redblock_exclusive == 0)
     {
-        /*斑马线*/
-        if(zebra_mode == 1){
-            Zebra_Detect(); //状态机
-        }else{
-            if(go_flag == 1)
-            Zebra_Detect_delay(); //延迟检测
+        if(land_element_active)
+        {
+            // 已经进入环岛后必须继续调用环岛状态机，否则 flag 停在 1/2/3 无法推进。
+            l_land_judge();
+            r_land_judge();
         }
+        else if(other_element_exclusive == 0)
+        {
+            /*斑马线*/
+            if(zebra_mode == 1){
+                Zebra_Detect(); //状态机
+            }else{
+                if(go_flag == 1)
+                Zebra_Detect_delay(); //延迟检测
+            }
 
-        /*十字*/
-        search_anglepoint();                //模糊搜索四个角点是否存在
-        if(xie_cross_flag == 1)
-            search_anglepoint();
-        Cross_judge ();                     //如果上方角点不丢失，判断为十字补线，否则cross_flag = 0;
+            /*角点*/
+            search_anglepoint();                //模糊搜索四个角点是否存在
+            if(xie_cross_flag == 1)
+                search_anglepoint();
 
-        /*障碍*/
-        //zhang_ai_judge();
+            /*十字*/
+            Cross_judge ();                     //如果上方角点不丢失，判断为十字补线，否则cross_flag = 0;
 
-        /*环岛*/
-        l_land_judge();
-        // if(l_land_num > 0)
-        // l_xie_land_judge();
-        r_land_judge();
+            /*环岛*/
+            l_land_judge();
+            // if(l_land_num > 0)
+            // l_xie_land_judge();
+            r_land_judge();
 
-        /*S弯*/
-        s_judge();
+            /*障碍*/
+            //zhang_ai_judge();
+
+            /*S弯*/
+            s_judge();
+        }
     }
     else
     {
