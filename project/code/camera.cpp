@@ -60,7 +60,8 @@ extern volatile float dif_speed;
 //发车
 //uint8 go_flag=0;
 
-volatile int w = 45;//前瞻
+// 调参：普通赛道前瞻起始行。越小看得越近、转弯越晚；越大看得越远、转弯越早。
+volatile int w = 50;
 
 //弯道
 uint8 Straight_Flag=0;                  //弯道状态位
@@ -1087,60 +1088,51 @@ void protect()
 
 // 斑马线函数已移至 zebra.cpp
 
-void chasu_calculation() //单减差速控制
+void chasu_calculation() //阿克曼速度比分配
 {
-    //Gyroscope_GetData();
-  //  err_new = Err_Get();
-    //printf("anglespeed=%d.\n",(int)AngleSpeed);
-    //float L_Speed_dif =  set_speed; //差速计算公式 ((L*AngleSpeed) / 2)
-   // float R_Speed_dif = set_speed  ; //差速计算公式
+    // 车轮实测：直径 64mm、宽度 27mm。当前阿克曼速度比只需要轴距和轮距。
+    // 调参：前后轴距，单位 mm。请按实车前后轮中心距离测量。
+    const float ACK_WHEEL_BASE_MM = 160.0f;
+    // 调参：左右轮距，单位 mm。你提供的轮距为 15.5cm，即 155mm。
+    const float ACK_TRACK_WIDTH_MM = 155.0f;
+    // 调参：最大等效转角，单位度。越大同样误差下转弯越急。
+    const float ACK_MAX_STEER_DEG = 50.0f;
+    // 调参：Servo_PID 输出满量程。越小转向越灵敏；当前先用 400，避免阿克曼差速过小。
+    const float ACK_DIF_FULL_SCALE = 200.0f;//
+    const float PI = 3.1415926f;
 
-     //float compensation = 10*fabs(dif_speed);    //开环
+    float steer_ratio = dif_speed / ACK_DIF_FULL_SCALE;
+    steer_ratio = func_limit_ab(steer_ratio, -1.0f, 1.0f);
 
-    uint16 compensation = 0.65*fabs(dif_speed);   //闭环
-
-
-    if(err_new>=0) //左
+    const float steer_rad = steer_ratio * ACK_MAX_STEER_DEG * PI / 180.0f;
+    if(fabs(steer_rad) < 0.001f)
     {
-        //开环
-        // l_duty2=l_duty1-compensation;
-        // r_duty2=r_duty1+compensation;
-        // l_duty2 = func_limit_ab(l_duty2, 0, 5000); //限幅
-        // r_duty2 = func_limit_ab(r_duty2, 0, 5000); //限幅
-        // Motor_Control(l_duty2,r_duty2);
-
-        //闭环
-        l_speed = set_speed - compensation;
-        r_speed = set_speed + compensation;
-
-        r_speed = func_limit_ab(r_speed, -3000, 3000); //限幅
-        l_speed = func_limit_ab(l_speed, -3000, 3000); //限幅
-
-        l_out = l_pid(l_speed, enconder_left);
-        r_out = r_pid(r_speed, enconder_right);
-
+        l_speed = set_speed;
+        r_speed = set_speed;
     }
-    else if(err_new<0) //右
+    else
     {
-        //开环
-        // l_duty2=l_duty1+compensation;
-        // r_duty2=r_duty1-compensation;
-        // l_duty2 = func_limit_ab(l_duty2, 0, 5000); //限幅
-        // r_duty2 = func_limit_ab(r_duty2, 0, 5000); //限幅
-        // Motor_Control(l_duty2,r_duty2);
+        const float radius = ACK_WHEEL_BASE_MM / tanf(fabs(steer_rad));
+        const float inner_speed = (float)set_speed * (radius - ACK_TRACK_WIDTH_MM * 0.5f) / radius;
+        const float outer_speed = (float)set_speed * (radius + ACK_TRACK_WIDTH_MM * 0.5f) / radius;
 
-        //闭环
-        r_speed = set_speed - compensation;
-        l_speed = set_speed + compensation;
-
-        r_speed = func_limit_ab(r_speed, -3000, 3000); //限幅
-        l_speed = func_limit_ab(l_speed, -3000, 3000); //限幅
-
-        l_out = l_pid(l_speed, enconder_left);
-        r_out = r_pid(r_speed, enconder_right);
-
-        
+        if(err_new >= 0) // 左转：左轮内侧，右轮外侧
+        {
+            l_speed = (int32_t)inner_speed;
+            r_speed = (int32_t)outer_speed;
+        }
+        else // 右转：右轮内侧，左轮外侧
+        {
+            r_speed = (int32_t)inner_speed;
+            l_speed = (int32_t)outer_speed;
+        }
     }
+
+    r_speed = func_limit_ab(r_speed, -3000, 3000); //限幅
+    l_speed = func_limit_ab(l_speed, -3000, 3000); //限幅
+
+    l_out = l_pid(l_speed, enconder_left);
+    r_out = r_pid(r_speed, enconder_right);
     Motor_Control(l_out,r_out);
     //Motor_Control()
     //printf("r=%d.\n",(int)r_speed);
@@ -1381,19 +1373,10 @@ float Camera_Function (void)
         barrier_flag != 0
     );
 
-    if(other_element_exclusive == 0)
-    {
-        RedBlock_Update();
-        Model_Request_Process();
-    }
-    else
-    {
-        RedBlock_ResetState();
-    }
+    RedBlock_UpdatePerception();
+    const uint8 redblock_exclusive = RedBlock_ShouldSuppressOtherElements();
 
-    const uint8 redblock_exclusive = RedBlock_IsElementExclusive();
-
-    if(redblock_exclusive == 0)
+    if(redblock_exclusive == 0 && other_element_exclusive == 0)
     {
         /*斑马线*/
         if(zebra_mode == 1){
@@ -1423,26 +1406,30 @@ float Camera_Function (void)
     }
     else
     {
-        ResetZebraDetection();
-        zebra_flag = 0;
-        cross_flag = 0;
-        xie_cross_flag = 0;
-        xie_cross_time = 0;
-        left_up_flag = 0;
-        left_down_flag = 0;
-        right_up_flag = 0;
-        right_down_flag = 0;
-        left_up = 0;
-        left_down = 0;
-        right_up = 0;
-        right_down = 0;
-        l_land_flag = 0;
-        r_land_flag = 0;
-        s_wan_flag = 0;
-        barrier_flag = 0;
+        if(redblock_exclusive != 0)
+        {
+            ResetZebraDetection();
+            zebra_flag = 0;
+            cross_flag = 0;
+            xie_cross_flag = 0;
+            xie_cross_time = 0;
+            left_up_flag = 0;
+            left_down_flag = 0;
+            right_up_flag = 0;
+            right_down_flag = 0;
+            left_up = 0;
+            left_down = 0;
+            right_up = 0;
+            right_down = 0;
+            l_land_flag = 0;
+            r_land_flag = 0;
+            s_wan_flag = 0;
+            barrier_flag = 0;
+        }
     }
 
-    RedBlock_ApplyBypass();
+    RedBlock_UpdateDecision();
+    RedBlock_ApplyMotion();
 
     /*中线处理*/
     search_center(Cut_COL,Cut_ROW);     //根据边界计算中线

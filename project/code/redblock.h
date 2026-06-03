@@ -10,14 +10,21 @@
 
 typedef enum
 {
-    RB_IDLE = 0,
-    RB_CONFIRMING,
-    RB_SLOWDOWN,
-    RB_PAUSED,
-    RB_MODEL_WAIT,
-    RB_CONFIRMED,
-    RB_BYPASS,
+    RB_DEC_IDLE = 0,
+    RB_DEC_CONFIRMING,
+    RB_DEC_BRAKING,
+    RB_DEC_LOW_SPEED_SETTLE,
+    RB_DEC_MODEL_RECOGNIZING,
+    RB_DEC_MOTION_ACTIVE,
 } RedBlockState;
+
+#define RB_IDLE                  RB_DEC_IDLE
+#define RB_CONFIRMING            RB_DEC_CONFIRMING
+#define RB_SLOWDOWN              RB_DEC_BRAKING
+#define RB_PAUSED                RB_DEC_MODEL_RECOGNIZING
+#define RB_MODEL_WAIT            RB_DEC_MODEL_RECOGNIZING
+#define RB_CONFIRMED             RB_DEC_MOTION_ACTIVE
+#define RB_BYPASS                RB_DEC_MOTION_ACTIVE
 
 typedef enum
 {
@@ -67,6 +74,9 @@ extern volatile int32_t redblock_slowdown_speed_cmd;
 
 void RedBlock_Detect(void);
 void RedBlock_Update(void);
+void RedBlock_UpdatePerception(void);
+void RedBlock_UpdateDecision(void);
+void RedBlock_ApplyMotion(void);
 RedBlockState RedBlock_GetState(void);
 void RedBlock_RequestPause(void);
 void RedBlock_ReleasePause(void);
@@ -80,6 +90,11 @@ void RedBlock_StartBypass(void);
 void RedBlock_StartBypassMode(RedBlockBypassMode mode);
 void RedBlock_FinishBypass(void);
 uint8 RedBlock_IsBypassActive(void);
+uint8 RedBlock_IsActive(void);
+uint8 RedBlock_ShouldSuppressOtherElements(void);
+uint8 RedBlock_ShouldUseLowSpeedHold(void);
+int32_t RedBlock_GetMotionSpeedCmd(void);
+float RedBlock_GetMotionDifSpeed(void);
 uint8 RedBlock_ShouldIgnoreBoundaryStop(void);
 uint8 RedBlock_IsElementExclusive(void);
 RedBlockBypassMode RedBlock_GetBypassMode(void);

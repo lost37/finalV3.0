@@ -10,6 +10,7 @@
 #include "motor.h"
 #include "cross.h"
 #include "gyroscope.h"
+#include "ncnn_infer.h"
 #include "zf_device_uvc.h"
 
 extern uint8 redblock_pause_flag;
@@ -41,56 +42,42 @@ uint8 redblock_brake_ticks = 0;
 uint8 redblock_action_phase_flag = RB_ACT_IDLE;
 volatile float redblock_bypass_dif_speed = 0.0f;
 volatile int32_t redblock_bypass_speed_cmd = 0;
-volatile int32_t redblock_slowdown_speed_cmd = 150;
+volatile int32_t redblock_slowdown_speed_cmd = 130;
 
 namespace
 {
-    // 每隔多少帧执行一次红块检测。
-    // 数值越小：响应更快，但更吃性能，也更容易受瞬时噪声影响。
-    // 数值越大：性能更稳，但触发会更慢。
+    // 调参：红块检测间隔帧数。越小响应越快但更吃算力，越大更稳但触发更慢。
     constexpr uint8 REDBLOCK_DETECT_INTERVAL = 2;
 
-    // 连续命中多少次才认为红块成立。
-    // 常用调参项：
-    // 2 -> 响应更快；
-    // 3 -> 更稳，更抗误检。
+    // 调参：连续命中多少次才确认红块。1 最快，2~3 更抗误检。
     constexpr uint8 REDBLOCK_CONFIRM_REQUIRED = 1;
 
-    // 最小轮廓面积，过滤远处小红点和零散噪声。
+    // 调参：红色轮廓最小面积，增大可过滤远处小红点，过大可能漏检小红块。
     constexpr int RED_MIN_AREA = 80;
 
-    // 形态学开闭运算核大小。
-    // 增大：更能去噪，但可能吞掉小目标；
-    // 减小：保留细节更多，但噪声也可能增多。
+    // 调参：形态学开闭运算核大小。增大更能去噪，过大可能吞掉小目标。
     constexpr int RED_KERNEL_SIZE = 5;
 
-    // 外接矩形宽高比限制，避免把过细/过扁的区域当成红块。
+    // 调参：红块外接矩形宽高比范围，用于排除过细或过扁的红色区域。
     constexpr float RED_ASPECT_MIN = 0.7f;
     constexpr float RED_ASPECT_MAX = 5.0f;
 
-    // 轮廓在外接矩形中的填充率下限。
-    // 越大越严格，越能排除稀疏噪声。
+    // 调参：轮廓填充率下限。越大越严格，可排除稀疏噪声。
     constexpr float RED_FILL_MIN = 0.50f;
 
-    // 模型 ROI 改为“围绕红块生成动态方形框”。
-    // 目标物体紧贴在红块上方，因此方形框需要同时容纳：
-    // 1. 红块本体高度；
-    // 2. 红块上方主体物；
-    // 3. 红块底部少量留白。
-    // 当前这组参数是按“更接近数据集构图”来收紧的：
-    // - 方框整体更小，减少左右背景；
-    // - 方框整体略微上移，让主体占比更大；
-    // - 红块只保留少量底部区域，不再占太多面积。
+    // 调参：模型 ROI 最小边长。增大能保留更多上下文，减小能让目标占比更大。
     constexpr int RED_MODEL_ROI_MIN_SIDE = 75;
+    // 调参：模型 ROI 边缘留白，防止红块贴边裁切。
     constexpr int RED_MODEL_ROI_EDGE_PADDING = 2;
+    // 调参：红块底部留白比例。增大可保留红块下缘，过大可能压缩上方目标。
     constexpr float RED_MODEL_ROI_BOTTOM_MARGIN_RATIO = 0.08f;
+    // 调参：按红块高度估计上方主体高度。目标更高时增大，背景太多时减小。
     constexpr float RED_MODEL_ROI_OBJECT_HEIGHT_RATIO = 1.05f;
+    // 调参：ROI 中心上移比例。增大让上方主体占比更大，过大可能裁掉红块。
     constexpr float RED_MODEL_ROI_CENTER_UP_RATIO = 0.10f;
 
-    // 红块检测区域改为用户指定的固定四点区域（320x240 坐标系）。
-    // 用户原始给点顺序为：
-    // (50,10)、(50,195)、(265,100)、(265,195)
-    // 这里按顺时针顺序组织成四边形，便于后续生成 mask。
+    // 调参：红块检测四边形区域，坐标为 320x240 图像坐标系。
+    // 顺时针组织四个点，缩小区域可减少误检，放大区域可提前发现红块。
     constexpr int RED_SEARCH_POINT_LEFT_TOP_X = 50;
     constexpr int RED_SEARCH_POINT_LEFT_TOP_Y = 0;
     constexpr int RED_SEARCH_POINT_RIGHT_TOP_X = 265;
@@ -100,30 +87,57 @@ namespace
     constexpr int RED_SEARCH_POINT_LEFT_BOTTOM_X = 50;
     constexpr int RED_SEARCH_POINT_LEFT_BOTTOM_Y = 195;
 
+    // 调参：固定反冲周期。越大减速越强，过大可能反拖或抖车。
+    constexpr uint8 REDBLOCK_BRAKE_TICKS = 8;
+    // 调参：反冲结束后低速保持几帧再开始模型识别。当前需求定为 5 帧。
+    constexpr uint8 REDBLOCK_LOW_SPEED_SETTLE_FRAMES = 5;
+    // 调参：模型 invalid 允许重试几帧；红块当前帧丢失时不重试，直接左绕。
+    constexpr uint8 REDBLOCK_MODEL_INVALID_RETRY_FRAMES = 5;
+    // 调参：红块识别期间低速保持速度。
+    constexpr int32_t REDBLOCK_SLOWDOWN_SPEED_CMD = 130;
+    // 调参：绕行动作 APPROACH 阶段保持帧数，增大可让切出前姿态更稳定。
     constexpr uint8 REDBLOCK_BYPASS_APPROACH_FRAMES = 6;
+    // 调参：绕过后继续保持切出方向的帧数，增大可离红块更远。
     constexpr uint8 REDBLOCK_BYPASS_EXIT_HOLD_FRAMES = 8;
+    // 调参：恢复阶段保持帧数，增大回线更慢更稳，减小恢复更快。
     constexpr uint8 REDBLOCK_BYPASS_RECOVER_FRAMES = 6;
-    constexpr uint8 REDBLOCK_BRAKE_TICKS = 5;
-    constexpr uint8 REDBLOCK_SLOWDOWN_SPEED_READY = 35;
-    constexpr uint8 REDBLOCK_SLOWDOWN_TIMEOUT_FRAMES = 35;
-    constexpr int32_t REDBLOCK_SLOWDOWN_SPEED_CMD = 180;
+    // 调参：绕行时允许连续丢失红块的帧数，增大更宽容，减小更敏感。
     constexpr uint8 REDBLOCK_BYPASS_LOST_LIMIT = 4;
+    // 调参：投影到赛道图后的红块最小宽高，过滤过小投影。
     constexpr int REDBLOCK_BYPASS_MIN_BLOCK_WIDTH = 8;
     constexpr int REDBLOCK_BYPASS_MIN_BLOCK_HEIGHT = 8;
+    // 调参：绕行补线影响的上下行扩展范围，增大可让补线覆盖更长距离。
     constexpr int REDBLOCK_BYPASS_ROW_EXTEND_UP = 6;
     constexpr int REDBLOCK_BYPASS_ROW_EXTEND_DOWN = 12;
+    // 调参：绕行补线内外侧余量，影响车身离红块的横向距离。
     constexpr int REDBLOCK_BYPASS_INNER_MARGIN = 6;
     constexpr int REDBLOCK_BYPASS_OUTER_MARGIN = 3;
+    // 调参：APPROACH 阶段提前横移量，增大可更早开始绕。
     constexpr int REDBLOCK_BYPASS_APPROACH_SHIFT = 8;
+    // 调参：绕行切出目标角度，增大绕行幅度更大。
     constexpr float REDBLOCK_TURN_OUT_ANGLE = 25.0f;
+    // 调参：切回角度容差，增大更容易进入直行段，减小姿态更准。
     constexpr float REDBLOCK_TURN_BACK_TOLERANCE = 4.0f;
+    // 调参：绕行动作两段通过距离，增大通过更远，减小动作更紧凑。
     constexpr int32_t REDBLOCK_PASS1_DISTANCE = 220;
     constexpr int32_t REDBLOCK_PASS2_DISTANCE = 140;
+    // 调参：绕行固定转向差速命令，增大转弯更急。
     constexpr float REDBLOCK_TURN_CMD = 120.0f;
+    // 调参：恢复赛道需要连续满足的帧数，增大更稳，减小更快退出绕行。
     constexpr uint8 REDBLOCK_RECOVER_STABLE_REQUIRED = 3;
+    // 调参：恢复判定的左右有效边界数量下限。
     constexpr int REDBLOCK_RECOVER_EFFECT_THRESHOLD = 45;
+    // 调参：恢复判定的中线误差阈值。
     constexpr float REDBLOCK_RECOVER_ERR_THRESHOLD = 8.0f;
+    // 调参：恢复判定的前方可视距离阈值。
     constexpr float REDBLOCK_RECOVER_DISTANCE_THRESHOLD = 70.0f;
+    constexpr int MODEL_CLASS_SUPPLIERS = 0;
+    constexpr int MODEL_CLASS_VEHICLE = 1;
+    constexpr int MODEL_CLASS_WEAPON = 2;
+    constexpr uint8 MODEL_CLASS_COUNT = 3;
+    // 调参：有效模型投票帧数。当前只有 3 个粗类，5 帧投票不会平票。
+    constexpr uint8 MODEL_VOTE_REQUIRED = 5;
+
     RedBlockState redblock_state = RB_IDLE;
     uint8 redblock_detect_frame_counter = 0;
     RedBlockBypassMode redblock_bypass_mode = RB_BYPASS_MODE_NONE;
@@ -141,6 +155,10 @@ namespace
     uint8 redblock_recover_ready_count = 0;
     uint8 redblock_recover_diag_div = 0;
     uint8 redblock_slowdown_frame_count = 0;
+    uint8 redblock_low_speed_settle_count = 0;
+    uint8 redblock_model_invalid_count = 0;
+    uint8 redblock_model_vote_valid_count = 0;
+    uint8 redblock_model_vote_count[MODEL_CLASS_COUNT] = {0};
 
     int ClampInt(int value, int min_value, int max_value)
     {
@@ -209,8 +227,75 @@ namespace
 
     void RedBlock_SetState(RedBlockState state)
     {
+        if(redblock_state != state)
+        {
+            printf("[RB_DEC] %u -> %u\n", (unsigned)redblock_state, (unsigned)state);
+        }
         redblock_state = state;
         redblock_state_flag = static_cast<uint8>(state);
+    }
+
+    void RedBlock_ResetModelVoting(void)
+    {
+        uint8 i = 0;
+        redblock_model_invalid_count = 0;
+        redblock_model_vote_valid_count = 0;
+        for(i = 0; i < MODEL_CLASS_COUNT; i++)
+        {
+            redblock_model_vote_count[i] = 0;
+        }
+    }
+
+    void RedBlock_AddModelVote(int coarse_index)
+    {
+        if(coarse_index >= 0 && coarse_index < MODEL_CLASS_COUNT)
+        {
+            redblock_model_vote_count[coarse_index]++;
+            redblock_model_vote_valid_count++;
+        }
+    }
+
+    int RedBlock_GetBestModelVote(void)
+    {
+        int best_class = -1;
+        uint8 best_count = 0;
+        uint8 tie = 0;
+        uint8 i = 0;
+
+        for(i = 0; i < MODEL_CLASS_COUNT; i++)
+        {
+            if(redblock_model_vote_count[i] > best_count)
+            {
+                best_count = redblock_model_vote_count[i];
+                best_class = i;
+                tie = 0;
+            }
+            else if(redblock_model_vote_count[i] == best_count && redblock_model_vote_count[i] > 0)
+            {
+                tie = 1;
+            }
+        }
+
+        if(best_count == 0 || tie != 0)
+        {
+            return -1;
+        }
+        return best_class;
+    }
+
+    const char *RedBlock_ModelClassLabel(int coarse_index)
+    {
+        switch(coarse_index)
+        {
+            case MODEL_CLASS_SUPPLIERS:
+                return "suppliers";
+            case MODEL_CLASS_VEHICLE:
+                return "vehicle";
+            case MODEL_CLASS_WEAPON:
+                return "weapon";
+            default:
+                return "unknown";
+        }
     }
 
     void RedBlock_SetBypassPhase(RedBlockBypassPhase phase)
@@ -254,9 +339,11 @@ namespace
         redblock_recover_ready_count = 0;
         redblock_recover_diag_div = 0;
         redblock_slowdown_frame_count = 0;
+        redblock_low_speed_settle_count = 0;
         redblock_bypass_dif_speed = 0.0f;
         redblock_bypass_speed_cmd = 0;
         redblock_slowdown_speed_cmd = REDBLOCK_SLOWDOWN_SPEED_CMD;
+        RedBlock_ResetModelVoting();
         RedBlock_SetBypassPhase(RB_BYPASS_PHASE_IDLE);
         RedBlock_SetActionPhase(RB_ACT_IDLE);
     }
@@ -562,26 +649,24 @@ int32_t RedBlock_GetBypassSpeedCmd(void)
 
 uint8 RedBlock_ShouldIgnoreBoundaryStop(void)
 {
-    return (redblock_state == RB_BYPASS && redblock_bypass_active_flag != 0);
+    return (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0);
 }
 
 uint8 RedBlock_IsElementExclusive(void)
 {
     return (
-        redblock_state == RB_SLOWDOWN ||
-        redblock_state == RB_PAUSED ||
-        redblock_state == RB_MODEL_WAIT ||
-        redblock_state == RB_CONFIRMED ||
-        (redblock_state == RB_BYPASS && redblock_bypass_active_flag != 0)
+        redblock_state == RB_DEC_BRAKING ||
+        redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
+        redblock_state == RB_DEC_MODEL_RECOGNIZING ||
+        (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
     );
 }
 
 uint8 RedBlock_IsModelPending(void)
 {
     return (
-        redblock_state == RB_PAUSED ||
-        redblock_state == RB_MODEL_WAIT ||
-        redblock_state == RB_CONFIRMED ||
+        redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
+        redblock_state == RB_DEC_MODEL_RECOGNIZING ||
         model_request_flag != 0 ||
         model_running_flag != 0
     );
@@ -590,14 +675,84 @@ uint8 RedBlock_IsModelPending(void)
 uint8 RedBlock_IsSlowdownActive(void)
 {
     return (
-        redblock_state == RB_SLOWDOWN ||
-        redblock_state == RB_MODEL_WAIT
+        redblock_state == RB_DEC_BRAKING ||
+        redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
+        redblock_state == RB_DEC_MODEL_RECOGNIZING
     );
 }
 
 int32_t RedBlock_GetSlowdownSpeedCmd(void)
 {
     return redblock_slowdown_speed_cmd;
+}
+
+uint8 RedBlock_IsActive(void)
+{
+    return redblock_state != RB_DEC_IDLE;
+}
+
+uint8 RedBlock_ShouldSuppressOtherElements(void)
+{
+    return (RedBlock_IsActive() || redblock_flag != 0);
+}
+
+uint8 RedBlock_ShouldUseLowSpeedHold(void)
+{
+    return (
+        redblock_state == RB_DEC_BRAKING ||
+        redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
+        redblock_state == RB_DEC_MODEL_RECOGNIZING ||
+        (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
+    );
+}
+
+int32_t RedBlock_GetMotionSpeedCmd(void)
+{
+    if(redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
+    {
+        return redblock_bypass_speed_cmd;
+    }
+    return redblock_slowdown_speed_cmd;
+}
+
+float RedBlock_GetMotionDifSpeed(void)
+{
+    if(redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
+    {
+        return redblock_bypass_dif_speed;
+    }
+    return (float)Servo_PID(err_new);
+}
+
+void RedBlock_StartFallbackLeftBypass(const char *reason)
+{
+    printf("[RB_DEC] recognition_failed reason=%s -> left_bypass\n", reason);
+    RedBlock_StartBypassMode(RB_BYPASS_MODE_LEFT);
+}
+
+void RedBlock_StartActionForClass(int coarse_index)
+{
+    switch(coarse_index)
+    {
+        case MODEL_CLASS_VEHICLE:
+            printf("[RB_DEC] voting_result vehicle -> straight_pass\n");
+            RedBlock_StartBypassMode(RB_BYPASS_MODE_STRAIGHT);
+            break;
+
+        case MODEL_CLASS_SUPPLIERS:
+            printf("[RB_DEC] voting_result suppliers -> right_bypass\n");
+            RedBlock_StartBypassMode(RB_BYPASS_MODE_RIGHT);
+            break;
+
+        case MODEL_CLASS_WEAPON:
+            printf("[RB_DEC] voting_result weapon -> left_bypass\n");
+            RedBlock_StartBypassMode(RB_BYPASS_MODE_LEFT);
+            break;
+
+        default:
+            RedBlock_StartFallbackLeftBypass("unknown_class");
+            break;
+    }
 }
 
 void RedBlock_Detect(void)
@@ -766,7 +921,7 @@ void RedBlock_ReleasePause(void)
 {
     if(redblock_pause_flag == 1)
     {
-        printf("RedBlock_ReleasePause: 红色色块检测已释放，恢复行驶\n");
+        printf("RedBlock_ReleasePause: redblock pause released\n");
     }
     redblock_pause_flag = 0;
     model_request_flag = 0;
@@ -812,30 +967,27 @@ void RedBlock_StartBypass(void)
 
 void RedBlock_StartBypassMode(RedBlockBypassMode mode)
 {
-    if(redblock_state == RB_CONFIRMED)
-    {
-        redblock_pause_flag = 0;
-        model_request_flag = 0;
-        model_running_flag = 0;
-        time1 = 0;
-        timestop = 0;
-        pwm0_flag = 0;
-        redblock_brake_ticks = 0;
-        redblock_bypass_mode = mode;
-        redblock_bypass_mode_flag = static_cast<uint8>(mode);
-        redblock_bypass_active_flag = (mode != RB_BYPASS_MODE_NONE) ? 1 : 0;
-        redblock_bypass_lost_counter = 0;
-        redblock_bypass_detect_valid = 0;
-        redblock_start_yaw = FJ_Angle;
-        redblock_phase_start_encoder_avg = encoder_acc_avg;
-        redblock_recover_ready_count = 0;
-        redblock_bypass_speed_cmd = land_s;
-        redblock_bypass_dif_speed = 0.0f;
-        RedBlock_SetBypassPhase(RB_BYPASS_PHASE_APPROACH);
-        RedBlock_SetActionPhase(RB_ACT_TURN_OUT);
-        RedBlock_SetState(RB_BYPASS);
-        printf("RedBlock bypass start: mode=%d\n", redblock_bypass_mode_flag);
-    }
+    redblock_pause_flag = 0;
+    model_request_flag = 0;
+    model_running_flag = 0;
+    time1 = 0;
+    timestop = 0;
+    pwm0_flag = 0;
+    redblock_brake_ticks = 0;
+    redblock_bypass_mode = mode;
+    redblock_bypass_mode_flag = static_cast<uint8>(mode);
+    redblock_bypass_active_flag = (mode != RB_BYPASS_MODE_NONE) ? 1 : 0;
+    redblock_bypass_lost_counter = 0;
+    redblock_bypass_detect_valid = 0;
+    redblock_start_yaw = FJ_Angle;
+    redblock_phase_start_encoder_avg = encoder_acc_avg;
+    redblock_recover_ready_count = 0;
+    redblock_bypass_speed_cmd = land_s;
+    redblock_bypass_dif_speed = 0.0f;
+    RedBlock_SetBypassPhase(RB_BYPASS_PHASE_APPROACH);
+    RedBlock_SetActionPhase(RB_ACT_TURN_OUT);
+    RedBlock_SetState(RB_DEC_MOTION_ACTIVE);
+    printf("[RB_MOT] start mode=%d\n", redblock_bypass_mode_flag);
 }
 
 void RedBlock_FinishBypass(void)
@@ -845,7 +997,7 @@ void RedBlock_FinishBypass(void)
         RedBlock_ReleasePause();
         return;
     }
-    printf("RedBlock bypass finish\n");
+    printf("[RB_MOT] finish\n");
     RedBlock_ClearLocalState();
 }
 
@@ -854,7 +1006,7 @@ uint8 RedBlock_ApplyBypass(void)
     uint8 applied = 0;
     const int32_t encoder_progress = func_abs(encoder_acc_avg - redblock_phase_start_encoder_avg);
 
-    if(redblock_state != RB_BYPASS || redblock_bypass_active_flag == 0)
+    if(redblock_state != RB_DEC_MOTION_ACTIVE || redblock_bypass_active_flag == 0)
     {
         return 0;
     }
@@ -1146,8 +1298,15 @@ uint8 RedBlock_PrepareModelInput(uint8 *output_bgr, uint16 output_width, uint16 
     return RedBlock_PrepareModelInputFromCurrentRoi(output_bgr, output_width, output_height);
 }
 
-void RedBlock_Update(void)
+void RedBlock_UpdatePerception(void)
 {
+    if(redblock_state != RB_DEC_IDLE)
+    {
+        RedBlock_Detect();
+        redblock_detect_frame_counter = 0;
+        return;
+    }
+
     if(redblock_detect_frame_counter != 0)
     {
         redblock_detect_frame_counter = (redblock_detect_frame_counter + 1) % REDBLOCK_DETECT_INTERVAL;
@@ -1156,81 +1315,169 @@ void RedBlock_Update(void)
 
     RedBlock_Detect();
     redblock_detect_frame_counter = (redblock_detect_frame_counter + 1) % REDBLOCK_DETECT_INTERVAL;
+}
 
-    if(redblock_state == RB_SLOWDOWN)
-    {
-        redblock_slowdown_frame_count++;
-        if(model_request_flag != 0 || model_running_flag != 0)
-        {
-            return;
-        }
-
-        if(func_abs(enconder_left) <= REDBLOCK_SLOWDOWN_SPEED_READY &&
-           func_abs(enconder_right) <= REDBLOCK_SLOWDOWN_SPEED_READY)
-        {
-            printf(
-                "RedBlock slowdown ready: left=%d right=%d frame=%u/%u\n",
-                enconder_left,
-                enconder_right,
-                redblock_slowdown_frame_count,
-                REDBLOCK_SLOWDOWN_TIMEOUT_FRAMES
-            );
-            RedBlock_RequestPause();
-        }
-        else if(redblock_slowdown_frame_count >= REDBLOCK_SLOWDOWN_TIMEOUT_FRAMES)
-        {
-            printf(
-                "RedBlock slowdown timeout: left=%d right=%d frame=%u/%u\n",
-                enconder_left,
-                enconder_right,
-                redblock_slowdown_frame_count,
-                REDBLOCK_SLOWDOWN_TIMEOUT_FRAMES
-            );
-            RedBlock_RequestPause();
-        }
-        return;
-    }
-
-    if(redblock_state == RB_PAUSED)
-    {
-        return;
-    }
-
-    if(redblock_state == RB_MODEL_WAIT || redblock_state == RB_CONFIRMED || redblock_state == RB_BYPASS)
-    {
-        return;
-    }
-
+void RedBlock_UpdateDecision(void)
+{
     switch(redblock_state)
     {
-        case RB_IDLE:
+        case RB_DEC_IDLE:
             if(redblock_flag)
             {
                 redblock_confirm_count = 1;
-                RedBlock_SetState(RB_CONFIRMING);
+                printf("[RB_DEC] redblock_seen area=%.0f confirm=%u/%u\n",
+                       redblock_area,
+                       redblock_confirm_count,
+                       REDBLOCK_CONFIRM_REQUIRED);
+                RedBlock_SetState(RB_DEC_CONFIRMING);
             }
             break;
 
-        case RB_CONFIRMING:
+        case RB_DEC_CONFIRMING:
             if(redblock_flag)
             {
                 if(redblock_confirm_count < REDBLOCK_CONFIRM_REQUIRED)
                 {
                     redblock_confirm_count++;
                 }
+
                 if(redblock_confirm_count >= REDBLOCK_CONFIRM_REQUIRED)
                 {
-                    RedBlock_RequestSlowdown();
+                    redblock_slowdown_speed_cmd = REDBLOCK_SLOWDOWN_SPEED_CMD;
+                    redblock_low_speed_settle_count = 0;
+                    redblock_confirm_count = 0;
+                    redblock_brake_ticks = REDBLOCK_BRAKE_TICKS;
+                    pwm0_flag = 1;
+                    RedBlock_ResetModelVoting();
+                    printf("[RB_DEC] confirmed area=%.0f -> braking ticks=%u speed=%ld\n",
+                           redblock_area,
+                           REDBLOCK_BRAKE_TICKS,
+                           (long)redblock_slowdown_speed_cmd);
+                    RedBlock_SetState(RB_DEC_BRAKING);
                 }
             }
             else
             {
                 redblock_confirm_count = 0;
-                RedBlock_SetState(RB_IDLE);
+                RedBlock_SetState(RB_DEC_IDLE);
             }
             break;
 
+        case RB_DEC_BRAKING:
+            if(redblock_brake_ticks == 0)
+            {
+                pwm0_flag = 0;
+                redblock_low_speed_settle_count = 0;
+                printf("[RB_DEC] braking_done enc=(%d,%d) -> low_speed_settle %u frames\n",
+                       enconder_left,
+                       enconder_right,
+                       REDBLOCK_LOW_SPEED_SETTLE_FRAMES);
+                RedBlock_SetState(RB_DEC_LOW_SPEED_SETTLE);
+            }
+            break;
+
+        case RB_DEC_LOW_SPEED_SETTLE:
+            if(redblock_low_speed_settle_count < REDBLOCK_LOW_SPEED_SETTLE_FRAMES)
+            {
+                redblock_low_speed_settle_count++;
+                printf("[RB_DEC] low_speed_settle %u/%u enc=(%d,%d)\n",
+                       redblock_low_speed_settle_count,
+                       REDBLOCK_LOW_SPEED_SETTLE_FRAMES,
+                       enconder_left,
+                       enconder_right);
+            }
+
+            if(redblock_low_speed_settle_count >= REDBLOCK_LOW_SPEED_SETTLE_FRAMES)
+            {
+                if(redblock_flag == 0)
+                {
+                    RedBlock_StartFallbackLeftBypass("redblock_lost_after_settle");
+                }
+                else
+                {
+                    RedBlock_ResetModelVoting();
+                    printf("[RB_DEC] model_recognizing votes=%u invalid_retry=%u\n",
+                           MODEL_VOTE_REQUIRED,
+                           REDBLOCK_MODEL_INVALID_RETRY_FRAMES);
+                    RedBlock_SetState(RB_DEC_MODEL_RECOGNIZING);
+                }
+            }
+            break;
+
+        case RB_DEC_MODEL_RECOGNIZING:
+            {
+                if(redblock_flag == 0)
+                {
+                    RedBlock_StartFallbackLeftBypass("redblock_lost_during_model");
+                    break;
+                }
+
+                model_running_flag = 1;
+                const NCNN_Infer_Result infer_result = ncnn_infer_run_once();
+                model_running_flag = 0;
+
+                if(!infer_result.ready || !infer_result.valid)
+                {
+                    redblock_model_invalid_count++;
+                    printf("[RB_DEC] model_invalid retry=%u/%u ready=%d valid=%d\n",
+                           redblock_model_invalid_count,
+                           REDBLOCK_MODEL_INVALID_RETRY_FRAMES,
+                           infer_result.ready ? 1 : 0,
+                           infer_result.valid ? 1 : 0);
+                    if(redblock_model_invalid_count >= REDBLOCK_MODEL_INVALID_RETRY_FRAMES)
+                    {
+                        RedBlock_StartFallbackLeftBypass("model_invalid_timeout");
+                    }
+                    break;
+                }
+
+                redblock_model_invalid_count = 0;
+                RedBlock_AddModelVote(infer_result.coarse_index);
+                printf("[RB_DEC] vote %u/%u fine=%d %s coarse=%d %s votes=[%u,%u,%u]\n",
+                       redblock_model_vote_valid_count,
+                       MODEL_VOTE_REQUIRED,
+                       infer_result.class_index,
+                       infer_result.fine_label.c_str(),
+                       infer_result.coarse_index,
+                       infer_result.label.c_str(),
+                       redblock_model_vote_count[MODEL_CLASS_SUPPLIERS],
+                       redblock_model_vote_count[MODEL_CLASS_VEHICLE],
+                       redblock_model_vote_count[MODEL_CLASS_WEAPON]);
+
+                if(redblock_model_vote_valid_count >= MODEL_VOTE_REQUIRED)
+                {
+                    const int final_class = RedBlock_GetBestModelVote();
+                    if(final_class < 0)
+                    {
+                        RedBlock_StartFallbackLeftBypass("vote_no_result");
+                    }
+                    else
+                    {
+                        printf("[RB_DEC] final class=%d %s votes=[%u,%u,%u]\n",
+                               final_class,
+                               RedBlock_ModelClassLabel(final_class),
+                               redblock_model_vote_count[MODEL_CLASS_SUPPLIERS],
+                               redblock_model_vote_count[MODEL_CLASS_VEHICLE],
+                               redblock_model_vote_count[MODEL_CLASS_WEAPON]);
+                        RedBlock_StartActionForClass(final_class);
+                    }
+                }
+            }
+            break;
+
+        case RB_DEC_MOTION_ACTIVE:
         default:
             break;
     }
+}
+
+void RedBlock_ApplyMotion(void)
+{
+    RedBlock_ApplyBypass();
+}
+
+void RedBlock_Update(void)
+{
+    RedBlock_UpdatePerception();
+    RedBlock_UpdateDecision();
 }

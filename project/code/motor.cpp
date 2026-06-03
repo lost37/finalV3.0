@@ -69,7 +69,7 @@ int32_t l_pid(int set_speed ,int speed)//pid控制左电机转速
     static float out_last = 0;
 
     float kp=14.25;
-    float ki=4.8;//5
+    float ki=4.0;//4.8
     float A = 0.95;
 
     ek1 = ek;                   //上一次误差
@@ -110,10 +110,6 @@ int32_t r_pid(int set_speed ,int speed)//pid控制右电机转速
     float ki=4.8;
     float A = 0.95;
 
-    // float kp=14.2;
-    // float ki=7.43;
-
-
     ek1 = ek;                   //上一次误差
     ek = set_speed - speed;     //当前误差
     out_increment= (int)(kp*(ek-ek1) + ki*ek);
@@ -146,14 +142,14 @@ int16 Servo_PID (float Image_err)
 
     volatile static int16 err_last = 0;
     volatile static int16 err = 0;
-    float Kp=9.02;
-    float Kp2=0;
-    float Kd=5.1;
-    float GKD=0.05;//imu660ra_gyro_transition(imu_gyro_z)6.71
-    // float Kp=7;
+    // float Kp=9.02;
     // float Kp2=0;
-    // float Kd=5.2;
-    // float GKD=6.5;//imu660ra_gyro_transition(imu_gyro_z)
+    // float Kd=5.1;
+    // float GKD=0.05;//imu660ra_gyro_transition(imu_gyro_z)6.71
+    float Kp=2.5;//9.03
+    float Kp2=0;
+    float Kd=0; //5.4
+    float GKD=0;//0.04
     
     //  Servo.Kp = ??;        //动态p值变化函数
     err_last = err;

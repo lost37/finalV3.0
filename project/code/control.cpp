@@ -18,7 +18,7 @@
 int time1=0,timestop=0;      //出界停止时间
 
 int32_t l_speed = 0, r_speed = 0;  //速度赋值临时量
-volatile int32_t set_speed =260 ; //设置的电机速度
+volatile int32_t set_speed =270 ; //设置的电机速度
 volatile int land_s = 450; //环岛速度
 volatile int po_s = 600;   //坡道速度
 volatile int wan_s = 500;   // 弯道速度
@@ -73,20 +73,23 @@ void Speed_control()
     {
         if(redblock_brake_ticks > 0)
         {
-            const int32_t redblock_brake_pwm = 850;
+            // 调参：红块固定反冲 PWM。越大减速越快，过大可能反拖、打滑或抖车。
+            const int32_t redblock_brake_pwm = 900;
 
             if(enconder_left > 0)      l_out = -redblock_brake_pwm;
             else if(enconder_left < 0) l_out =  redblock_brake_pwm;
             else                       l_out = 0;
 
-            if(enconder_right > 0)      r_out = -redblock_brake_pwm;
-            else if(enconder_right < 0) r_out =  redblock_brake_pwm;
+            if(enconder_right > 0)      r_out = redblock_brake_pwm;
+            else if(enconder_right < 0) r_out = -redblock_brake_pwm;
             else                        r_out = 0;
 
             redblock_brake_ticks--;
         }
         else if(RedBlock_IsSlowdownActive())
         {
+            l_out = 0;
+            r_out = 0;
             pwm0_flag = 0;
             Motor_Control(l_out,r_out);
             return;
