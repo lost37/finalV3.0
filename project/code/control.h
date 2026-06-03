@@ -1,7 +1,3 @@
-/*
- * control.h
- *
- */
 #ifndef CODE_CONTROL_H_
 #define CODE_CONTROL_H_
 #include "zf_common_headfile.h"

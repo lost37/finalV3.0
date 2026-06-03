@@ -142,14 +142,18 @@ int16 Servo_PID (float Image_err)
 
     volatile static int16 err_last = 0;
     volatile static int16 err = 0;
-    // float Kp=9.02;
+    // // float Kp=9.02;
+    // // float Kp2=0;
+    // // float Kd=5.1;
+    // // float GKD=0.05;//imu660ra_gyro_transition(imu_gyro_z)6.71
+    // float Kp=2.6;//9.03
     // float Kp2=0;
-    // float Kd=5.1;
-    // float GKD=0.05;//imu660ra_gyro_transition(imu_gyro_z)6.71
-    float Kp=2.5;//9.03
+    // float Kd=0.3; //5.4
+    // float GKD=0.01;//0.04
+    float Kp=2.6;//9.03
     float Kp2=0;
     float Kd=0.3; //5.4
-    float GKD=0.01;//0.04
+    float GKD=0.015;//0.04
     
     //  Servo.Kp = ??;        //动态p值变化函数
     err_last = err;

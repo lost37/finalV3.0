@@ -1086,7 +1086,7 @@ void protect()
     }
 }
 
-// 斑马线函数已移至 zebra.cpp
+// 斑马线函数已移至 zebra.cppw
 
 void chasu_calculation() //阿克曼速度比分配
 {

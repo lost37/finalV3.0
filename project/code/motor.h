@@ -1,8 +1,3 @@
-/*
- * motor.h
- *
- * 
- */
 #ifndef CODE_MOTOR_H_
 #define CODE_MOTOR_H_ 
 

@@ -236,12 +236,6 @@ zebra.h
 redblock.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.h
 
-/home/lost37/Desktop/temp/finalV3.0/project/code/circle.cpp
-circle.h
-/home/lost37/Desktop/temp/finalV3.0/project/code/circle.h
-camera.h
-/home/lost37/Desktop/temp/finalV3.0/project/code/camera.h
-
 /home/lost37/Desktop/temp/finalV3.0/project/code/circle.h
 zf_common_headfile.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/zf_common_headfile.h
@@ -259,10 +253,6 @@ zf_common_headfile.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/zf_common_headfile.h
 
 /home/lost37/Desktop/temp/finalV3.0/project/code/key.h
-zf_common_headfile.h
-/home/lost37/Desktop/temp/finalV3.0/project/code/zf_common_headfile.h
-
-/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp
 zf_common_headfile.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/zf_common_headfile.h
 
