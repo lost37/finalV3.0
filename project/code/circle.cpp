@@ -15,7 +15,7 @@ uint8 r_land_flag = 0;
 int l_land_time = 0;
 uint8 land_line = 0;
 volatile int land_data = 10;
-volatile int land_w = 50;
+volatile int land_w = 40;
 uint8 imu_ring_test_active = 0;
 volatile uint8 imu_ring_exit_beeped = 0;
 volatile uint8 imu_ring_exit_counter = 0;
@@ -62,7 +62,7 @@ void l_land_judge()
             l_land_cooldown = 0;
         }
     }
-    if (l_land_flag == 0 && l_land_is_cooling == 0 && cross_flag == 0 /*&& white_length_max[0] < 10 */&& r_effect_num > 40 && r_land_flag == 0 && left_down) //&& (r_start + 1 - r_effect_num) < 5 && (l_start + 1 - l_effect_num) > 5)
+    if (l_land_flag == 0 && l_land_is_cooling == 0 && cross_flag == 0 /*&& white_length_max[0] < 10 */&& r_effect_num > 55 && r_land_flag == 0 && left_down) //&& (r_start + 1 - r_effect_num) < 5 && (l_start + 1 - l_effect_num) > 5)
     {// 左方检测直道          没有进入十字        最长白列正常                 左下角点存在   右边界有效数大于115      右方检测直道
         lianxu = 1;
         dizeng = 1;

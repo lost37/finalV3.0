@@ -80,16 +80,14 @@ void Speed_control()
             else if(enconder_left < 0) l_out =  redblock_brake_pwm;
             else                       l_out = 0;
 
-            if(enconder_right > 0)      r_out = redblock_brake_pwm;
-            else if(enconder_right < 0) r_out = -redblock_brake_pwm;
+            if(enconder_right > 0)      r_out = -redblock_brake_pwm;
+            else if(enconder_right < 0) r_out =  redblock_brake_pwm;
             else                        r_out = 0;
 
             redblock_brake_ticks--;
         }
         else if(RedBlock_IsSlowdownActive())
         {
-            l_out = 0;
-            r_out = 0;
             pwm0_flag = 0;
             Motor_Control(l_out,r_out);
             return;

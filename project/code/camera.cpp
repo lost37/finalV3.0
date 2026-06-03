@@ -10,7 +10,7 @@
  *           变量及常数定义
  *************************************/
 #define THRESHOLD 20                    //这个是阈值比较
-#define JUMP_NUM        1               //对比对计算时，两点间隔距离
+#define JUMP_NUM  1                     //对比对计算时，两点间隔距离
 
     uint16 l_duty1 = 1500;
     uint16 r_duty1 =1400;
@@ -60,8 +60,7 @@ extern volatile float dif_speed;
 //发车
 //uint8 go_flag=0;
 
-// 调参：普通赛道前瞻起始行。越小看得越近、转弯越晚；越大看得越远、转弯越早。
-volatile int w = 48;
+volatile int w = 47;//前瞻
 
 //弯道
 uint8 Straight_Flag=0;                  //弯道状态位
@@ -107,13 +106,13 @@ const uint8 weight_key[10]=
 
 namespace
 {
-    constexpr int MODEL_CLASS_SUPPLIES = 0;
+    constexpr int MODEL_CLASS_SUPPLIERS = 0;
     constexpr int MODEL_CLASS_VEHICLE = 1;
     constexpr int MODEL_CLASS_WEAPON = 2;
     constexpr uint8 MODEL_CLASS_COUNT = 3;
-    constexpr uint8 MODEL_STABLE_REQUIRED = 3;
-    constexpr uint8 MODEL_DROP_VALID_REQUIRED = 5;
-    constexpr uint8 MODEL_VOTE_REQUIRED = 30;
+    constexpr uint8 MODEL_STABLE_REQUIRED = 2;//连续几帧满足稳定才开始模型流程。越大越稳；越小响应越快
+    constexpr uint8 MODEL_DROP_VALID_REQUIRED = 1;//模型刚开始后丢弃几帧有效结果。越大越能避开刚停车时画面抖动；越小越快。
+    constexpr uint8 MODEL_VOTE_REQUIRED = 5; //投票次数
     constexpr uint16 MODEL_WAIT_STABLE_TIMEOUT = 180;
     constexpr uint16 MODEL_INFER_TIMEOUT = 120;
 
@@ -169,15 +168,15 @@ namespace
 
     uint8 Model_IsStable(void)
     {
-        return (func_abs(enconder_left) < 20 && func_abs(enconder_right) < 20);
+        return (func_abs(enconder_left) < 60 || func_abs(enconder_right) < 60);
     }
 
-    const char *Model_ClassLabel(int class_index)
+    const char *Model_ClassLabel(int coarse_index)
     {
-        switch(class_index)
+        switch(coarse_index)
         {
-            case MODEL_CLASS_SUPPLIES:
-                return "supplies";
+            case MODEL_CLASS_SUPPLIERS:
+                return "suppliers";
 
             case MODEL_CLASS_VEHICLE:
                 return "vehicle";
@@ -190,11 +189,11 @@ namespace
         }
     }
 
-    void Model_Vote_Add(int class_index)
+    void Model_Vote_Add(int coarse_index)
     {
-        if(class_index >= 0 && class_index < MODEL_CLASS_COUNT)
+        if(coarse_index >= 0 && coarse_index < MODEL_CLASS_COUNT)
         {
-            g_model_vote_count[class_index]++;
+            g_model_vote_count[coarse_index]++;
             g_model_vote_valid_count++;
         }
     }
@@ -230,12 +229,12 @@ namespace
 
     ModelAction Model_DecideAction(const NCNN_Infer_Result &infer_result)
     {
-        switch(infer_result.class_index)
+        switch(infer_result.coarse_index)
         {
             case MODEL_CLASS_VEHICLE:
                 return MODEL_ACTION_STRAIGHT;
 
-            case MODEL_CLASS_SUPPLIES:
+            case MODEL_CLASS_SUPPLIERS:
                 return MODEL_ACTION_RIGHT_BYPASS;
 
             case MODEL_CLASS_WEAPON:
@@ -264,14 +263,15 @@ namespace
                 break;
 
             case MODEL_ACTION_RIGHT_BYPASS:
-                printf("Model action: supplies -> right bypass\n");
+                printf("Model action: suppliers -> right bypass\n");
                 RedBlock_StartBypassMode(RB_BYPASS_MODE_RIGHT);
                 break;
 
             default:
                 printf(
-                    "Model action: unknown class=%d label=%s, keep pause\n",
+                    "Model action: unknown fine=%d coarse=%d label=%s, keep pause\n",
                     infer_result.class_index,
+                    infer_result.coarse_index,
                     infer_result.label.c_str()
                 );
                 break;
@@ -579,7 +579,7 @@ void search_border(int row,int col)
         r_border[i] = row - 1;
         if(i == 89) {
             printf("Row 89 init: l_border[89]=%d, r_border[89]=%d\n", l_border[89], r_border[89]);
-}
+        }
         
         
     }
@@ -1022,17 +1022,46 @@ void Second_center (void)
 //----------------------------------------------------------------------------------------------------------------
 void Furthest_judge()
 {
-    for (uint8_t i = Cut_ROW - 1; i >= white_length_max[0]; i--)
+    const int max_distance_index = (int)(sizeof(distance) / sizeof(distance[0])) - 1;
+    const int max_left_edge_index = (int)(sizeof(left_edge) / sizeof(left_edge[0])) - 1;
+    const int max_right_edge_index = (int)(sizeof(right_edge) / sizeof(right_edge[0])) - 1;
+    int scan_start = Cut_ROW - 1;
+    int scan_end = white_length_max[0];
+
+    // These lookup tables only cover rows 0-69. Clamp scan range before indexing them.
+    if(scan_start > max_distance_index)
     {
-        Foresight = i;      //记录最远行
+        scan_start = max_distance_index;
+    }
+    if(scan_start > max_left_edge_index)
+    {
+        scan_start = max_left_edge_index;
+    }
+    if(scan_start > max_right_edge_index)
+    {
+        scan_start = max_right_edge_index;
+    }
+    if(scan_end < 0)
+    {
+        scan_end = 0;
+    }
+    if(scan_end > scan_start)
+    {
+        scan_end = scan_start;
+    }
+
+    Foresight = (uint8)scan_start;
+    for (int i = scan_start; i >= scan_end; i--)
+    {
+        Foresight = (uint8)i;      //记录最远行
         if (l_border[i] > left_edge[i])  //左边界的列值 大于了轮胎到边界的位置 就把左边界出界行的位置赋给最远距离
         {
-            Foresight_left = i;
+            Foresight_left = (uint8)i;
         }
 
         if (r_border[i] < right_edge[i])  //右边界的列值 小于了轮胎到边界的位置 就把右边界出界行的位置赋给最远距离
         {
-            Foresight_right = i;
+            Foresight_right = (uint8)i;
         }
         if(l_border[i] > left_edge[i] || r_border[i] < right_edge[i]) //两边都一样的话 ，就是直道 直接是最长白列
         {
@@ -1086,7 +1115,7 @@ void protect()
     }
 }
 
-// 斑马线函数已移至 zebra.cppw
+// 斑马线函数已移至 zebra.cpp
 
 void chasu_calculation() //阿克曼速度比分配
 {
@@ -1265,10 +1294,12 @@ static void Model_Request_Process(void)
     {
         g_model_drop_valid_count++;
         printf(
-            "Model discard valid frame: %u/%u class=%d label=%s confidence=%.4f\n",
+            "Model discard valid frame: %u/%u fine=%d %s coarse=%d %s confidence=%.4f\n",
             g_model_drop_valid_count,
             MODEL_DROP_VALID_REQUIRED,
             infer_result.class_index,
+            infer_result.fine_label.c_str(),
+            infer_result.coarse_index,
             infer_result.label.c_str(),
             infer_result.confidence
         );
@@ -1288,24 +1319,26 @@ static void Model_Request_Process(void)
 
     if(g_model_stage == MODEL_STAGE_COLLECT_VOTES)
     {
-        Model_Vote_Add(infer_result.class_index);
+        Model_Vote_Add(infer_result.coarse_index);
         printf(
-            "Model vote: class=%d(%s) label=%s confidence=%.4f total=%u/%u votes=[%u,%u,%u]\n",
+            "Model vote: fine=%d %s coarse=%d(%s) label=%s confidence=%.4f total=%u/%u votes=[%u,%u,%u]\n",
             infer_result.class_index,
-            Model_ClassLabel(infer_result.class_index),
+            infer_result.fine_label.c_str(),
+            infer_result.coarse_index,
+            Model_ClassLabel(infer_result.coarse_index),
             infer_result.label.c_str(),
             infer_result.confidence,
             g_model_vote_valid_count,
             MODEL_VOTE_REQUIRED,
-            g_model_vote_count[MODEL_CLASS_SUPPLIES],
+            g_model_vote_count[MODEL_CLASS_SUPPLIERS],
             g_model_vote_count[MODEL_CLASS_VEHICLE],
             g_model_vote_count[MODEL_CLASS_WEAPON]
         );
 
         if(g_model_vote_valid_count >= MODEL_VOTE_REQUIRED)
         {
-            const int final_class_index = Model_Vote_GetBestClass();
-            if(final_class_index < 0)
+            const int final_coarse_index = Model_Vote_GetBestClass();
+            if(final_coarse_index < 0)
             {
                 printf("Model vote tie or empty, release pause\n");
                 Model_Confirm_Reset();
@@ -1314,14 +1347,16 @@ static void Model_Request_Process(void)
             }
 
             NCNN_Infer_Result final_result = infer_result;
-            final_result.class_index = final_class_index;
-            final_result.label = Model_ClassLabel(final_class_index);
+            final_result.coarse_index = final_coarse_index;
+            final_result.label = Model_ClassLabel(final_coarse_index);
 
             printf(
-                "Model final result: class=%d label=%s votes=[%u,%u,%u]\n",
+                "Model final result: fine=%d %s coarse=%d label=%s votes=[%u,%u,%u]\n",
                 final_result.class_index,
+                final_result.fine_label.c_str(),
+                final_result.coarse_index,
                 final_result.label.c_str(),
-                g_model_vote_count[MODEL_CLASS_SUPPLIES],
+                g_model_vote_count[MODEL_CLASS_SUPPLIERS],
                 g_model_vote_count[MODEL_CLASS_VEHICLE],
                 g_model_vote_count[MODEL_CLASS_WEAPON]
             );
@@ -1363,84 +1398,86 @@ float Camera_Function (void)
     // }
     search_border(Cut_COL, Cut_ROW);     //搜索边界
 
-    const uint8 land_element_active = (l_land_flag != 0 || r_land_flag != 0);
     const uint8 other_element_exclusive = (
         zebra_flag != 0 ||
         cross_flag != 0 ||
         xie_cross_flag != 0 ||
-        land_element_active ||
+        l_land_flag != 0 ||
+        r_land_flag != 0 ||
         s_wan_flag != 0 ||
         barrier_flag != 0
     );
 
-    RedBlock_UpdatePerception();
-    const uint8 redblock_exclusive = RedBlock_ShouldSuppressOtherElements();
-
-    if(redblock_exclusive == 0)
+    if(other_element_exclusive == 0)
     {
-        if(land_element_active)
-        {
-            // 已经进入环岛后必须继续调用环岛状态机，否则 flag 停在 1/2/3 无法推进。
-            l_land_judge();
-            r_land_judge();
-        }
-        else if(other_element_exclusive == 0)
-        {
-            /*斑马线*/
-            if(zebra_mode == 1){
-                Zebra_Detect(); //状态机
-            }else{
-                if(go_flag == 1)
-                Zebra_Detect_delay(); //延迟检测
-            }
-
-            /*角点*/
-            search_anglepoint();                //模糊搜索四个角点是否存在
-            if(xie_cross_flag == 1)
-                search_anglepoint();
-
-            /*十字*/
-            Cross_judge ();                     //如果上方角点不丢失，判断为十字补线，否则cross_flag = 0;
-
-            /*环岛*/
-            l_land_judge();
-            // if(l_land_num > 0)
-            // l_xie_land_judge();
-            r_land_judge();
-
-            /*障碍*/
-            //zhang_ai_judge();
-
-            /*S弯*/
-            s_judge();
-        }
+        RedBlock_Update();
+        Model_Request_Process();
     }
     else
     {
-        if(redblock_exclusive != 0)
+        const uint8 redblock_model_only = (model_request_flag != 0 || model_running_flag != 0);
+        if(redblock_model_only != 0)
         {
-            ResetZebraDetection();
-            zebra_flag = 0;
-            cross_flag = 0;
-            xie_cross_flag = 0;
-            xie_cross_time = 0;
-            left_up_flag = 0;
-            left_down_flag = 0;
-            right_up_flag = 0;
-            right_down_flag = 0;
-            left_up = 0;
-            left_down = 0;
-            right_up = 0;
-            right_down = 0;
-            l_land_flag = 0;
-            r_land_flag = 0;
-            s_wan_flag = 0;
-            barrier_flag = 0;
+            Model_Request_Process();
+        }
+        else
+        {
+            RedBlock_ResetState();
         }
     }
 
-    RedBlock_UpdateDecision();
-    RedBlock_ApplyMotion();
+    const uint8 redblock_exclusive = RedBlock_IsElementExclusive();
+
+    if(redblock_exclusive == 0)
+    {
+        /*斑马线*/
+        if(zebra_mode == 1){
+            Zebra_Detect(); //状态机
+        }else{
+            if(go_flag == 1)
+            Zebra_Detect_delay(); //延迟检测
+        }
+
+        /*十字*/
+        search_anglepoint();                //模糊搜索四个角点是否存在
+        if(xie_cross_flag == 1)
+            search_anglepoint();
+        Cross_judge ();                     //如果上方角点不丢失，判断为十字补线，否则cross_flag = 0;
+
+        /*障碍*/
+        //zhang_ai_judge();
+
+        /*环岛*/
+        l_land_judge();
+        // if(l_land_num > 0)
+        // l_xie_land_judge();
+        r_land_judge();
+
+        /*S弯*/
+        s_judge();
+    }
+    else
+    {
+        ResetZebraDetection();
+        zebra_flag = 0;
+        cross_flag = 0;
+        xie_cross_flag = 0;
+        xie_cross_time = 0;
+        left_up_flag = 0;
+        left_down_flag = 0;
+        right_up_flag = 0;
+        right_down_flag = 0;
+        left_up = 0;
+        left_down = 0;
+        right_up = 0;
+        right_down = 0;
+        l_land_flag = 0;
+        r_land_flag = 0;
+        s_wan_flag = 0;
+        barrier_flag = 0;
+    }
+
+    RedBlock_ApplyBypass();
 
     /*中线处理*/
     search_center(Cut_COL,Cut_ROW);     //根据边界计算中线
