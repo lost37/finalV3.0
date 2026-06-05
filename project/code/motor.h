@@ -35,6 +35,10 @@ extern volatile int32_t encoder_acc_avg;
 
 extern int left_pwm_out,right_pwm_out;
 extern uint8 pwm0_flag;
+extern volatile float servo_pid_kp;
+extern volatile float servo_pid_kp2;
+extern volatile float servo_pid_kd;
+extern volatile float servo_pid_gkd;
  extern uint8 l_land_flag;                  //左环岛状态位
  extern uint8 r_land_flag;                  //右环岛状态位
 

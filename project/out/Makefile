@@ -852,6 +852,114 @@ home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.s:
 	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.s
 .PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.cpp.s
 
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.o: home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.o
+
+# target to build an object file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.i: home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.i
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.i
+
+# target to preprocess a source file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.i
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.i
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.s: home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.s
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.s
+
+# target to generate assembly for a file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.s
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.s
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.o: home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.o
+
+# target to build an object file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.i: home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.i
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.i
+
+# target to preprocess a source file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.i
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.i
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.s: home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.s
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.s
+
+# target to generate assembly for a file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.s
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.s
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.o: home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.o
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.o
+
+# target to build an object file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.o
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.o
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.i: home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.i
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.i
+
+# target to preprocess a source file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.i
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.i
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.s: home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.s
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.s
+
+# target to generate assembly for a file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.s
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.s
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.o: home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.o
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.o
+
+# target to build an object file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.o
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.o
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.i: home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.i
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.i
+
+# target to preprocess a source file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.i
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.i
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.s: home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.s
+
+# target to generate assembly for a file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s
+
 home/lost37/Desktop/temp/finalV3.0/project/code/motor.o: home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o
 
 .PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/motor.o
@@ -959,6 +1067,33 @@ home/lost37/Desktop/temp/finalV3.0/project/code/redblock.s: home/lost37/Desktop/
 home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.s:
 	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.s
 .PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/redblock.cpp.s
+
+home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.o: home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.o
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.o
+
+# target to build an object file
+home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.o
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.o
+
+home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.i: home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.i
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.i
+
+# target to preprocess a source file
+home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.i
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.i
+
+home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.s: home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.s
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.s
+
+# target to generate assembly for a file
+home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.s
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.cpp.s
 
 home/lost37/Desktop/temp/finalV3.0/project/code/zebra.o: home/lost37/Desktop/temp/finalV3.0/project/code/zebra.cpp.o
 
@@ -1104,6 +1239,18 @@ help:
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.o"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.i"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/lq_ncnn.s"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.o"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.i"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.s"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.o"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.i"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.s"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.o"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.i"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.s"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.o"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.i"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.s"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/motor.o"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/motor.i"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/motor.s"
@@ -1116,6 +1263,9 @@ help:
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/redblock.o"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/redblock.i"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/redblock.s"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.o"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.i"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.s"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/zebra.o"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/zebra.i"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/zebra.s"

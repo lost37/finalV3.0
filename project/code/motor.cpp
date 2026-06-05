@@ -39,6 +39,15 @@ float I_R=70.5;//             43.5
 float P_L_island=200.55;//1.19
 float I_L_island=60.5;
 
+// 调参：位置环线性比例项。增大转向响应更强，过大容易左右摆。
+volatile float servo_pid_kp = 2.6f;
+// 调参：位置环二次比例项。增大后大误差时更激进，当前先保持 0。
+volatile float servo_pid_kp2 = 0.0f;
+// 调参：图像误差差分项。增大可抑制过冲，过大可能转向迟钝。
+volatile float servo_pid_kd = 0.3f;
+// 调参：陀螺仪 Z 轴修正项。增大可抑制车身旋转，过大可能压制正常转弯。
+volatile float servo_pid_gkd = 0.015f;
+
 volatile int motor_limit = 5000; //电机限幅
 //----------------------------------------------------------------------------------------------------------------
 // 函数名称 motor_init
@@ -150,10 +159,10 @@ int16 Servo_PID (float Image_err)
     // float Kp2=0;
     // float Kd=0.3; //5.4
     // float GKD=0.01;//0.04
-    float Kp=2.6;//9.03
-    float Kp2=0;
-    float Kd=0.3; //5.4
-    float GKD=0.015;//0.04
+    const float Kp = servo_pid_kp;//9.03
+    const float Kp2 = servo_pid_kp2;
+    const float Kd = servo_pid_kd; //5.4
+    const float GKD = servo_pid_gkd;//0.04
     
     //  Servo.Kp = ??;        //动态p值变化函数
     err_last = err;

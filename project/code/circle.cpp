@@ -219,29 +219,6 @@ void l_land_judge()
                 l_land_time = 0;
             }
             break;
-        // case 6: //绕环岛
-        //     for (i = Cut_ROW - 1; i >= white_length_max[0]; i--)   //寻找弧点
-        //     {
-        //         if (r_border[i] < r_border[i + 5] && r_border[i] < r_border[i - 5] && r_border[i] <= r_border[i + 4]
-        //             && r_border[i] <= r_border[i - 4] && r_border[i] <= r_border[i + 3]
-        //             && r_border[i] <= r_border[i - 3] && r_border[i] <= r_border[i + 2]
-        //             && r_border[i] <= r_border[i - 2] && r_border[i] <= r_border[i + 1]
-        //             && r_border[i] <= r_border[i - 1])
-        //         {
-        //             fill_line(r_border, i, r_border[i], left_up, l_border[left_up]);
-        //             fill_line(l_border, left_up, l_border[left_up], 0, 0);
-        //             fill_line(r_border, left_up, l_border[left_up], 0, 0);
-        //             break;
-        //         }
-        //     }
-        //     if(r_start + 1 - r_effect_num > 6 && white_length_max[1] > 30)
-        //     {
-        //         //出环岛的T字
-        //         l_land_flag = 8;
-        //         l_land_time = 0;
-        //     }
-        //     break;
-
         case 6: //绕环岛
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
@@ -258,11 +235,6 @@ void l_land_judge()
             }
             break;
         case 8: // 出T字后准备出环
-            // for (i = white_length_max[0]; i < Cut_ROW; i++)
-            // {
-            //     int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.06;
-            //     r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
-            // }
             fill_line(r_border, Cut_ROW - 1, Cut_COL - 1, 1, 1);
             fill_line(l_border, Cut_ROW - 1, 1, 1, 1);
 

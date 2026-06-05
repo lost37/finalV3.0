@@ -24,6 +24,11 @@ extern int time1,timestop;      //出界停止时间
 
 extern int32_t l_speed, r_speed;  //速度赋值临时量
 extern volatile int32_t set_speed; //设置的电机速度
+extern volatile int land_s;
+extern volatile int po_s;
+extern volatile int wan_s;
+extern volatile int ru_s;
+extern volatile int zhi_s;
 
 extern int8_t speed_mode; //速度模式
 

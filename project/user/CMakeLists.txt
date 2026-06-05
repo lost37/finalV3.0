@@ -7,6 +7,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -pthread -Wall")  # 对于 C++ 编译器
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wall")      # 对于 C 编译器
 
+# 临时菜单测试模式：
+# ON 时只运行 IPS200 菜单和按键，不初始化摄像头/陀螺仪/图传，适合未接外设时测试菜单。
+# option(MENU_ONLY_TEST "Run only IPS200 menu and keys" ON)
+# if(MENU_ONLY_TEST)
+#     add_definitions(-DMENU_ONLY_TEST)
+# endif()
+
+# 临时排除陀螺仪：
+# ON 时不初始化陀螺仪、不启动陀螺仪定时采样，并关闭位置环陀螺仪修正。
+#option(DISABLE_GYRO "Disable gyroscope init/sample for temporary testing" ON)
+#if(DISABLE_GYRO)
+#    add_definitions(-DDISABLE_GYRO)
+#endif()
+
 # 获取当前 CMakeLists.txt 文件所在目录的完整路径
 set(CURRENT_DIR ${CMAKE_CURRENT_LIST_DIR})
 

@@ -44,6 +44,7 @@ extern uint16 r_duty2;
 
  extern uint8 Straight_track_width[Cut_ROW];    //标准直道宽度
  extern float err_new ;                          //误差
+ extern volatile int w;                          // 调参：普通赛道前瞻起始行，越小转弯越晚
 
  /*图像*/
  extern volatile uint8 Image_Use[COL][ROW];                     //图像
@@ -157,4 +158,3 @@ uint8 Car_ShouldMotorStop(void);        //电机是否应停车
 
  #endif /* CODE_CAMERA_H_ */
  
-

@@ -1,5 +1,6 @@
 #include "zf_common_headfile.h"
 #include "my_image_transmitter.h"
+#include "menu_app.h"
 
 volatile int dec = 0;
 volatile int motor_mode = 1;   // 0: 开环, 1: 闭环
@@ -77,16 +78,36 @@ int main(int, char**)
     atexit(cleanup);
     signal(SIGINT, sigint_handler);
 
+#ifdef MENU_ONLY_TEST
+    printf("MENU_ONLY_TEST enabled: only IPS200 menu and keys will run.\n");
+    motor_init();
+    MenuApp_Init();
+    while(1)
+    {
+        key_operate();
+        MenuApp_DrawIfNeeded();
+        system_delay_ms(20);
+    }
+    return 0;
+#endif
+
     // 底层驱动初始化：先电机，再陀螺仪。
     motor_init();
+#ifdef DISABLE_GYRO
+    servo_pid_gkd = 0.0f;
+    printf("DISABLE_GYRO enabled: skip gyroscope init/sample, GKD=0\n");
+#else
     gyroscope_init();
+#endif
 
     // 控制节拍：
     // 5ms 编码器反馈，5ms 电机闭环，500ms 发车延时，5ms 陀螺仪采样。
     pit_ms_init(2, encoder_feedback_task);
     pit_ms_init(5, motor_isr);
     pit_ms_init(500, show_isr);
+#ifndef DISABLE_GYRO
     pit_ms_init(5, imu_isr);
+#endif
 
     go_init();
 
@@ -102,9 +123,13 @@ int main(int, char**)
     // 图传只用于调试。
     // 即使这里连接失败，主控链也仍然可以继续运行。
     my_image_transmitter_init();
+    MenuApp_Init();
 
     while(1)
     {
+        key_operate();
+        MenuApp_DrawIfNeeded();
+
         if(wait_image_refresh() < 0)
         {
             printf("未获取到图像帧\r\n");
