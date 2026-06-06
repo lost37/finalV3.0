@@ -195,6 +195,18 @@ void key_operate(void)
     }
     else
     {
+        if(key2_flag)
+        {
+            MenuApp_SelectEdgeBoundaryView();
+        }
+        if(key3_flag)
+        {
+            MenuApp_SelectFullGrayView();
+        }
+        if(key4_flag)
+        {
+            MenuApp_SelectEdgeGrayView();
+        }
         (void)KeyScan_TakeLongPress(3);
     }
 

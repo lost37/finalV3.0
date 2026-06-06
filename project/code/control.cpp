@@ -74,7 +74,7 @@ void Speed_control()
         if(redblock_brake_ticks > 0)
         {
             // 调参：红块固定反冲 PWM。越大减速越快，过大可能反拖、打滑或抖车。
-            const int32_t redblock_brake_pwm = 900;
+            const int32_t redblock_brake_pwm = 700;
 
             if(enconder_left > 0)      l_out = -redblock_brake_pwm;
             else if(enconder_left < 0) l_out =  redblock_brake_pwm;

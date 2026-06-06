@@ -717,6 +717,9 @@ CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.
 CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/utils/tls.hpp
 CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/version.hpp
 CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/vsx_utils.hpp
+CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/imgproc.hpp
+CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/imgproc/imgproc.hpp
+CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/imgproc/segmentation.hpp
 CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.cpp.o: /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/opencv_modules.hpp
 
 CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o: /home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp

@@ -42,7 +42,7 @@ uint8 redblock_brake_ticks = 0;
 uint8 redblock_action_phase_flag = RB_ACT_IDLE;
 volatile float redblock_bypass_dif_speed = 0.0f;
 volatile int32_t redblock_bypass_speed_cmd = 0;
-volatile int32_t redblock_slowdown_speed_cmd = 130;
+volatile int32_t redblock_slowdown_speed_cmd = 120;  //红块减速速度
 
 namespace
 {
@@ -115,22 +115,24 @@ namespace
     // 调参：APPROACH 阶段提前横移量，增大可更早开始绕。
     constexpr int REDBLOCK_BYPASS_APPROACH_SHIFT = 8;
     // 调参：绕行切出目标角度，增大绕行幅度更大。
-    constexpr float REDBLOCK_TURN_OUT_ANGLE = 25.0f;
+    constexpr float REDBLOCK_TURN_OUT_ANGLE = 35.0f;
     // 调参：切回角度容差，增大更容易进入直行段，减小姿态更准。
     constexpr float REDBLOCK_TURN_BACK_TOLERANCE = 4.0f;
     // 调参：绕行动作两段通过距离，增大通过更远，减小动作更紧凑。
-    constexpr int32_t REDBLOCK_PASS1_DISTANCE = 220;
-    constexpr int32_t REDBLOCK_PASS2_DISTANCE = 140;
+    constexpr int32_t REDBLOCK_PASS1_DISTANCE = 300;
+    constexpr int32_t REDBLOCK_PASS2_DISTANCE = 180;
     // 调参：绕行固定转向差速命令，增大转弯更急。
     constexpr float REDBLOCK_TURN_CMD = 120.0f;
+    // 调参：红块绕行专用速度。不要直接使用 land_s，避免从低速识别阶段突然跳到环岛速度导致前冲。
+    constexpr int32_t REDBLOCK_BYPASS_SPEED_CMD = 220;
     // 调参：恢复赛道需要连续满足的帧数，增大更稳，减小更快退出绕行。
     constexpr uint8 REDBLOCK_RECOVER_STABLE_REQUIRED = 3;
     // 调参：恢复判定的左右有效边界数量下限。
     constexpr int REDBLOCK_RECOVER_EFFECT_THRESHOLD = 45;
     // 调参：恢复判定的中线误差阈值。
     constexpr float REDBLOCK_RECOVER_ERR_THRESHOLD = 8.0f;
-    // 调参：恢复判定的前方可视距离阈值。
-    constexpr float REDBLOCK_RECOVER_DISTANCE_THRESHOLD = 70.0f;
+    // 调参：恢复判定的前方可视距离阈值。实测 far 经常只有 8~35，阈值设小避免绕行后长期无法退出。
+    constexpr float REDBLOCK_RECOVER_DISTANCE_THRESHOLD = 5.0f;
     constexpr int MODEL_CLASS_SUPPLIERS = 0;
     constexpr int MODEL_CLASS_VEHICLE = 1;
     constexpr int MODEL_CLASS_WEAPON = 2;
@@ -982,7 +984,7 @@ void RedBlock_StartBypassMode(RedBlockBypassMode mode)
     redblock_start_yaw = FJ_Angle;
     redblock_phase_start_encoder_avg = encoder_acc_avg;
     redblock_recover_ready_count = 0;
-    redblock_bypass_speed_cmd = land_s;
+    redblock_bypass_speed_cmd = REDBLOCK_BYPASS_SPEED_CMD;
     redblock_bypass_dif_speed = 0.0f;
     RedBlock_SetBypassPhase(RB_BYPASS_PHASE_APPROACH);
     RedBlock_SetActionPhase(RB_ACT_TURN_OUT);
@@ -1011,7 +1013,7 @@ uint8 RedBlock_ApplyBypass(void)
         return 0;
     }
 
-    redblock_bypass_speed_cmd = land_s;
+    redblock_bypass_speed_cmd = REDBLOCK_BYPASS_SPEED_CMD;
 
     switch(redblock_action_phase)
     {
