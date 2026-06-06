@@ -85,7 +85,7 @@ int main(int, char**)
     while(1)
     {
         key_operate();
-        MenuApp_DrawIfNeeded();
+        MenuApp_DrawActiveDisplay();
         system_delay_ms(20);
     }
     return 0;
@@ -128,7 +128,6 @@ int main(int, char**)
     while(1)
     {
         key_operate();
-        MenuApp_DrawIfNeeded();
 
         if(wait_image_refresh() < 0)
         {
@@ -138,6 +137,8 @@ int main(int, char**)
 
         // 图像主处理链：原始图 -> 裁剪/边缘 -> 中线/元素 -> err_new
         Camera_Function();
+
+        MenuApp_DrawActiveDisplay();
 
         // 调试图传链与主控链解耦，后期可直接关闭以释放性能。
         my_image_transmitter_send();

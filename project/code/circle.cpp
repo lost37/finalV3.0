@@ -192,7 +192,7 @@ void l_land_judge()
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
                 // int tmp = (int)l_border[i] + (int)Straight_track_width[i]*0.97;
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //1.01
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.03; //1.01
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 
@@ -208,7 +208,7 @@ void l_land_judge()
             l_land_time++;
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //1.04
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.03; //1.04
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 

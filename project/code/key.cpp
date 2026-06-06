@@ -172,21 +172,30 @@ void key_operate(void)
     {
         key1_function();
     }
-    if(key2_flag)
+
+    // 调参开关在菜单侧时，KEY1/KEY2/KEY3 才允许修改菜单参数；图像侧只显示摄像头画面。
+    if(MenuApp_IsTuningMode())
     {
-        MenuApp_HandleAction(MENU_CORE_ACTION_DOWN);
+        if(key2_flag)
+        {
+            MenuApp_HandleAction(MENU_CORE_ACTION_DOWN);
+        }
+        if(key3_flag)
+        {
+            MenuApp_HandleAction(MENU_CORE_ACTION_UP);
+        }
+        if(KeyScan_TakeLongPress(3))
+        {
+            MenuApp_HandleAction(MENU_CORE_ACTION_BACK);
+        }
+        else if(key4_flag)
+        {
+            MenuApp_HandleAction(MENU_CORE_ACTION_ENTER);
+        }
     }
-    if(key3_flag)
+    else
     {
-        MenuApp_HandleAction(MENU_CORE_ACTION_UP);
-    }
-    if(KeyScan_TakeLongPress(3))
-    {
-        MenuApp_HandleAction(MENU_CORE_ACTION_BACK);
-    }
-    else if(key4_flag)
-    {
-        MenuApp_HandleAction(MENU_CORE_ACTION_ENTER);
+        (void)KeyScan_TakeLongPress(3);
     }
 
     if(key0_go_toggle_pending)

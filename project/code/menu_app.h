@@ -8,6 +8,8 @@
 void MenuApp_Init(void);
 void MenuApp_HandleAction(MenuCoreAction action);
 void MenuApp_DrawIfNeeded(void);
+void MenuApp_DrawActiveDisplay(void);
+uint8_t MenuApp_IsTuningMode(void);
 MenuCore *MenuApp_GetCore(void);
 
 #endif /* CODE_MENU_APP_H_ */

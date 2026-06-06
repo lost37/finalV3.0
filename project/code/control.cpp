@@ -338,6 +338,6 @@ void go_init() //发车初始化
     s_wan_flag = 0; //出环岛T字标志清零
     zhang_ai_flag = 0; //障碍物标志清零
     //camera_flag=0;
-    go_flag = 1; //发车标志
+    go_flag = 0; // 发车标识默认关闭，启动程序后必须按 KEY0 才允许发车。
     //ips200_full(RGB565_BLACK);
 }
