@@ -960,6 +960,33 @@ home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s:
 	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s
 .PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.s
 
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.o: home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.o
+
+# target to build an object file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.i: home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.i
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.i
+
+# target to preprocess a source file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.i
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.i
+
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.s: home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.s
+
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.s
+
+# target to generate assembly for a file
+home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.s
+.PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.s
+
 home/lost37/Desktop/temp/finalV3.0/project/code/motor.o: home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o
 
 .PHONY : home/lost37/Desktop/temp/finalV3.0/project/code/motor.o
@@ -1251,6 +1278,9 @@ help:
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.o"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.i"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.s"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.o"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.i"
+	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.s"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/motor.o"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/motor.i"
 	@echo "... home/lost37/Desktop/temp/finalV3.0/project/code/motor.s"

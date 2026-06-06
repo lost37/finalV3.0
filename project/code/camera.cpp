@@ -1125,9 +1125,9 @@ void chasu_calculation() //阿克曼速度比分配
     // 调参：左右轮距，单位 mm。你提供的轮距为 15.5cm，即 155mm。
     const float ACK_TRACK_WIDTH_MM = 155.0f;
     // 调参：最大等效转角，单位度。越大同样误差下转弯越急。
-    const float ACK_MAX_STEER_DEG = 50.0f;//51
+    const float ACK_MAX_STEER_DEG = 51.0f;//51
     // 调参：Servo_PID 输出满量程。越小转向越灵敏；当前先用 200，避免阿克曼差速过小。
-    const float ACK_DIF_FULL_SCALE = 100.0f;//
+    const float ACK_DIF_FULL_SCALE = 90.0f;//
     const float PI = 3.1415926f;
 
     float steer_ratio = dif_speed / ACK_DIF_FULL_SCALE;

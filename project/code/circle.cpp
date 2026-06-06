@@ -163,7 +163,7 @@ void l_land_judge()
             {
                 l_case23_confirm = 0;
             }
-            if (l_case23_confirm >= 2)
+            if (l_case23_confirm >= 1)
             {
                 printf("[LEFT_RING] 2->3 land_line=%d left_up=%d left_down=%d confirm=%d\n", land_line, left_up, left_down, l_case23_confirm);
                 l_land_flag = 3;
@@ -203,7 +203,7 @@ void l_land_judge()
             for (i = white_length_max[0]; i < Cut_ROW; i++)
             {
                 // int tmp = (int)l_border[i] + (int)Straight_track_width[i]*0.97;
-                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.03; //1.01
+                int tmp = (int)l_border[i] + (int)Straight_track_width[i]*1.02; //1.01
                 r_border[i] = (uint8)func_limit_ab(tmp, SEARCH_MIN, SEARCH_MAX);
             }
 

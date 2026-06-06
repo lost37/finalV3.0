@@ -703,6 +703,8 @@ key.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/key.h
 menu_display.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.h
+menu_settings.h
+/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.h
 motor.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/motor.h
 redblock.h
@@ -763,6 +765,26 @@ stdint.h
 -
 menu_core.h
 /home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.h
+
+/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp
+menu_settings.h
+/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.h
+camera.h
+/home/lost37/Desktop/temp/finalV3.0/project/code/camera.h
+circle.h
+/home/lost37/Desktop/temp/finalV3.0/project/code/circle.h
+control.h
+/home/lost37/Desktop/temp/finalV3.0/project/code/control.h
+motor.h
+/home/lost37/Desktop/temp/finalV3.0/project/code/motor.h
+stdio.h
+-
+stdint.h
+-
+string.h
+-
+
+/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.h
 
 /home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp
 zf_common_headfile.h

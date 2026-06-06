@@ -30,6 +30,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o"
   "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.o"
   "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.o"
+  "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o"
   "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o"
   "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o"
   "CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o"

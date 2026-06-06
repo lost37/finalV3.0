@@ -5,6 +5,7 @@
 #include "control.h"
 #include "key.h"
 #include "menu_display.h"
+#include "menu_settings.h"
 #include "motor.h"
 #include "redblock.h"
 #include "tuning_menu.h"
@@ -240,6 +241,8 @@ void MenuApp_Init(void)
 {
     TuningMenuBindings bindings{};
 
+    MenuSettings_Load();
+
     bindings.servo_kp = &servo_pid_kp;
     bindings.servo_kp2 = &servo_pid_kp2;
     bindings.servo_kd = &servo_pid_kd;
@@ -258,6 +261,7 @@ void MenuApp_Init(void)
 void MenuApp_HandleAction(MenuCoreAction action)
 {
     MenuCore_HandleAction(&g_menu, action);
+    MenuSettings_Save();
     MenuDisplay_RequestRefresh();
 }
 

@@ -18,7 +18,7 @@
 int time1=0,timestop=0;      //出界停止时间
 
 int32_t l_speed = 0, r_speed = 0;  //速度赋值临时量
-volatile int32_t set_speed =270 ; //设置的电机速度
+volatile int32_t set_speed =300;//设置的电机速度
 volatile int land_s = 450; //环岛速度
 volatile int po_s = 600;   //坡道速度
 volatile int wan_s = 500;   // 弯道速度

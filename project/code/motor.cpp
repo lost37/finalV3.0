@@ -40,11 +40,11 @@ float P_L_island=200.55;//1.19
 float I_L_island=60.5;
 
 // 调参：位置环线性比例项。增大转向响应更强，过大容易左右摆。
-volatile float servo_pid_kp = 2.6f;
+volatile float servo_pid_kp = 3.0f;
 // 调参：位置环二次比例项。增大后大误差时更激进，当前先保持 0。
 volatile float servo_pid_kp2 = 0.0f;
 // 调参：图像误差差分项。增大可抑制过冲，过大可能转向迟钝。
-volatile float servo_pid_kd = 0.3f;
+volatile float servo_pid_kd = 0.0f;
 // 调参：陀螺仪 Z 轴修正项。增大可抑制车身旋转，过大可能压制正常转弯。
 volatile float servo_pid_gkd = 0.015f;
 

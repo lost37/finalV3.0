@@ -35,6 +35,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.cpp.o"
   "/home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.cpp.o"
   "/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp.o"
+  "/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o"
   "/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o"
   "/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/my_image_transmitter.cpp.o"
   "/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp" "/home/lost37/Desktop/temp/finalV3.0/project/out/CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/ncnn_infer.cpp.o"

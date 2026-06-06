@@ -88,6 +88,14 @@ _Avoid_: resetting red-block flow from another element
 The existing IMU-and-encoder based bypass action sequence used by red-block motion.
 _Avoid_: visual-boundary bypass rewrite
 
+**Visual Centerline Bypass**:
+A red-block bypass motion strategy that steers by rewriting the perceived centerline from selected left or right boundary data.
+_Avoid_: fixed IMU bypass script, blind distance bypass
+
+**Boundary-Derived Centerline**:
+A temporary centerline constructed from the trusted boundary away from the red block plus a safety offset or track-width estimate.
+_Avoid_: raw boundary-as-centerline
+
 ## Relationships
 
 - **Red Block Decision** reads observations from **Red Block Perception**.
@@ -110,6 +118,8 @@ _Avoid_: visual-boundary bypass rewrite
 - Internal red-block state may expose a **Debug State Mirror** for telemetry.
 - Red-block activation uses **Element Action Suppression** rather than letting other elements reset the red-block flow.
 - Red-block bypass should keep **Scripted Bypass Motion** during the decision-state refactor.
+- **Visual Centerline Bypass** is a candidate replacement for **Scripted Bypass Motion** when the goal is smoother obstacle avoidance and recovery to the main path.
+- **Visual Centerline Bypass** should use a **Boundary-Derived Centerline**, not assign a raw boundary directly as the centerline without a safety offset.
 
 ## Example Dialogue
 
@@ -167,6 +177,9 @@ _Avoid_: visual-boundary bypass rewrite
 > **Dev:** "Should this refactor replace the current bypass path with visual boundary rewriting?"
 > **Domain expert:** "No. Keep Scripted Bypass Motion first; revisit visual bypass after the decision flow is stable."
 
+> **Dev:** "If we switch to visual bypass, should we set the centerline equal to the left or right border?"
+> **Domain expert:** "No. Use a Boundary-Derived Centerline with an explicit safety offset so the target path stays drivable."
+
 ## Flagged Ambiguities
 
 - "red-block state machine" was used to mean detection, model classification, and vehicle movement together; resolved: it means **Red Block Decision** only.
@@ -188,3 +201,4 @@ _Avoid_: visual-boundary bypass rewrite
 - "state flag" was ambiguous between control input and telemetry; resolved: use **Debug State Mirror** only for telemetry.
 - "element exclusivity" was ambiguous between suppressing other actions and resetting red-block state; resolved: use **Element Action Suppression**.
 - "bypass refactor" was ambiguous between state-machine cleanup and motion-algorithm replacement; resolved: keep **Scripted Bypass Motion** for now.
+- "把左右边线赋值给中线" was ambiguous between raw border assignment and a safe visual target path; resolved: the new candidate should be **Visual Centerline Bypass** using a **Boundary-Derived Centerline**.

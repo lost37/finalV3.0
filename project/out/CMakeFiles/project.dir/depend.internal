@@ -684,6 +684,7 @@ CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.
  /home/lost37/Desktop/temp/finalV3.0/project/code/menu_app.h
  /home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.h
  /home/lost37/Desktop/temp/finalV3.0/project/code/menu_display.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.h
  /home/lost37/Desktop/temp/finalV3.0/project/code/motor.h
  /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.h
  /home/lost37/Desktop/temp/finalV3.0/project/code/tuning_menu.h
@@ -796,6 +797,71 @@ CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_rend
  /home/lost37/Desktop/temp/finalV3.0/project/code/menu_core.h
  /home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.cpp
  /home/lost37/Desktop/temp/finalV3.0/project/code/menu_render.h
+CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp.o
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_headfile.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_typedef.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_components/seekfree_assistant_interface.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660ra.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu660rb.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu963ra.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_imu_core.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_ips200_fb.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_device/zf_device_uvc.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_adc.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_delay.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_encoder.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_file.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_gpio.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pit_fd.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_pwm.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_tcp_client.h
+ /home/lost37/Desktop/temp/finalV3.0/libraries/zf_driver/zf_driver_udp.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/camera.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/circle.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/control.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/cross.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/gyroscope.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/key.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.cpp
+ /home/lost37/Desktop/temp/finalV3.0/project/code/menu_settings.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/motor.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/redblock.h
+ /home/lost37/Desktop/temp/finalV3.0/project/code/zebra.h
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/base.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/bufferpool.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/check.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/cv_cpu_dispatch.h
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/cv_cpu_helper.h
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/cvdef.h
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/cvstd.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/cvstd.inl.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/cvstd_wrapper.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/fast_math.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/hal/interface.h
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/hal/msa_macros.h
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/mat.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/mat.inl.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/matx.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/matx.inl.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/neon_utils.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/operations.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/optim.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/ovx.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/persistence.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/saturate.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/traits.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/types.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/utility.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/utils/instrumentation.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/utils/tls.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/version.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/core/vsx_utils.hpp
+ /opt/ls_2k0300_env/opencv_4_10_build/include/opencv4/opencv2/opencv_modules.hpp
 CMakeFiles/project.dir/home/lost37/Desktop/temp/finalV3.0/project/code/motor.cpp.o
  /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_font.h
  /home/lost37/Desktop/temp/finalV3.0/libraries/zf_common/zf_common_function.h
