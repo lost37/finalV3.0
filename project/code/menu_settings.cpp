@@ -4,6 +4,8 @@
 #include "circle.h"
 #include "control.h"
 #include "motor.h"
+#include "redblock.h"
+#include "zebra.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -48,6 +50,55 @@ namespace
         {
             land_s = (int)value;
         }
+        else if(strcmp(key, "ack_dif_full_scale") == 0)
+        {
+            ack_dif_full_scale = value;
+        }
+        else if(strcmp(key, "motor_l_kp") == 0)
+        {
+            motor_l_kp = value;
+        }
+        else if(strcmp(key, "motor_l_ki") == 0)
+        {
+            motor_l_ki = value;
+        }
+        else if(strcmp(key, "motor_l_filter_a") == 0)
+        {
+            motor_l_filter_a = value;
+        }
+        else if(strcmp(key, "motor_r_kp") == 0)
+        {
+            motor_r_kp = value;
+        }
+        else if(strcmp(key, "motor_r_ki") == 0)
+        {
+            motor_r_ki = value;
+        }
+        else if(strcmp(key, "motor_r_filter_a") == 0)
+        {
+            motor_r_filter_a = value;
+        }
+        else if(strcmp(key, "redblock_detection_enable") == 0)
+        {
+            redblock_detection_enable = (value != 0.0f) ? 1 : 0;
+        }
+        else if(strcmp(key, "redblock_visual_return_mode") == 0)
+        {
+            redblock_visual_return_mode =
+                (value != 0.0f) ? RB_VISUAL_RETURN_SMOOTH_BLEND : RB_VISUAL_RETURN_LEGACY_DIRECT;
+        }
+        else if(strcmp(key, "redblock_cross_fill_enable") == 0)
+        {
+            redblock_cross_fill_enable = (value != 0.0f) ? 1 : 0;
+        }
+        else if(strcmp(key, "boundary_stop_enable") == 0)
+        {
+            boundary_stop_enable = (value != 0.0f) ? 1 : 0;
+        }
+        else if(strcmp(key, "zebra_stop_enable") == 0)
+        {
+            zebra_stop_enable = (value != 0.0f) ? 1 : 0;
+        }
     }
 }
 
@@ -70,13 +121,13 @@ void MenuSettings_Load(void)
     fclose(fp);
 }
 
-void MenuSettings_Save(void)
+uint8_t MenuSettings_Save(void)
 {
     FILE *fp = fopen(MENU_SETTINGS_PATH, "w");
     if(fp == nullptr)
     {
         printf("MenuSettings_Save failed: %s\n", MENU_SETTINGS_PATH);
-        return;
+        return 0;
     }
 
     fprintf(fp, "servo_kp=%.6f\n", (double)servo_pid_kp);
@@ -87,6 +138,20 @@ void MenuSettings_Save(void)
     fprintf(fp, "land_w=%d\n", (int)land_w);
     fprintf(fp, "set_speed=%ld\n", (long)set_speed);
     fprintf(fp, "land_speed=%d\n", (int)land_s);
+    fprintf(fp, "ack_dif_full_scale=%.6f\n", (double)ack_dif_full_scale);
+    fprintf(fp, "motor_l_kp=%.6f\n", (double)motor_l_kp);
+    fprintf(fp, "motor_l_ki=%.6f\n", (double)motor_l_ki);
+    fprintf(fp, "motor_l_filter_a=%.6f\n", (double)motor_l_filter_a);
+    fprintf(fp, "motor_r_kp=%.6f\n", (double)motor_r_kp);
+    fprintf(fp, "motor_r_ki=%.6f\n", (double)motor_r_ki);
+    fprintf(fp, "motor_r_filter_a=%.6f\n", (double)motor_r_filter_a);
+    fprintf(fp, "redblock_detection_enable=%d\n", redblock_detection_enable != 0 ? 1 : 0);
+    fprintf(fp, "redblock_visual_return_mode=%d\n",
+            redblock_visual_return_mode != 0 ? RB_VISUAL_RETURN_SMOOTH_BLEND : RB_VISUAL_RETURN_LEGACY_DIRECT);
+    fprintf(fp, "redblock_cross_fill_enable=%d\n", redblock_cross_fill_enable != 0 ? 1 : 0);
+    fprintf(fp, "boundary_stop_enable=%d\n", boundary_stop_enable != 0 ? 1 : 0);
+    fprintf(fp, "zebra_stop_enable=%d\n", zebra_stop_enable != 0 ? 1 : 0);
 
     fclose(fp);
+    return 1;
 }

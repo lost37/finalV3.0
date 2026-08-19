@@ -88,7 +88,6 @@
 #include "zf_device_imu_core.h"
 #include "zf_device_imu660ra.h"
 #include "zf_device_imu660rb.h"
-#include "zf_device_imu963ra.h"
 
 
 // #include "zf_device_uvc.h"

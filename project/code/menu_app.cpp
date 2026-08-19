@@ -9,6 +9,7 @@
 #include "motor.h"
 #include "redblock.h"
 #include "tuning_menu.h"
+#include "zebra.h"
 #include "zf_device_ips200_fb.h"
 #include "zf_device_uvc.h"
 #include "zf_driver_gpio.h"
@@ -129,6 +130,31 @@ namespace
         }
     }
 
+    void DrawForesightLineOverlay(void)
+    {
+        int foresight_row = (int)w;
+        if(foresight_row < 0)
+        {
+            foresight_row = 0;
+        }
+        else if(foresight_row >= (int)CAMERA_IMAGE_HEIGHT)
+        {
+            foresight_row = (int)CAMERA_IMAGE_HEIGHT - 1;
+        }
+
+        uint16_t source_y = (uint16_t)foresight_row;
+        if(CAMERA_DISPLAY_ROTATE_180)
+        {
+            source_y = (uint16_t)(CAMERA_IMAGE_HEIGHT - 1 - source_y);
+        }
+
+        const uint16_t display_y = (uint16_t)(CAMERA_IMAGE_Y + ((uint32_t)source_y * CAMERA_DISPLAY_HEIGHT / CAMERA_IMAGE_HEIGHT));
+        for(uint16_t x = 0; x < CAMERA_DISPLAY_WIDTH; x++)
+        {
+            ips200_draw_point((uint16_t)(CAMERA_IMAGE_X + x), display_y, RGB565_YELLOW);
+        }
+    }
+
     uint8_t BuildFullGrayImage(void)
     {
         if(frame_rgb.empty())
@@ -180,6 +206,7 @@ namespace
             CAMERA_DISPLAY_HEIGHT
         );
         DrawTrackBordersOverlay(0);
+        DrawForesightLineOverlay();
     }
 
     void DrawEdgeGrayImage(void)
@@ -191,6 +218,7 @@ namespace
             CAMERA_DISPLAY_WIDTH,
             CAMERA_DISPLAY_HEIGHT
         );
+        DrawForesightLineOverlay();
     }
 
     void DrawEdgeBoundaryImage(void)
@@ -251,6 +279,12 @@ void MenuApp_Init(void)
     bindings.land_w = &land_w;
     bindings.set_speed = &set_speed;
     bindings.land_speed = &land_s;
+    bindings.ack_dif_full_scale = &ack_dif_full_scale;
+    bindings.redblock_detection_enable = &redblock_detection_enable;
+    bindings.redblock_visual_return_mode = &redblock_visual_return_mode;
+    bindings.redblock_cross_fill_enable = &redblock_cross_fill_enable;
+    bindings.boundary_stop_enable = &boundary_stop_enable;
+    bindings.zebra_stop_enable = &zebra_stop_enable;
 
     MenuCore_Init(&g_menu, "Menu");
     TuningMenu_Register(&g_menu, &bindings);

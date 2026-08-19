@@ -5,6 +5,7 @@
 #include "zebra.h"
 #include "redblock.h"
 #include "ncnn_infer.h"
+#include "pid_tune_tcp.h"
 
  /*************************************
  *           变量及常数定义
@@ -61,6 +62,8 @@ extern volatile float dif_speed;
 //uint8 go_flag=0;
 
 volatile int w = 47;//前瞻
+// 调参：Servo_PID 输出满量程。越小转向越灵敏；越大转向越柔和。
+volatile float ack_dif_full_scale = 78.0f;
 
 //弯道
 uint8 Straight_Flag=0;                  //弯道状态位
@@ -88,6 +91,8 @@ uint8 Foresight_right=0;
 
 //停车
 u_char stop=0;                          //停车标志位，置1表示停车
+// 菜单开关：0=关闭巡线出界停车；1=启用巡线出界停车。
+volatile int boundary_stop_enable = 0;
 uint8 redblock_pause_flag = 0;
 uint8 model_request_flag = 0;
 uint8 model_running_flag = 0;
@@ -498,9 +503,10 @@ void search_longest_white_col()     //搜索最长白列函数
     {
         for (int i = 0; i < Cut_COL; i++)
             Canny_Cut_Image_Use[Cut_ROW - 1][i] = 255;
-        if(RedBlock_ShouldIgnoreBoundaryStop() == 0)
+        // 未发车时只保留图像处理结果，不因相机尚未对准赛道而锁死发车。
+        if(boundary_stop_enable != 0 && go_flag != 0 && RedBlock_ShouldIgnoreBoundaryStop() == 0)
         {
-            stop = 1;
+            stop = 1;//比赛可以修改为0试试
             l_land_flag = 0;
             r_land_flag = 0;
             barrier_flag = 0;
@@ -577,11 +583,6 @@ void search_border(int row,int col)
     {
         l_border[i] = 0;
         r_border[i] = row - 1;
-        if(i == 89) {
-            printf("Row 89 init: l_border[89]=%d, r_border[89]=%d\n", l_border[89], r_border[89]);
-        }
-        
-        
     }
     for(i=col - 1; i >= first_end; i--)
     {
@@ -978,12 +979,12 @@ void po_judge()
             if (white_length_max[0] < 25)
                 barrier_flag = 3;
             break;
-        // case 3: //退出坡道状态
+        case 3: //退出坡道状态
         //     if (pitch < 2.0f)
-        //     {
-        //         po_num++;
-        //         barrier_flag = 0; // 进入坡道中段
-        //     }
+            {
+                // po_num++;
+                barrier_flag = 0; // 进入坡道中段
+            }
         //    break;
         }
     }
@@ -1107,7 +1108,7 @@ float Err_Get(void)
 //***************************************************************
 void protect()
 {
-    if((l_land_flag > 0 || r_land_flag > 0) && RedBlock_ShouldIgnoreBoundaryStop() == 0)
+    if(boundary_stop_enable != 0 && (l_land_flag > 0 || r_land_flag > 0) && RedBlock_ShouldIgnoreBoundaryStop() == 0)
     {
         stop=1;
         l_land_flag = 0;
@@ -1115,22 +1116,21 @@ void protect()
     }
 }
 
-// 斑马线函数已移至 zebra.cpp
-
 void chasu_calculation() //阿克曼速度比分配
 {
     // 车轮实测：直径 64mm、宽度 27mm。当前阿克曼速度比只需要轴距和轮距。
     // 调参：前后轴距，单位 mm。请按实车前后轮中心距离测量。
+    static uint8 redblock_chasu_diag_div = 0;
+
     const float ACK_WHEEL_BASE_MM = 160.0f;
     // 调参：左右轮距，单位 mm。你提供的轮距为 15.5cm，即 155mm。
     const float ACK_TRACK_WIDTH_MM = 155.0f;
     // 调参：最大等效转角，单位度。越大同样误差下转弯越急。
-    const float ACK_MAX_STEER_DEG = 51.0f;//51
-    // 调参：Servo_PID 输出满量程。越小转向越灵敏；当前先用 200，避免阿克曼差速过小。
-    const float ACK_DIF_FULL_SCALE = 90.0f;//
+    const float ACK_MAX_STEER_DEG = 52.0f;//51
     const float PI = 3.1415926f;
 
-    float steer_ratio = dif_speed / ACK_DIF_FULL_SCALE;
+    const float dif_full_scale = (ack_dif_full_scale < 1.0f) ? 1.0f : ack_dif_full_scale;
+    float steer_ratio = dif_speed / dif_full_scale;
     steer_ratio = func_limit_ab(steer_ratio, -1.0f, 1.0f);
 
     const float steer_rad = steer_ratio * ACK_MAX_STEER_DEG * PI / 180.0f;
@@ -1144,8 +1144,10 @@ void chasu_calculation() //阿克曼速度比分配
         const float radius = ACK_WHEEL_BASE_MM / tanf(fabs(steer_rad));
         const float inner_speed = (float)set_speed * (radius - ACK_TRACK_WIDTH_MM * 0.5f) / radius;
         const float outer_speed = (float)set_speed * (radius + ACK_TRACK_WIDTH_MM * 0.5f) / radius;
+        const bool redblock_turn_left = (dif_speed >= 0.0f);
 
-        if(err_new >= 0) // 左转：左轮内侧，右轮外侧
+        if((RedBlock_IsBypassActive() != 0 && redblock_turn_left) ||
+           (RedBlock_IsBypassActive() == 0 && err_new >= 0)) // 左转：左轮内侧，右轮外侧
         {
             l_speed = (int32_t)inner_speed;
             r_speed = (int32_t)outer_speed;
@@ -1160,9 +1162,27 @@ void chasu_calculation() //阿克曼速度比分配
     r_speed = func_limit_ab(r_speed, -3000, 3000); //限幅
     l_speed = func_limit_ab(l_speed, -3000, 3000); //限幅
 
+    if(RedBlock_IsBypassActive() != 0)
+    {
+        redblock_chasu_diag_div++;
+        if(redblock_chasu_diag_div >= 10)
+        {
+            redblock_chasu_diag_div = 0;
+#if 0  // 比赛模式：关闭红块绕行电机高频诊断日志。
+            printf("[RB_VIS_MOTOR] err=%.2f dif=%.2f set=%ld target(L,R)=(%ld,%ld)\n",
+                   err_new,
+                   dif_speed,
+                   (long)set_speed,
+                   (long)l_speed,
+                   (long)r_speed);
+#endif
+        }
+    }
+
     l_out = l_pid(l_speed, enconder_left);
     r_out = r_pid(r_speed, enconder_right);
     Motor_Control(l_out,r_out);
+    pid_tune_tcp_report();
     //Motor_Control()
     //printf("r=%d.\n",(int)r_speed);
     //printf("l=%d.\n",(int)l_speed);
@@ -1183,11 +1203,19 @@ void weight_box() //动态前瞻
 
 uint8 Car_ShouldPause(void)
 {
+    if(RedBlock_ShouldIgnoreBoundaryStop() != 0)
+    {
+        return redblock_pause_flag;
+    }
     return (stop || redblock_pause_flag);
 }
 
 uint8 Car_ShouldMotorStop(void)
 {
+    if(RedBlock_ShouldIgnoreBoundaryStop() != 0)
+    {
+        return redblock_pause_flag;
+    }
     return (zebra_flag == 3 || stop || redblock_pause_flag);
 }
 
@@ -1398,12 +1426,9 @@ float Camera_Function (void)
     // }
     search_border(Cut_COL, Cut_ROW);     //搜索边界
 
+    // 调参：圆环、斑马线、十字处理中仍允许红块检测和绕行。
+    // S 弯和障碍暂时保持互斥，避免红块误接管复杂避障/大曲率场景。
     const uint8 other_element_exclusive = (
-        zebra_flag != 0 ||
-        cross_flag != 0 ||
-        xie_cross_flag != 0 ||
-        l_land_flag != 0 ||
-        r_land_flag != 0 ||
         s_wan_flag != 0 ||
         barrier_flag != 0
     );
@@ -1427,15 +1452,21 @@ float Camera_Function (void)
     }
 
     const uint8 redblock_exclusive = RedBlock_IsElementExclusive();
+    // 开关开启时，红块实际绕行仍保持最高优先级，但允许十字先补齐左右边界。
+    const uint8 redblock_cross_fill_active =
+        (redblock_cross_fill_enable != 0 && RedBlock_IsBypassActive() != 0);
 
-    if(redblock_exclusive == 0)
+    if(redblock_exclusive == 0 || redblock_cross_fill_active != 0)
     {
-        /*斑马线*/
-        if(zebra_mode == 1){
-            Zebra_Detect(); //状态机
-        }else{
-            if(go_flag == 1)
-            Zebra_Detect_delay(); //延迟检测
+        if(redblock_exclusive == 0)
+        {
+            /*斑马线*/
+            if(zebra_mode == 1){
+                Zebra_Detect(); //状态机
+            }else{
+                if(go_flag == 1)
+                Zebra_Detect_delay(); //延迟检测
+            }
         }
 
         /*十字*/
@@ -1444,17 +1475,20 @@ float Camera_Function (void)
             search_anglepoint();
         Cross_judge ();                     //如果上方角点不丢失，判断为十字补线，否则cross_flag = 0;
 
-        /*障碍*/
-        //zhang_ai_judge();
+        if(redblock_exclusive == 0)
+        {
+            /*障碍*/
+            //zhang_ai_judge();
 
-        /*环岛*/
-        l_land_judge();
-        // if(l_land_num > 0)
-        // l_xie_land_judge();
-        r_land_judge();
+            /*环岛*/
+            l_land_judge();
+            // if(l_land_num > 0)
+            // l_xie_land_judge();
+            r_land_judge();
 
-        /*S弯*/
-        s_judge();
+            /*S弯*/
+            s_judge();
+        }
     }
     else
     {
@@ -1477,13 +1511,14 @@ float Camera_Function (void)
         barrier_flag = 0;
     }
 
-    RedBlock_ApplyBypass();
-
     /*中线处理*/
     search_center(Cut_COL,Cut_ROW);     //根据边界计算中线
 
     /*动态前瞻*/
     weight_box();
+
+    RedBlock_ApplyBypass();
+    RedBlock_ApplyVisualCenterline();
 
     /*转换距离*/
     Furthest_judge();            //转换实际距离
@@ -1496,5 +1531,6 @@ float Camera_Function (void)
     //protect();                  //元素互斥测试
 
     err_new = Err_Get();         //误差计算
+    RedBlock_LogVisualControl(err_new);
     return err_new;
 }

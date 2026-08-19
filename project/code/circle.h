@@ -19,6 +19,7 @@ extern uint8 imu_ring_test_active;
 extern volatile uint8 imu_ring_exit_beeped;
 extern volatile uint8 imu_ring_exit_counter;
 extern int l_land_num;
+extern uint8 l_land_once_count;
 
 #define AY_EXIT_THRESHOLD 2500
 #define EXIT_FRAME_COUNT 2

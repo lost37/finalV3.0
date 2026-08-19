@@ -18,8 +18,8 @@
 int time1=0,timestop=0;      //出界停止时间
 
 int32_t l_speed = 0, r_speed = 0;  //速度赋值临时量
-volatile int32_t set_speed =300;//设置的电机速度
-volatile int land_s = 450; //环岛速度
+volatile int32_t set_speed =320;//设置的电机速度
+volatile int land_s = 460; //环岛速度
 volatile int po_s = 600;   //坡道速度
 volatile int wan_s = 500;   // 弯道速度
 volatile int ru_s = 500;    // 入弯速度
@@ -58,7 +58,7 @@ void Speed_control()
     {
         time1++;
         timestop=0;
-        if(time1>=5)
+        if(time1>=65)
         {
             pwm0_flag=1;
         }
@@ -71,22 +71,7 @@ void Speed_control()
     }
     if(pwm0_flag==1)
     {
-        if(redblock_brake_ticks > 0)
-        {
-            // 调参：红块固定反冲 PWM。越大减速越快，过大可能反拖、打滑或抖车。
-            const int32_t redblock_brake_pwm = 700;
-
-            if(enconder_left > 0)      l_out = -redblock_brake_pwm;
-            else if(enconder_left < 0) l_out =  redblock_brake_pwm;
-            else                       l_out = 0;
-
-            if(enconder_right > 0)      r_out = -redblock_brake_pwm;
-            else if(enconder_right < 0) r_out =  redblock_brake_pwm;
-            else                        r_out = 0;
-
-            redblock_brake_ticks--;
-        }
-        else if(RedBlock_IsSlowdownActive())
+        if(RedBlock_IsSlowdownActive())
         {
             pwm0_flag = 0;
             Motor_Control(l_out,r_out);
@@ -332,6 +317,7 @@ void go_init() //发车初始化
     timestop = 0;
     pwm0_flag = 0;
     RedBlock_ResetState();
+    l_land_once_count = 0; // 重新发车时允许左环岛再次触发
     l_land_flag = 0; //左环岛标志清零
     r_land_flag = 0; //右环岛标志清零
     cross_flag = 0; //十字路口标志清零

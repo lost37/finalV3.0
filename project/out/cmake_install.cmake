@@ -1,4 +1,4 @@
-# Install script for directory: /home/lost37/Desktop/temp/finalV3.0/project/user
+# Install script for directory: /home/lost37/Desktop/temp/TestV3.0/project/user
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/lost37/Desktop/temp/finalV3.0/project/out/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/lost37/Desktop/temp/TestV3.0/project/out/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

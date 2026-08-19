@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <vector>
@@ -9,7 +10,6 @@
 #include "camera.h"
 #include "motor.h"
 #include "cross.h"
-#include "gyroscope.h"
 #include "ncnn_infer.h"
 #include "zf_device_uvc.h"
 
@@ -19,7 +19,8 @@ extern uint8 model_running_flag;
 extern int time1;
 extern int timestop;
 extern uint8 pwm0_flag;
-extern volatile int land_s;
+extern u_char stop;
+extern uint8 zebra_flag;
 extern volatile int32_t set_speed;
 extern volatile int32_t encoder_acc_left;
 extern volatile int32_t encoder_acc_right;
@@ -38,11 +39,14 @@ uint16 redblock_height = 0;
 uint8 redblock_bypass_mode_flag = RB_BYPASS_MODE_NONE;
 uint8 redblock_bypass_phase_flag = RB_BYPASS_PHASE_IDLE;
 uint8 redblock_bypass_active_flag = 0;
-uint8 redblock_brake_ticks = 0;
-uint8 redblock_action_phase_flag = RB_ACT_IDLE;
-volatile float redblock_bypass_dif_speed = 0.0f;
+// 菜单开关：0=关闭红块检测、模型识别和绕行；1=启用红块模块。
+volatile int redblock_detection_enable = 0;
+// 菜单开关：0=旧版直接回中线；1=当前平滑混合回中线。
+volatile int redblock_visual_return_mode = RB_VISUAL_RETURN_LEGACY_DIRECT;
+// 菜单开关：0=红块绕行时屏蔽十字补线；1=允许十字补齐边界，再由红块贴边逻辑接管中线。
+volatile int redblock_cross_fill_enable = 1;
 volatile int32_t redblock_bypass_speed_cmd = 0;
-volatile int32_t redblock_slowdown_speed_cmd = 120;  //红块减速速度
+volatile int32_t redblock_slowdown_speed_cmd = 90;  //红块减速速度
 
 namespace
 {
@@ -53,21 +57,30 @@ namespace
     constexpr uint8 REDBLOCK_CONFIRM_REQUIRED = 1;
 
     // 调参：红色轮廓最小面积，增大可过滤远处小红点，过大可能漏检小红块。
-    constexpr int RED_MIN_AREA = 80;
+    constexpr int RED_MIN_AREA = 105;
+    constexpr int RED_MAX_AREA = 860;  // 调参：红色轮廓最大面积，超过认为不是需要绕行的红色色块，忽略并保持普通巡线。
 
     // 调参：形态学开闭运算核大小。增大更能去噪，过大可能吞掉小目标。
-    constexpr int RED_KERNEL_SIZE = 5;
+    constexpr int RED_KERNEL_SIZE = 3;
 
     // 调参：红块外接矩形宽高比范围，用于排除过细或过扁的红色区域。
-    constexpr float RED_ASPECT_MIN = 0.7f;
+    constexpr float RED_ASPECT_MIN = 0.20f;
     constexpr float RED_ASPECT_MAX = 5.0f;
 
-    // 调参：轮廓填充率下限。越大越严格，可排除稀疏噪声。
-    constexpr float RED_FILL_MIN = 0.50f;
-
-    // 调参：模型 ROI 最小边长。增大能保留更多上下文，减小能让目标占比更大。
-    constexpr int RED_MODEL_ROI_MIN_SIDE = 75;
-    // 调参：模型 ROI 边缘留白，防止红块贴边裁切。
+    constexpr float RED_FILL_MIN = 0.40f;
+    constexpr float REDBLOCK_SIDE_IGNORE_RATIO = 0.12f;  // 调参：仅赛道最外侧 12% 的红色轮廓才会被视为贴边红砖。
+    constexpr int REDBLOCK_SIDE_IGNORE_MIN_LANE_WIDTH = 40;  // 调参：边线间距小于此值时放行红块，避免边线不可靠导致漏检。
+    // 调参：窄赛道时，距边线此范围内或位于边线外的红色轮廓仍按侧边红砖忽略。
+    constexpr int REDBLOCK_SIDE_IGNORE_NARROW_EDGE_MARGIN = 2;
+    // 调参：仅过滤画面上方的窄赛道侧边红砖。红砖靠近时面积会变大，不能以面积作为放行条件。
+    // 真实红块进入此行后，即使贴边也必须参与识别；当前手推样本中真实红块最早位于 y=81
+    constexpr int REDBLOCK_SIDE_IGNORE_NARROW_MAX_CENTER_Y = 70;
+    constexpr uint8 REDBLOCK_SIDE_IGNORE_LOG_INTERVAL = 8;  // 调参：贴边红砖忽略日志间隔，检测每 2 帧执行一次。
+    // 调试：侧边红砖门控放行原因日志间隔。手推验证时保持 1，赛跑时可改为 8。
+    constexpr uint8 REDBLOCK_SIDE_GATE_DIAG_INTERVAL = 1;
+    constexpr int RED_MODEL_ROI_MIN_SIDE = 42;
+    // 调参：模型 ROI 相对红色底座宽度的放大倍率。1.25 为底座保留约 20% 横向余量，匹配当前采集构图。
+    constexpr float RED_MODEL_ROI_WIDTH_SCALE = 1.25f;
     constexpr int RED_MODEL_ROI_EDGE_PADDING = 2;
     // 调参：红块底部留白比例。增大可保留红块下缘，过大可能压缩上方目标。
     constexpr float RED_MODEL_ROI_BOTTOM_MARGIN_RATIO = 0.08f;
@@ -78,91 +91,184 @@ namespace
 
     // 调参：红块检测四边形区域，坐标为 320x240 图像坐标系。
     // 顺时针组织四个点，缩小区域可减少误检，放大区域可提前发现红块。
-    constexpr int RED_SEARCH_POINT_LEFT_TOP_X = 50;
-    constexpr int RED_SEARCH_POINT_LEFT_TOP_Y = 0;
-    constexpr int RED_SEARCH_POINT_RIGHT_TOP_X = 265;
-    constexpr int RED_SEARCH_POINT_RIGHT_TOP_Y = 0;
-    constexpr int RED_SEARCH_POINT_RIGHT_BOTTOM_X = 265;
-    constexpr int RED_SEARCH_POINT_RIGHT_BOTTOM_Y = 195;
-    constexpr int RED_SEARCH_POINT_LEFT_BOTTOM_X = 50;
-    constexpr int RED_SEARCH_POINT_LEFT_BOTTOM_Y = 195;
+    constexpr int RED_SEARCH_POINT_LEFT_TOP_X = 65;//56
+    constexpr int RED_SEARCH_POINT_LEFT_TOP_Y = 1;
+    constexpr int RED_SEARCH_POINT_RIGHT_TOP_X = 256;//258
+    constexpr int RED_SEARCH_POINT_RIGHT_TOP_Y = 1;
+    constexpr int RED_SEARCH_POINT_RIGHT_BOTTOM_X = 256;//258
+    constexpr int RED_SEARCH_POINT_RIGHT_BOTTOM_Y = 205;
+    constexpr int RED_SEARCH_POINT_LEFT_BOTTOM_X = 65;//56
+    constexpr int RED_SEARCH_POINT_LEFT_BOTTOM_Y = 205;
 
-    // 调参：固定反冲周期。越大减速越强，过大可能反拖或抖车。
-    constexpr uint8 REDBLOCK_BRAKE_TICKS = 8;
-    // 调参：反冲结束后低速保持几帧再开始模型识别。当前需求定为 5 帧。
-    constexpr uint8 REDBLOCK_LOW_SPEED_SETTLE_FRAMES = 5;
+    // 调参：确认红块后低速保持几帧再开始模型识别。增大可让画面更稳，过大响应变慢。
+    constexpr uint8 REDBLOCK_LOW_SPEED_SETTLE_FRAMES = 3;
     // 调参：模型 invalid 允许重试几帧；红块当前帧丢失时不重试，直接左绕。
-    constexpr uint8 REDBLOCK_MODEL_INVALID_RETRY_FRAMES = 5;
+    constexpr uint8 REDBLOCK_MODEL_INVALID_RETRY_FRAMES = 4;
     // 调参：红块识别期间低速保持速度。
-    constexpr int32_t REDBLOCK_SLOWDOWN_SPEED_CMD = 130;
-    // 调参：绕行动作 APPROACH 阶段保持帧数，增大可让切出前姿态更稳定。
-    constexpr uint8 REDBLOCK_BYPASS_APPROACH_FRAMES = 6;
-    // 调参：绕过后继续保持切出方向的帧数，增大可离红块更远。
-    constexpr uint8 REDBLOCK_BYPASS_EXIT_HOLD_FRAMES = 8;
-    // 调参：恢复阶段保持帧数，增大回线更慢更稳，减小恢复更快。
-    constexpr uint8 REDBLOCK_BYPASS_RECOVER_FRAMES = 6;
-    // 调参：绕行时允许连续丢失红块的帧数，增大更宽容，减小更敏感。
-    constexpr uint8 REDBLOCK_BYPASS_LOST_LIMIT = 4;
-    // 调参：投影到赛道图后的红块最小宽高，过滤过小投影。
-    constexpr int REDBLOCK_BYPASS_MIN_BLOCK_WIDTH = 8;
-    constexpr int REDBLOCK_BYPASS_MIN_BLOCK_HEIGHT = 8;
-    // 调参：绕行补线影响的上下行扩展范围，增大可让补线覆盖更长距离。
-    constexpr int REDBLOCK_BYPASS_ROW_EXTEND_UP = 6;
-    constexpr int REDBLOCK_BYPASS_ROW_EXTEND_DOWN = 12;
-    // 调参：绕行补线内外侧余量，影响车身离红块的横向距离。
-    constexpr int REDBLOCK_BYPASS_INNER_MARGIN = 6;
-    constexpr int REDBLOCK_BYPASS_OUTER_MARGIN = 3;
-    // 调参：APPROACH 阶段提前横移量，增大可更早开始绕。
-    constexpr int REDBLOCK_BYPASS_APPROACH_SHIFT = 8;
-    // 调参：绕行切出目标角度，增大绕行幅度更大。
-    constexpr float REDBLOCK_TURN_OUT_ANGLE = 35.0f;
-    // 调参：切回角度容差，增大更容易进入直行段，减小姿态更准。
-    constexpr float REDBLOCK_TURN_BACK_TOLERANCE = 4.0f;
-    // 调参：绕行动作两段通过距离，增大通过更远，减小动作更紧凑。
-    constexpr int32_t REDBLOCK_PASS1_DISTANCE = 300;
-    constexpr int32_t REDBLOCK_PASS2_DISTANCE = 180;
-    // 调参：绕行固定转向差速命令，增大转弯更急。
-    constexpr float REDBLOCK_TURN_CMD = 120.0f;
-    // 调参：红块绕行专用速度。不要直接使用 land_s，避免从低速识别阶段突然跳到环岛速度导致前冲。
-    constexpr int32_t REDBLOCK_BYPASS_SPEED_CMD = 220;
+    constexpr int32_t REDBLOCK_SLOWDOWN_SPEED_CMD = 40;
+    // Visual bypass progresses by encoder distance only. Red-block position is
+    // used for recognition, not for the bypass path.
+    // Visual bypass directly assigns the selected lane boundary to Center_point.
+    constexpr int REDBLOCK_VISUAL_CONTROL_WINDOW = 10;
+    constexpr int REDBLOCK_VISUAL_CONTROL_ROW_MIN = 45;
+    // 调参：一个控制窗口中至少需要多少个当前帧有效边界点。增大更严格，减小更容易跟线。
+    constexpr int REDBLOCK_VISUAL_VALID_ROWS_REQUIRED = 7;
+    // 调参：控制窗口每帧最多移动的行数，限制动态前瞻跳变。
+    constexpr int REDBLOCK_VISUAL_CONTROL_ROW_STEP = 2;
+    // 调参：切向贴边曲线的远端、近端行偏移。远端行已经贴边，近端行仍保持普通中线。
+    constexpr int REDBLOCK_VISUAL_TANGENT_FAR_OFFSET = 8;
+    constexpr int REDBLOCK_VISUAL_TANGENT_NEAR_OFFSET = 27;//24
+    // 调参：切向贴边曲线指数。必须大于 1；越大越早靠边，过大可能横向切入过急。
+    constexpr float REDBLOCK_VISUAL_TANGENT_POWER = 14.0f;//12
+    constexpr float REDBLOCK_VISUAL_TANGENT_POWER_MIN = 1.1f;
+    constexpr float REDBLOCK_VISUAL_TANGENT_POWER_MAX = 16.0f;
+    // 调参：控制行的生成目标距离真实边线不超过该像素数，才允许进入贴边保持阶段。
+    constexpr int REDBLOCK_VISUAL_TANGENT_READY_GAP = 2;
+    constexpr int REDBLOCK_VISUAL_BOUNDARY_MIN_WIDTH = 8;
+    // 调参：同一行边界相邻帧允许的最大横向跳变。急转时边线移动很快，过小会把真实边线误判为丢失。
+    constexpr int REDBLOCK_VISUAL_BOUNDARY_MAX_FRAME_STEP = 80;
+    // 调参：边界短暂丢失时继续使用最近可靠目标的帧数。
+    constexpr uint8 REDBLOCK_VISUAL_BOUNDARY_CACHE_FRAMES = 3;
+    // 调参：超过缓存期后保持低速；只有从未取得可靠缓存时才停车等待边界恢复。
+    constexpr uint8 REDBLOCK_VISUAL_BOUNDARY_LOST_SLOW_FRAMES = 7;
+    // 调参：靠边阶段连续失去边线且无缓存达到此帧数时，放弃本次绕行并恢复普通巡线，防止永久停车。
+    constexpr uint8 REDBLOCK_VISUAL_SEEK_LOST_EXIT_FRAMES = 15;
+    // 调参：边界连续丢失 4~7 帧时的低速命令，降低盲走距离。
+    constexpr int32_t REDBLOCK_VISUAL_BOUNDARY_LOST_SPEED_CMD = 90;
+    // 调参：边界连续丢失 4~7 帧时的差速限幅，避免沿旧目标继续猛转。
+    constexpr float REDBLOCK_VISUAL_BOUNDARY_LOST_DIF_LIMIT = 16.0f;
+    // 调参：快速靠边阶段速度。保持较低前进速度，把余量留给横向转向。
+    constexpr int32_t REDBLOCK_VISUAL_SEEK_SPEED_CMD = 125;//126
+    // 调参：快速靠边阶段最大差速，增大可更快抵达边线，过大可能过冲。
+    constexpr float REDBLOCK_VISUAL_SEEK_DIF_LIMIT = 50.0f;
+    // 调参：判断已经贴近边线的误差阈值和连续帧数。
+    constexpr float REDBLOCK_VISUAL_SEEK_READY_ERR = 6.0f;
+    constexpr uint8 REDBLOCK_VISUAL_SEEK_READY_FRAMES = 2;
+    // 调参：靠边距离超过该值仍未贴边时降速继续追边，不强制切换 phase。
+    constexpr int32_t REDBLOCK_VISUAL_SEEK_SOFT_DISTANCE = 4500;
+    constexpr int32_t REDBLOCK_VISUAL_SEEK_SLOW_SPEED_CMD = 100;
+    // 调参：贴边保持阶段速度和差速限幅。
+    constexpr int32_t REDBLOCK_VISUAL_HOLD_SPEED_CMD = 160;
+    constexpr float REDBLOCK_VISUAL_HOLD_DIF_LIMIT = 28.0f;
+    // 调参：确认贴边后沿边线行驶的编码器距离，不包含前面的靠边距离。
+    constexpr int32_t REDBLOCK_VISUAL_HOLD_DISTANCE = 6000;
+    // 调参：主体通过后继续贴边的编码器距离，用于确保车尾越过障碍后才开始回中线。
+    constexpr int32_t REDBLOCK_VISUAL_POST_PASS_HOLD_DISTANCE = 4550;
+    // 调参：主体通过后至少保持的帧数。与距离条件同时满足后才允许回中线，43 继承旧版有效策略。
+    constexpr uint8 REDBLOCK_VISUAL_POST_PASS_HOLD_MIN_FRAMES = 21;
+    constexpr float REDBLOCK_VISUAL_RECOVER_DIF_LIMIT = 25.0f;
+    // 调参：从边线平滑回普通中线所用的编码器距离，不承担车尾越障保持功能。
+    constexpr int32_t REDBLOCK_VISUAL_EXIT_HOLD_DISTANCE = 1500;
+    constexpr uint8 REDBLOCK_VISUAL_EXIT_HOLD_MAX_FRAMES = 42;
+    constexpr uint8 REDBLOCK_VISUAL_RECOVER_MAX_FRAMES = 28;
+    // 调参：回线恢复阶段速度。低于绕行速度，减少回线时左右摆动。
+    constexpr int32_t REDBLOCK_RECOVER_SPEED_CMD = 139;
     // 调参：恢复赛道需要连续满足的帧数，增大更稳，减小更快退出绕行。
     constexpr uint8 REDBLOCK_RECOVER_STABLE_REQUIRED = 3;
     // 调参：恢复判定的左右有效边界数量下限。
-    constexpr int REDBLOCK_RECOVER_EFFECT_THRESHOLD = 45;
+    constexpr int REDBLOCK_RECOVER_EFFECT_THRESHOLD = 35;
     // 调参：恢复判定的中线误差阈值。
-    constexpr float REDBLOCK_RECOVER_ERR_THRESHOLD = 8.0f;
+    constexpr float REDBLOCK_RECOVER_ERR_THRESHOLD = 12.0f;
     // 调参：恢复判定的前方可视距离阈值。实测 far 经常只有 8~35，阈值设小避免绕行后长期无法退出。
     constexpr float REDBLOCK_RECOVER_DISTANCE_THRESHOLD = 5.0f;
+    // 调参：绕行结束后的重触发冷却帧数。60fps 下 45 帧约 0.75s，用来避开同一红块仍在视野内的尾帧。
+    constexpr uint8 REDBLOCK_COOLDOWN_FRAMES = 60;
+    // 调参：绕行结束后继续忽略出界/斑马线停车的帧数，防止刚回线时被保护逻辑立刻刹停。
+    constexpr uint8 REDBLOCK_FINISH_BOUNDARY_GRACE_FRAMES = 12;
     constexpr int MODEL_CLASS_SUPPLIERS = 0;
     constexpr int MODEL_CLASS_VEHICLE = 1;
     constexpr int MODEL_CLASS_WEAPON = 2;
     constexpr uint8 MODEL_CLASS_COUNT = 3;
+    // 调参：一趟运行最多记录的已确认粗分类数量。超过后保留前面的识别顺序并在停车日志标记截断。
+    constexpr uint8 REDBLOCK_CLASS_HISTORY_CAPACITY = 8;
     // 调参：有效模型投票帧数。当前只有 3 个粗类，5 帧投票不会平票。
-    constexpr uint8 MODEL_VOTE_REQUIRED = 5;
+    constexpr uint8 MODEL_VOTE_REQUIRED = 1;//1
 
     RedBlockState redblock_state = RB_IDLE;
     uint8 redblock_detect_frame_counter = 0;
     RedBlockBypassMode redblock_bypass_mode = RB_BYPASS_MODE_NONE;
     RedBlockBypassPhase redblock_bypass_phase = RB_BYPASS_PHASE_IDLE;
-    RedBlockActionPhase redblock_action_phase = RB_ACT_IDLE;
     uint8 redblock_bypass_phase_counter = 0;
-    uint8 redblock_bypass_lost_counter = 0;
-    uint8 redblock_bypass_detect_valid = 0;
-    uint8 redblock_bypass_last_row_top = 0;
-    uint8 redblock_bypass_last_row_bottom = 0;
-    uint8 redblock_bypass_last_col_left = 0;
-    uint8 redblock_bypass_last_col_right = 0;
-    float redblock_start_yaw = 0.0f;
     int32_t redblock_phase_start_encoder_avg = 0;
     uint8 redblock_recover_ready_count = 0;
     uint8 redblock_recover_diag_div = 0;
+    uint8 redblock_visual_diag_div = 0;
+    uint8 redblock_motion_dif_diag_div = 0;
+    uint8 redblock_visual_err_diag_div = 0;
+    int8 redblock_visual_control_row = REDBLOCK_VISUAL_CONTROL_ROW_MIN;
+    uint8 redblock_visual_control_row_valid = 0;
+    uint8 redblock_visual_boundary_cache[Cut_ROW] = {0};
+    uint8 redblock_visual_boundary_cache_valid[Cut_ROW] = {0};
+    uint8 redblock_visual_boundary_lost_frames = 0;
+    uint8 redblock_visual_boundary_valid_rows = 0;
+    uint8 redblock_visual_seek_ready_count = 0;
+    uint8 redblock_visual_seek_slow_logged = 0;
+    uint8 redblock_visual_tangent_ready = 0;
+    uint8 redblock_visual_tangent_normal_center = 0;
+    uint8 redblock_visual_tangent_boundary_center = 0;
+    uint8 redblock_visual_tangent_target_center = 0;
+    uint8 redblock_visual_tangent_gap = 0;
+    float redblock_visual_tangent_power_applied = REDBLOCK_VISUAL_TANGENT_POWER;
+
+    enum RedBlockVisualTargetSource
+    {
+        RB_VIS_TARGET_CURRENT = 0,
+        RB_VIS_TARGET_CACHE,
+        RB_VIS_TARGET_LOST,
+    };
+
+    RedBlockVisualTargetSource redblock_visual_target_source = RB_VIS_TARGET_LOST;
     uint8 redblock_slowdown_frame_count = 0;
     uint8 redblock_low_speed_settle_count = 0;
     uint8 redblock_model_invalid_count = 0;
     uint8 redblock_model_vote_valid_count = 0;
     uint8 redblock_model_vote_count[MODEL_CLASS_COUNT] = {0};
+    uint8 redblock_class_history[REDBLOCK_CLASS_HISTORY_CAPACITY] = {0};
+    uint8 redblock_class_history_count = 0;
+    uint8 redblock_class_history_overflow = 0;
+    uint8 redblock_class_history_reported = 0;
+    int32_t redblock_restore_speed_cmd = 0;
+    uint8 redblock_restore_speed_valid = 0;
+    uint8 redblock_cooldown_count = 0;
+    uint8 redblock_boundary_stop_grace_frames = 0;
+    uint8 redblock_side_ignore_log_count = 0;
+    uint8 redblock_side_gate_diag_count = 0;
+
+    void RedBlock_ClearLocalState(void);
+
+    void RedBlock_ResetVisualTargetContext(void)
+    {
+        memset(redblock_visual_boundary_cache, 0, sizeof(redblock_visual_boundary_cache));
+        memset(redblock_visual_boundary_cache_valid, 0, sizeof(redblock_visual_boundary_cache_valid));
+        redblock_visual_boundary_lost_frames = 0;
+        redblock_visual_boundary_valid_rows = 0;
+        redblock_visual_seek_ready_count = 0;
+        redblock_visual_seek_slow_logged = 0;
+        redblock_visual_tangent_ready = 0;
+        redblock_visual_tangent_normal_center = 0;
+        redblock_visual_tangent_boundary_center = 0;
+        redblock_visual_tangent_target_center = 0;
+        redblock_visual_tangent_gap = 0;
+        redblock_visual_tangent_power_applied = REDBLOCK_VISUAL_TANGENT_POWER;
+        redblock_visual_target_source = RB_VIS_TARGET_LOST;
+        redblock_visual_control_row = REDBLOCK_VISUAL_CONTROL_ROW_MIN;
+        redblock_visual_control_row_valid = 0;
+    }
 
     int ClampInt(int value, int min_value, int max_value)
+    {
+        if(value < min_value)
+        {
+            return min_value;
+        }
+        if(value > max_value)
+        {
+            return max_value;
+        }
+        return value;
+    }
+
+    float ClampFloat(float value, float min_value, float max_value)
     {
         if(value < min_value)
         {
@@ -185,6 +291,119 @@ namespace
         return (uint8)ClampInt(value, SEARCH_MIN, SEARCH_MAX);
     }
 
+    void RedBlock_LogSideGateDiagnostic(const char *reason,
+                                        int mapped_line_row,
+                                        int line_x,
+                                        int line_row,
+                                        int left_border,
+                                        int right_border,
+                                        float lane_ratio)
+    {
+        redblock_side_gate_diag_count++;
+        if(redblock_side_gate_diag_count < REDBLOCK_SIDE_GATE_DIAG_INTERVAL)
+        {
+            return;
+        }
+
+        redblock_side_gate_diag_count = 0;
+        printf("[RB_GATE_DIAG] %s area=%.0f raw=(%d,%d) line_x=%d row=%d->%d lane=(%d,%d) ratio=%.3f\n",
+               reason,
+               redblock_area,
+               redblock_center_x,
+               redblock_center_y,
+               line_x,
+               mapped_line_row,
+               line_row,
+               left_border,
+               right_border,
+               lane_ratio);
+    }
+
+    uint8 RedBlock_ShouldIgnoreSideBrick(int frame_width, int frame_height)
+    {
+        // 原始 RGB 为 320x240，巡线边线为缩放后的 160x90。边线或坐标不可靠时一律放行。
+        if(frame_width <= 0 || frame_height <= 0 ||
+           redblock_center_x < 0 || redblock_center_y < 0)
+        {
+            return 0;
+        }
+
+        const int line_x = redblock_center_x * UVC_WIDTH / frame_width;
+        const int mapped_line_row = redblock_center_y * UVC_HEIGHT / frame_height;
+        if(line_x < 0 || line_x >= Cut_COL)
+        {
+            RedBlock_LogSideGateDiagnostic("x_invalid", mapped_line_row, line_x, -1, -1, -1, -1.0f);
+            return 0;
+        }
+
+        // 原图底部红砖映射到巡线图外时，使用最后一行有效边线进行贴边判定。
+        const int line_row = ClampInt(mapped_line_row, 0, Cut_ROW - 1);
+        const uint8 row_clamped = (mapped_line_row != line_row);
+
+        if(l_effect_flag[line_row] == 0 || r_effect_flag[line_row] == 0)
+        {
+            RedBlock_LogSideGateDiagnostic("edge_invalid", mapped_line_row, line_x, line_row, -1, -1, -1.0f);
+            return 0;
+        }
+
+        const int left_border = l_border[line_row];
+        const int right_border = r_border[line_row];
+        const int lane_width = right_border - left_border;
+        if(lane_width < REDBLOCK_SIDE_IGNORE_MIN_LANE_WIDTH)
+        {
+            const uint8 is_narrow_side_brick =
+                (redblock_center_y <= REDBLOCK_SIDE_IGNORE_NARROW_MAX_CENTER_Y &&
+                 (line_x <= left_border + REDBLOCK_SIDE_IGNORE_NARROW_EDGE_MARGIN ||
+                  line_x >= right_border - REDBLOCK_SIDE_IGNORE_NARROW_EDGE_MARGIN));
+            if(is_narrow_side_brick != 0)
+            {
+                RedBlock_LogSideGateDiagnostic("lane_narrow_side", mapped_line_row, line_x, line_row,
+                                               left_border, right_border, -1.0f);
+                return 1;
+            }
+            RedBlock_LogSideGateDiagnostic("lane_narrow_object", mapped_line_row, line_x, line_row,
+                                           left_border, right_border, -1.0f);
+            return 0;
+        }
+
+        const float lane_ratio =
+            static_cast<float>(line_x - left_border) / static_cast<float>(lane_width);
+        const uint8 is_side_brick =
+            (lane_ratio <= REDBLOCK_SIDE_IGNORE_RATIO ||
+             lane_ratio >= (1.0f - REDBLOCK_SIDE_IGNORE_RATIO));
+        if(is_side_brick == 0)
+        {
+            redblock_side_ignore_log_count = 0;
+            RedBlock_LogSideGateDiagnostic("not_side", mapped_line_row, line_x, line_row,
+                                           left_border, right_border, lane_ratio);
+            return 0;
+        }
+
+        if(row_clamped != 0)
+        {
+            RedBlock_LogSideGateDiagnostic("row_clamp", mapped_line_row, line_x, line_row,
+                                           left_border, right_border, lane_ratio);
+        }
+
+        if(redblock_side_ignore_log_count < REDBLOCK_SIDE_IGNORE_LOG_INTERVAL)
+        {
+            redblock_side_ignore_log_count++;
+        }
+        if(redblock_side_ignore_log_count >= REDBLOCK_SIDE_IGNORE_LOG_INTERVAL)
+        {
+            redblock_side_ignore_log_count = 0;
+            printf("[RB_GATE] side_brick_ignore area=%.0f raw=(%d,%d) line=(%d,%d) lane=(%d,%d) ratio=%.3f\n",
+                   redblock_area,
+                   redblock_center_x,
+                   redblock_center_y,
+                   line_x,
+                   line_row,
+                   left_border,
+                   right_border,
+                   lane_ratio);
+        }
+        return 1;
+    }
     uint8 RedBlock_PrepareModelInputFromCurrentRoi(uint8 *output_bgr, uint16 output_width, uint16 output_height)
     {
         const uint8_t *rgb_frame = nullptr;
@@ -300,17 +519,76 @@ namespace
         }
     }
 
+    void RedBlock_RecordConfirmedClass(int coarse_index)
+    {
+        if(coarse_index < 0 || coarse_index >= MODEL_CLASS_COUNT)
+        {
+            return;
+        }
+
+        if(redblock_class_history_count >= REDBLOCK_CLASS_HISTORY_CAPACITY)
+        {
+            redblock_class_history_overflow = 1;
+            return;
+        }
+
+        redblock_class_history[redblock_class_history_count] = (uint8)coarse_index;
+        redblock_class_history_count++;
+    }
+
+    void RedBlock_ReportClassificationSequence(void)
+    {
+        uint8 index = 0;
+
+        if(stop == 0 || redblock_class_history_reported != 0)
+        {
+            return;
+        }
+
+        redblock_class_history_reported = 1;
+        printf("[RB_RESULT] coarse_sequence count=%u: ",
+               (unsigned)redblock_class_history_count);
+        if(redblock_class_history_count == 0)
+        {
+            printf("none");
+        }
+        else
+        {
+            for(index = 0; index < redblock_class_history_count; index++)
+            {
+                if(index > 0)
+                {
+                    printf(" -> ");
+                }
+                printf("%s", RedBlock_ModelClassLabel(redblock_class_history[index]));
+            }
+        }
+        if(redblock_class_history_overflow != 0)
+        {
+            printf(" (超过%u条，后续未记录)",
+                   (unsigned)REDBLOCK_CLASS_HISTORY_CAPACITY);
+        }
+        printf("\n");
+    }
+
     void RedBlock_SetBypassPhase(RedBlockBypassPhase phase)
     {
+        if(redblock_bypass_phase != phase)
+        {
+            printf("[RB_VIS] phase %u -> %u enc=%ld\n",
+                   (unsigned)redblock_bypass_phase,
+                   (unsigned)phase,
+                   (long)encoder_acc_avg);
+
+        }
         redblock_bypass_phase = phase;
         redblock_bypass_phase_flag = static_cast<uint8>(phase);
         redblock_bypass_phase_counter = 0;
     }
 
-    void RedBlock_SetActionPhase(RedBlockActionPhase phase)
+    void RedBlock_SetVisualPhase(RedBlockBypassPhase phase)
     {
-        redblock_action_phase = phase;
-        redblock_action_phase_flag = static_cast<uint8>(phase);
+        RedBlock_SetBypassPhase(phase);
     }
 
     void RedBlock_ClearDetectionResult(void)
@@ -330,24 +608,75 @@ namespace
         redblock_bypass_mode = RB_BYPASS_MODE_NONE;
         redblock_bypass_mode_flag = RB_BYPASS_MODE_NONE;
         redblock_bypass_active_flag = 0;
-        redblock_bypass_detect_valid = 0;
-        redblock_bypass_lost_counter = 0;
-        redblock_bypass_last_row_top = 0;
-        redblock_bypass_last_row_bottom = 0;
-        redblock_bypass_last_col_left = 0;
-        redblock_bypass_last_col_right = 0;
-        redblock_start_yaw = 0.0f;
         redblock_phase_start_encoder_avg = 0;
         redblock_recover_ready_count = 0;
         redblock_recover_diag_div = 0;
+        redblock_visual_diag_div = 0;
+        redblock_motion_dif_diag_div = 0;
+        redblock_visual_err_diag_div = 0;
+        RedBlock_ResetVisualTargetContext();
         redblock_slowdown_frame_count = 0;
         redblock_low_speed_settle_count = 0;
-        redblock_bypass_dif_speed = 0.0f;
         redblock_bypass_speed_cmd = 0;
         redblock_slowdown_speed_cmd = REDBLOCK_SLOWDOWN_SPEED_CMD;
+        redblock_restore_speed_cmd = 0;
+        redblock_restore_speed_valid = 0;
+        redblock_cooldown_count = 0;
+        redblock_boundary_stop_grace_frames = 0;
         RedBlock_ResetModelVoting();
         RedBlock_SetBypassPhase(RB_BYPASS_PHASE_IDLE);
-        RedBlock_SetActionPhase(RB_ACT_IDLE);
+    }
+
+    void RedBlock_SaveRestoreSpeed(void)
+    {
+        if(redblock_restore_speed_valid == 0)
+        {
+            redblock_restore_speed_cmd = set_speed;
+            redblock_restore_speed_valid = 1;
+            printf("[RB_MOT] save speed=%ld\n", (long)redblock_restore_speed_cmd);
+        }
+    }
+
+    void RedBlock_RestoreSpeedIfNeeded(void)
+    {
+        if(redblock_restore_speed_valid != 0)
+        {
+            set_speed = redblock_restore_speed_cmd;
+            printf("[RB_MOT] restore speed=%ld\n", (long)set_speed);
+            redblock_restore_speed_valid = 0;
+            redblock_restore_speed_cmd = 0;
+        }
+    }
+
+    void RedBlock_StartCooldown(void)
+    {
+        redblock_cooldown_count = REDBLOCK_COOLDOWN_FRAMES;
+        printf("[RB_DEC] cooldown start frames=%u\n", (unsigned)redblock_cooldown_count);
+    }
+
+    void RedBlock_TickCooldown(void)
+    {
+        if(redblock_cooldown_count > 0)
+        {
+            redblock_cooldown_count--;
+            RedBlock_ClearDetectionResult();
+            redblock_confirm_count = 0;
+        }
+    }
+
+    void RedBlock_StartBoundaryGrace(void)
+    {
+        redblock_boundary_stop_grace_frames = REDBLOCK_FINISH_BOUNDARY_GRACE_FRAMES;
+        printf("[RB_MOT] boundary grace start frames=%u\n",
+               (unsigned)redblock_boundary_stop_grace_frames);
+    }
+
+    void RedBlock_ReturnToLineFollow(const char *reason)
+    {
+        printf("[RB_DEC] %s -> line_follow\n", reason);
+        RedBlock_RestoreSpeedIfNeeded();
+        RedBlock_ClearLocalState();
+        RedBlock_StartCooldown();
     }
 
     void RedBlock_ClearLocalState(void)
@@ -402,193 +731,306 @@ namespace
         return 1;
     }
 
-    uint8 RedBlock_ProjectRectToTrack(uint8 *row_top, uint8 *row_bottom, uint8 *col_left, uint8 *col_right)
+    uint8 RedBlock_IsVisualBypassMode(void)
     {
-        const uint8_t *rgb_frame = nullptr;
-        int frame_width = 0;
-        int frame_height = 0;
-        int frame_step = 0;
-
-        if(row_top == nullptr || row_bottom == nullptr || col_left == nullptr || col_right == nullptr)
-        {
-            return 0;
-        }
-
-        if(RedBlock_GetRect(nullptr, nullptr, nullptr, nullptr) == 0)
-        {
-            return 0;
-        }
-
-        if(get_rgb_frame_info(&rgb_frame, &frame_width, &frame_height, &frame_step) != 0)
-        {
-            return 0;
-        }
-
-        if(frame_width <= 0 || frame_height <= 0)
-        {
-            return 0;
-        }
-
-        const int block_left = redblock_x * Cut_COL / frame_width;
-        const int block_right = (redblock_x + redblock_width - 1) * Cut_COL / frame_width;
-        const int block_top = redblock_y * Cut_ROW / frame_height;
-        const int block_bottom = (redblock_y + redblock_height - 1) * Cut_ROW / frame_height;
-
-        *col_left = ClampColIndex(block_left);
-        *col_right = ClampColIndex(block_right);
-        *row_top = ClampRowIndex(block_top);
-        *row_bottom = ClampRowIndex(block_bottom);
-        return 1;
+        return (
+            redblock_bypass_mode == RB_BYPASS_MODE_LEFT ||
+            redblock_bypass_mode == RB_BYPASS_MODE_RIGHT
+        );
     }
 
-    void RedBlock_UpdateProjectedBox(void)
+    const char *RedBlock_VisualTargetSourceLabel(void)
     {
-        uint8 row_top = 0;
-        uint8 row_bottom = 0;
-        uint8 col_left = 0;
-        uint8 col_right = 0;
-
-        if(RedBlock_ProjectRectToTrack(&row_top, &row_bottom, &col_left, &col_right) == 0)
+        switch(redblock_visual_target_source)
         {
-            redblock_bypass_detect_valid = 0;
-            return;
-        }
-
-        if((int)col_right - (int)col_left + 1 < REDBLOCK_BYPASS_MIN_BLOCK_WIDTH ||
-           (int)row_bottom - (int)row_top + 1 < REDBLOCK_BYPASS_MIN_BLOCK_HEIGHT)
-        {
-            redblock_bypass_detect_valid = 0;
-            return;
-        }
-
-        row_top = ClampRowIndex((int)row_top - REDBLOCK_BYPASS_ROW_EXTEND_UP);
-        row_bottom = ClampRowIndex((int)row_bottom + REDBLOCK_BYPASS_ROW_EXTEND_DOWN);
-        col_left = ClampColIndex((int)col_left - REDBLOCK_BYPASS_OUTER_MARGIN);
-        col_right = ClampColIndex((int)col_right + REDBLOCK_BYPASS_OUTER_MARGIN);
-
-        redblock_bypass_last_row_top = row_top;
-        redblock_bypass_last_row_bottom = row_bottom;
-        redblock_bypass_last_col_left = col_left;
-        redblock_bypass_last_col_right = col_right;
-        redblock_bypass_detect_valid = 1;
-    }
-
-    uint8 RedBlock_ApplyStraightPass(void)
-    {
-        uint8 row = 0;
-
-        if(redblock_bypass_detect_valid == 0)
-        {
-            return 0;
-        }
-
-        for(row = redblock_bypass_last_row_top; row <= redblock_bypass_last_row_bottom; row++)
-        {
-            int left_target = redblock_bypass_last_col_left - Straight_track_width[row] / 2;
-            int right_target = redblock_bypass_last_col_right + Straight_track_width[row] / 2;
-
-            left_target = ClampInt(left_target, SEARCH_MIN, redblock_bypass_last_col_left - 1);
-            right_target = ClampInt(right_target, redblock_bypass_last_col_right + 1, SEARCH_MAX);
-
-            if(l_border[row] < left_target)
-            {
-                l_border[row] = (uint8)left_target;
-            }
-            if(r_border[row] > right_target)
-            {
-                r_border[row] = (uint8)right_target;
-            }
-            if(r_border[row] <= l_border[row])
-            {
-                r_border[row] = ClampColIndex(l_border[row] + 2);
-            }
-        }
-        return 1;
-    }
-
-    uint8 RedBlock_ApplyRightBypass(uint8 approach_only)
-    {
-        uint8 row = 0;
-        int shift = 0;
-
-        if(redblock_bypass_detect_valid == 0)
-        {
-            return 0;
-        }
-
-        shift = approach_only ? REDBLOCK_BYPASS_APPROACH_SHIFT : REDBLOCK_BYPASS_INNER_MARGIN;
-
-        for(row = redblock_bypass_last_row_top; row <= redblock_bypass_last_row_bottom; row++)
-        {
-            int left_target = redblock_bypass_last_col_right + shift;
-            left_target = ClampInt(left_target, SEARCH_MIN, SEARCH_MAX - 2);
-            l_border[row] = (uint8)left_target;
-
-            {
-                int right_target = left_target + Straight_track_width[row];
-                r_border[row] = (uint8)ClampInt(right_target, l_border[row] + 2, SEARCH_MAX);
-            }
-        }
-        return 1;
-    }
-
-    uint8 RedBlock_ApplyLeftBypass(uint8 approach_only)
-    {
-        uint8 row = 0;
-        int shift = 0;
-
-        if(redblock_bypass_detect_valid == 0)
-        {
-            return 0;
-        }
-
-        shift = approach_only ? REDBLOCK_BYPASS_APPROACH_SHIFT : REDBLOCK_BYPASS_INNER_MARGIN;
-
-        for(row = redblock_bypass_last_row_top; row <= redblock_bypass_last_row_bottom; row++)
-        {
-            int right_target = redblock_bypass_last_col_left - shift;
-            right_target = ClampInt(right_target, SEARCH_MIN + 2, SEARCH_MAX);
-            r_border[row] = (uint8)right_target;
-
-            {
-                int left_target = right_target - Straight_track_width[row];
-                l_border[row] = (uint8)ClampInt(left_target, SEARCH_MIN, r_border[row] - 2);
-            }
-        }
-        return 1;
-    }
-
-    uint8 RedBlock_ApplyBypassByMode(uint8 approach_only)
-    {
-        switch(redblock_bypass_mode)
-        {
-            case RB_BYPASS_MODE_STRAIGHT:
-                return RedBlock_ApplyStraightPass();
-
-            case RB_BYPASS_MODE_RIGHT:
-                return RedBlock_ApplyRightBypass(approach_only);
-
-            case RB_BYPASS_MODE_LEFT:
-                return RedBlock_ApplyLeftBypass(approach_only);
-
+            case RB_VIS_TARGET_CURRENT:
+                return "current";
+            case RB_VIS_TARGET_CACHE:
+                return "cache";
+            case RB_VIS_TARGET_LOST:
             default:
-                return 0;
+                return "lost";
         }
     }
 
-    float RedBlock_GetTurnOutProgress(void)
+    uint8 RedBlock_GetCurrentBoundaryPoint(int row, int *boundary_point)
     {
-        const float delta = FJ_Angle - redblock_start_yaw;
+        int point = 0;
+        int lane_width = 0;
+        const int first_searched_row = ClampInt(white_length_max[0], 0, Cut_ROW - 1);
+
+        if(boundary_point == nullptr || row < first_searched_row || row >= Cut_ROW)
+        {
+            return 0;
+        }
+
+        lane_width = func_abs((int)r_border[row] - (int)l_border[row]);
+        if(lane_width < REDBLOCK_VISUAL_BOUNDARY_MIN_WIDTH)
+        {
+            return 0;
+        }
 
         if(redblock_bypass_mode == RB_BYPASS_MODE_LEFT)
         {
-            return delta;
+            if(l_effect_flag[row] == 0)
+            {
+                return 0;
+            }
+            point = (int)l_border[row];
         }
-        if(redblock_bypass_mode == RB_BYPASS_MODE_RIGHT)
+        else if(redblock_bypass_mode == RB_BYPASS_MODE_RIGHT)
         {
-            return -delta;
+            if(r_effect_flag[row] == 0)
+            {
+                return 0;
+            }
+            point = (int)r_border[row];
         }
-        return REDBLOCK_TURN_OUT_ANGLE;
+        else
+        {
+            return 0;
+        }
+
+        if(redblock_visual_boundary_cache_valid[row] != 0 &&
+           func_abs(point - (int)redblock_visual_boundary_cache[row]) >
+               REDBLOCK_VISUAL_BOUNDARY_MAX_FRAME_STEP)
+        {
+            return 0;
+        }
+
+        *boundary_point = ClampInt(point, SEARCH_MIN, SEARCH_MAX);
+        return 1;
+    }
+
+    void RedBlock_UpdateVisualBoundaryCache(void)
+    {
+        int row = 0;
+
+        for(row = 0; row < Cut_ROW; row++)
+        {
+            int boundary_point = 0;
+            if(RedBlock_GetCurrentBoundaryPoint(row, &boundary_point) != 0)
+            {
+                redblock_visual_boundary_cache[row] = (uint8)boundary_point;
+                redblock_visual_boundary_cache_valid[row] = 1;
+            }
+        }
+    }
+
+    int RedBlock_GetWindowCurrentValidRows(int start_row, int *roughness)
+    {
+        int i = 0;
+        int valid_rows = 0;
+        int continuity_cost = 0;
+        int previous_point = 0;
+        uint8 previous_valid = 0;
+
+        for(i = 0; i < REDBLOCK_VISUAL_CONTROL_WINDOW; i++)
+        {
+            int boundary_point = 0;
+            if(RedBlock_GetCurrentBoundaryPoint(start_row + i, &boundary_point) == 0)
+            {
+                previous_valid = 0;
+                continue;
+            }
+
+            valid_rows++;
+            if(previous_valid != 0)
+            {
+                continuity_cost += func_abs(boundary_point - previous_point);
+            }
+            previous_point = boundary_point;
+            previous_valid = 1;
+        }
+
+        if(roughness != nullptr)
+        {
+            *roughness = continuity_cost;
+        }
+        return valid_rows;
+    }
+
+    int RedBlock_GetWindowCachedRows(int start_row)
+    {
+        int i = 0;
+        int cached_rows = 0;
+
+        for(i = 0; i < REDBLOCK_VISUAL_CONTROL_WINDOW; i++)
+        {
+            if(redblock_visual_boundary_cache_valid[start_row + i] != 0)
+            {
+                cached_rows++;
+            }
+        }
+        return cached_rows;
+    }
+
+    uint8 RedBlock_HasUsableCachedWindow(void)
+    {
+        if(redblock_visual_control_row_valid == 0)
+        {
+            return 0;
+        }
+
+        const int control_row = ClampInt(
+            redblock_visual_control_row,
+            REDBLOCK_VISUAL_CONTROL_ROW_MIN,
+            Cut_ROW - REDBLOCK_VISUAL_CONTROL_WINDOW);
+        return RedBlock_GetWindowCachedRows(control_row) >=
+            REDBLOCK_VISUAL_VALID_ROWS_REQUIRED;
+    }
+
+    int32_t RedBlock_ApplyBoundaryLossSpeedLimit(int32_t requested_speed)
+    {
+        if(redblock_bypass_phase == RB_BYPASS_PHASE_RECOVER)
+        {
+            return requested_speed;
+        }
+        if(redblock_visual_boundary_lost_frames > REDBLOCK_VISUAL_BOUNDARY_LOST_SLOW_FRAMES)
+        {
+            return RedBlock_HasUsableCachedWindow() != 0 ?
+                REDBLOCK_VISUAL_BOUNDARY_LOST_SPEED_CMD : 0;
+        }
+        if(redblock_visual_boundary_lost_frames > REDBLOCK_VISUAL_BOUNDARY_CACHE_FRAMES)
+        {
+            return REDBLOCK_VISUAL_BOUNDARY_LOST_SPEED_CMD;
+        }
+        return requested_speed;
+    }
+
+    int RedBlock_GetVisualBlendPercent(void)
+    {
+        int blend_percent = 0;
+
+        switch(redblock_bypass_phase)
+        {
+            case RB_BYPASS_PHASE_SEEK_BOUNDARY:
+            case RB_BYPASS_PHASE_BOUNDARY_HOLD:
+            case RB_BYPASS_PHASE_POST_PASS_HOLD:
+                blend_percent = 100;
+                break;
+
+            case RB_BYPASS_PHASE_BLEND_BACK:
+                {
+                const int32_t blend_progress =
+                    func_abs(encoder_acc_avg - redblock_phase_start_encoder_avg);
+                const float blend_ratio = ClampFloat(
+                    (float)blend_progress / (float)REDBLOCK_VISUAL_EXIT_HOLD_DISTANCE,
+                    0.0f,
+                    1.0f);
+                const float smooth_ratio =
+                    blend_ratio * blend_ratio * (3.0f - 2.0f * blend_ratio);
+                blend_percent = (int)((1.0f - smooth_ratio) * 100.0f + 0.5f);
+                }
+                break;
+
+            case RB_BYPASS_PHASE_RECOVER:
+                blend_percent = 0;
+                break;
+
+            case RB_BYPASS_PHASE_IDLE:
+            default:
+                blend_percent = 0;
+                break;
+        }
+
+        return ClampInt(blend_percent, 0, 100);
+    }
+
+    uint8 RedBlock_SelectVisualControlWindow(void)
+    {
+        int row = 0;
+        int best_row = Search_Stop_Line;
+        int best_score = -1;
+        uint8 found = 0;
+        const int min_row = ClampInt(
+            white_length_max[0] > REDBLOCK_VISUAL_CONTROL_ROW_MIN ?
+                white_length_max[0] : REDBLOCK_VISUAL_CONTROL_ROW_MIN,
+            0,
+            Cut_ROW - REDBLOCK_VISUAL_CONTROL_WINDOW);
+        const int max_row = Cut_ROW - REDBLOCK_VISUAL_CONTROL_WINDOW;
+
+        if(redblock_bypass_phase == RB_BYPASS_PHASE_RECOVER)
+        {
+            return 0;
+        }
+
+        for(row = min_row; row <= max_row; row++)
+        {
+            int roughness = 0;
+            const int valid_rows = RedBlock_GetWindowCurrentValidRows(row, &roughness);
+            if(valid_rows < REDBLOCK_VISUAL_VALID_ROWS_REQUIRED)
+            {
+                continue;
+            }
+
+            // 有效点数量优先，其次选择更连续且更靠近上一控制窗口的位置。
+            const int reference_row = redblock_visual_control_row_valid != 0 ?
+                redblock_visual_control_row : (int)Search_Stop_Line;
+            const int score = valid_rows * 1000 - roughness * 4
+                              - func_abs(row - reference_row) * 2;
+            if(found == 0 || score > best_score)
+            {
+                best_score = score;
+                best_row = row;
+                found = 1;
+            }
+        }
+
+        if(found != 0)
+        {
+            int selected_row = best_row;
+            if(redblock_visual_control_row_valid != 0)
+            {
+                selected_row = ClampInt(
+                    best_row,
+                    (int)redblock_visual_control_row - REDBLOCK_VISUAL_CONTROL_ROW_STEP,
+                    (int)redblock_visual_control_row + REDBLOCK_VISUAL_CONTROL_ROW_STEP);
+            }
+            selected_row = ClampInt(selected_row, min_row, max_row);
+            Search_Stop_Line = (int8)selected_row;
+            redblock_visual_control_row = (int8)selected_row;
+            redblock_visual_control_row_valid = 1;
+        }
+
+        if(redblock_visual_control_row_valid != 0)
+        {
+            const int control_row = ClampInt(
+                redblock_visual_control_row,
+                REDBLOCK_VISUAL_CONTROL_ROW_MIN,
+                Cut_ROW - REDBLOCK_VISUAL_CONTROL_WINDOW);
+            const int current_valid_rows = RedBlock_GetWindowCurrentValidRows(control_row, nullptr);
+            const int cached_rows = RedBlock_GetWindowCachedRows(control_row);
+            redblock_visual_boundary_valid_rows = (uint8)current_valid_rows;
+
+            if(current_valid_rows >= REDBLOCK_VISUAL_VALID_ROWS_REQUIRED)
+            {
+                redblock_visual_boundary_lost_frames = 0;
+                redblock_visual_target_source = RB_VIS_TARGET_CURRENT;
+            }
+            else
+            {
+                if(redblock_visual_boundary_lost_frames < 255)
+                {
+                    redblock_visual_boundary_lost_frames++;
+                }
+                redblock_visual_target_source =
+                    (cached_rows >= REDBLOCK_VISUAL_VALID_ROWS_REQUIRED &&
+                     redblock_visual_boundary_lost_frames <= REDBLOCK_VISUAL_BOUNDARY_CACHE_FRAMES) ?
+                        RB_VIS_TARGET_CACHE : RB_VIS_TARGET_LOST;
+            }
+        }
+        else
+        {
+            if(redblock_visual_boundary_lost_frames < 255)
+            {
+                redblock_visual_boundary_lost_frames++;
+            }
+            redblock_visual_boundary_valid_rows = 0;
+            redblock_visual_target_source = RB_VIS_TARGET_LOST;
+        }
+
+        return found;
     }
 
     uint8 RedBlock_CheckRecoverReady(void)
@@ -612,6 +1054,7 @@ namespace
 
         return 1;
     }
+
 }
 
 RedBlockState RedBlock_GetState(void)
@@ -629,35 +1072,27 @@ RedBlockBypassPhase RedBlock_GetBypassPhase(void)
     return redblock_bypass_phase;
 }
 
-RedBlockActionPhase RedBlock_GetActionPhase(void)
-{
-    return redblock_action_phase;
-}
-
 uint8 RedBlock_IsBypassActive(void)
 {
     return redblock_bypass_active_flag;
 }
 
-float RedBlock_GetBypassDifSpeed(void)
-{
-    return redblock_bypass_dif_speed;
-}
-
 int32_t RedBlock_GetBypassSpeedCmd(void)
 {
-    return redblock_bypass_speed_cmd;
+    return RedBlock_ApplyBoundaryLossSpeedLimit(redblock_bypass_speed_cmd);
 }
 
 uint8 RedBlock_ShouldIgnoreBoundaryStop(void)
 {
-    return (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0);
+    return (
+        (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0) ||
+        redblock_boundary_stop_grace_frames > 0
+    );
 }
 
 uint8 RedBlock_IsElementExclusive(void)
 {
     return (
-        redblock_state == RB_DEC_BRAKING ||
         redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
         redblock_state == RB_DEC_MODEL_RECOGNIZING ||
         (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
@@ -677,7 +1112,6 @@ uint8 RedBlock_IsModelPending(void)
 uint8 RedBlock_IsSlowdownActive(void)
 {
     return (
-        redblock_state == RB_DEC_BRAKING ||
         redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
         redblock_state == RB_DEC_MODEL_RECOGNIZING
     );
@@ -701,7 +1135,6 @@ uint8 RedBlock_ShouldSuppressOtherElements(void)
 uint8 RedBlock_ShouldUseLowSpeedHold(void)
 {
     return (
-        redblock_state == RB_DEC_BRAKING ||
         redblock_state == RB_DEC_LOW_SPEED_SETTLE ||
         redblock_state == RB_DEC_MODEL_RECOGNIZING ||
         (redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
@@ -712,18 +1145,70 @@ int32_t RedBlock_GetMotionSpeedCmd(void)
 {
     if(redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
     {
-        return redblock_bypass_speed_cmd;
+        return RedBlock_ApplyBoundaryLossSpeedLimit(redblock_bypass_speed_cmd);
     }
     return redblock_slowdown_speed_cmd;
 }
 
 float RedBlock_GetMotionDifSpeed(void)
 {
+    const float raw_motion_dif = (float)Servo_PID(err_new);
+    float motion_dif = raw_motion_dif;
+
     if(redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0)
     {
-        return redblock_bypass_dif_speed;
+        float dif_limit = REDBLOCK_VISUAL_RECOVER_DIF_LIMIT;
+        if(redblock_bypass_phase == RB_BYPASS_PHASE_SEEK_BOUNDARY)
+        {
+            dif_limit = REDBLOCK_VISUAL_SEEK_DIF_LIMIT;
+        }
+        else if(redblock_bypass_phase == RB_BYPASS_PHASE_BOUNDARY_HOLD ||
+                redblock_bypass_phase == RB_BYPASS_PHASE_POST_PASS_HOLD)
+        {
+            dif_limit = REDBLOCK_VISUAL_HOLD_DIF_LIMIT;
+        }
+        float active_dif_limit = dif_limit;
+
+        if(redblock_bypass_phase != RB_BYPASS_PHASE_RECOVER)
+        {
+            if(redblock_visual_boundary_lost_frames > REDBLOCK_VISUAL_BOUNDARY_LOST_SLOW_FRAMES)
+            {
+                if(RedBlock_HasUsableCachedWindow() != 0)
+                {
+                    active_dif_limit = REDBLOCK_VISUAL_BOUNDARY_LOST_DIF_LIMIT;
+                }
+                else
+                {
+                    motion_dif = 0.0f;
+                    active_dif_limit = 0.0f;
+                }
+            }
+            else if(redblock_visual_boundary_lost_frames > REDBLOCK_VISUAL_BOUNDARY_CACHE_FRAMES)
+            {
+                active_dif_limit = REDBLOCK_VISUAL_BOUNDARY_LOST_DIF_LIMIT;
+            }
+        }
+        motion_dif = func_limit_ab(motion_dif, -active_dif_limit, active_dif_limit);
+
+        redblock_motion_dif_diag_div++;
+        if(redblock_motion_dif_diag_div >= 10)
+        {
+            redblock_motion_dif_diag_div = 0;
+#if 0  // 比赛模式：关闭红块绕行差速高频诊断日志。
+            printf("[RB_VIS_DIF] phase=%u mode=%u err=%.2f raw=%.2f dif=%.2f limit=%.2f speed=%ld lost=%u\n",
+                   redblock_bypass_phase_flag,
+                   redblock_bypass_mode_flag,
+                   err_new,
+                   raw_motion_dif,
+                   motion_dif,
+                   active_dif_limit,
+                   (long)RedBlock_ApplyBoundaryLossSpeedLimit(redblock_bypass_speed_cmd),
+                   (unsigned)redblock_visual_boundary_lost_frames);
+#endif
+        }
     }
-    return (float)Servo_PID(err_new);
+
+    return motion_dif;
 }
 
 void RedBlock_StartFallbackLeftBypass(const char *reason)
@@ -732,13 +1217,15 @@ void RedBlock_StartFallbackLeftBypass(const char *reason)
     RedBlock_StartBypassMode(RB_BYPASS_MODE_LEFT);
 }
 
-void RedBlock_StartActionForClass(int coarse_index)
-{
-    switch(coarse_index)
+    void RedBlock_StartActionForClass(int coarse_index)
+    {
+        RedBlock_RecordConfirmedClass(coarse_index);
+
+        switch(coarse_index)
     {
         case MODEL_CLASS_VEHICLE:
-            printf("[RB_DEC] voting_result vehicle -> straight_pass\n");
-            RedBlock_StartBypassMode(RB_BYPASS_MODE_STRAIGHT);
+            printf("[RB_DEC] voting_result vehicle -> line_follow\n");
+            RedBlock_ReturnToLineFollow("vehicle_class");
             break;
 
         case MODEL_CLASS_SUPPLIERS:
@@ -795,9 +1282,9 @@ void RedBlock_Detect(void)
 
     cv::cvtColor(frame_bgr, frame_hsv, cv::COLOR_BGR2HSV);
 
-    cv::Scalar lower_red1(0, 100, 80);
+    cv::Scalar lower_red1(0, 110, 70);
     cv::Scalar upper_red1(10, 255, 255);
-    cv::Scalar lower_red2(170, 100, 80);
+    cv::Scalar lower_red2(170, 110, 70);
     cv::Scalar upper_red2(180, 255, 255);
 
     cv::inRange(frame_hsv, lower_red1, upper_red1, red_mask_low);
@@ -820,7 +1307,7 @@ void RedBlock_Detect(void)
     }
 
     const int red_pixel_count = cv::countNonZero(red_mask);
-    if(red_pixel_count < 50)
+    if(red_pixel_count < 25)
     {
         return;
     }
@@ -841,7 +1328,7 @@ void RedBlock_Detect(void)
     for(const auto &contour : contours)
     {
         const double area = cv::contourArea(contour);
-        if(area < RED_MIN_AREA)
+        if(area < RED_MIN_AREA || area > RED_MAX_AREA)
         {
             continue;
         }
@@ -885,6 +1372,14 @@ void RedBlock_Detect(void)
 
     if(best_area > 0)
     {
+        // 仅在红块尚未确认前过滤贴边红砖。进入低速/模型阶段后保留检测结果，
+        // 防止真实红块在车辆靠近时因投影位置变化而被错误取消。
+        if((redblock_state == RB_DEC_IDLE || redblock_state == RB_DEC_CONFIRMING) &&
+           RedBlock_ShouldIgnoreSideBrick(frame_width, frame_height) != 0)
+        {
+            RedBlock_ClearDetectionResult();
+            return;
+        }
         redblock_flag = 1;
     }
 }
@@ -907,13 +1402,15 @@ void RedBlock_RequestSlowdown(void)
     }
 
     redblock_slowdown_frame_count = 0;
+    RedBlock_SaveRestoreSpeed();
     redblock_slowdown_speed_cmd = REDBLOCK_SLOWDOWN_SPEED_CMD;
     redblock_confirm_count = 0;
-    pwm0_flag = 1;
-    redblock_brake_ticks = REDBLOCK_BRAKE_TICKS;
+    redblock_low_speed_settle_count = 0;
+    RedBlock_ResetModelVoting();
     printf(
-        "RedBlock confirmed: area=%.0f, brake then ultra-low speed before model speed=%ld\n",
+        "RedBlock confirmed: area=%.0f -> low_speed_settle %u frames speed=%ld\n",
         redblock_area,
+        REDBLOCK_LOW_SPEED_SETTLE_FRAMES,
         (long)redblock_slowdown_speed_cmd
     );
     RedBlock_SetState(RB_SLOWDOWN);
@@ -931,7 +1428,7 @@ void RedBlock_ReleasePause(void)
     time1 = 0;
     timestop = 0;
     pwm0_flag = 0;
-    redblock_brake_ticks = 0;
+    RedBlock_RestoreSpeedIfNeeded();
     RedBlock_ClearLocalState();
 }
 
@@ -940,8 +1437,8 @@ void RedBlock_ResetState(void)
     redblock_pause_flag = 0;
     model_request_flag = 0;
     model_running_flag = 0;
-    redblock_brake_ticks = 0;
     redblock_slowdown_frame_count = 0;
+    RedBlock_RestoreSpeedIfNeeded();
     RedBlock_ClearLocalState();
 }
 
@@ -964,32 +1461,45 @@ void RedBlock_OnModelConfirmed(void)
 
 void RedBlock_StartBypass(void)
 {
-    RedBlock_StartBypassMode(RB_BYPASS_MODE_STRAIGHT);
+    RedBlock_ReturnToLineFollow("start_bypass_default");
 }
 
 void RedBlock_StartBypassMode(RedBlockBypassMode mode)
 {
+    if(mode == RB_BYPASS_MODE_NONE || mode == RB_BYPASS_MODE_STRAIGHT)
+    {
+        RedBlock_ReturnToLineFollow("straight_mode");
+        return;
+    }
+
+    if(stop != 0 || zebra_flag == 3 || pwm0_flag != 0)
+    {
+        printf("[RB_MOT] clear_stop_before_bypass stop=%u zebra=%u pwm0=%u\n",
+               (unsigned)stop,
+               (unsigned)zebra_flag,
+               (unsigned)pwm0_flag);
+    }
+    RedBlock_SaveRestoreSpeed();
     redblock_pause_flag = 0;
     model_request_flag = 0;
     model_running_flag = 0;
     time1 = 0;
     timestop = 0;
+    stop = 0;
+    zebra_flag = 0;
     pwm0_flag = 0;
-    redblock_brake_ticks = 0;
     redblock_bypass_mode = mode;
     redblock_bypass_mode_flag = static_cast<uint8>(mode);
-    redblock_bypass_active_flag = (mode != RB_BYPASS_MODE_NONE) ? 1 : 0;
-    redblock_bypass_lost_counter = 0;
-    redblock_bypass_detect_valid = 0;
-    redblock_start_yaw = FJ_Angle;
+    redblock_bypass_active_flag = RedBlock_IsVisualBypassMode();
     redblock_phase_start_encoder_avg = encoder_acc_avg;
     redblock_recover_ready_count = 0;
-    redblock_bypass_speed_cmd = REDBLOCK_BYPASS_SPEED_CMD;
-    redblock_bypass_dif_speed = 0.0f;
-    RedBlock_SetBypassPhase(RB_BYPASS_PHASE_APPROACH);
-    RedBlock_SetActionPhase(RB_ACT_TURN_OUT);
+    redblock_visual_diag_div = 0;
+    RedBlock_ResetVisualTargetContext();
+    redblock_bypass_speed_cmd = REDBLOCK_VISUAL_SEEK_SPEED_CMD;
+    RedBlock_SetVisualPhase(RB_BYPASS_PHASE_SEEK_BOUNDARY);
     RedBlock_SetState(RB_DEC_MOTION_ACTIVE);
-    printf("[RB_MOT] start mode=%d\n", redblock_bypass_mode_flag);
+    printf("[RB_VIS] start mode=%d centerline=boundary\n",
+           redblock_bypass_mode_flag);
 }
 
 void RedBlock_FinishBypass(void)
@@ -1000,12 +1510,14 @@ void RedBlock_FinishBypass(void)
         return;
     }
     printf("[RB_MOT] finish\n");
+    RedBlock_RestoreSpeedIfNeeded();
     RedBlock_ClearLocalState();
+    RedBlock_StartBoundaryGrace();
+    RedBlock_StartCooldown();
 }
 
 uint8 RedBlock_ApplyBypass(void)
 {
-    uint8 applied = 0;
     const int32_t encoder_progress = func_abs(encoder_acc_avg - redblock_phase_start_encoder_avg);
 
     if(redblock_state != RB_DEC_MOTION_ACTIVE || redblock_bypass_active_flag == 0)
@@ -1013,88 +1525,144 @@ uint8 RedBlock_ApplyBypass(void)
         return 0;
     }
 
-    redblock_bypass_speed_cmd = REDBLOCK_BYPASS_SPEED_CMD;
-
-    switch(redblock_action_phase)
+    if(RedBlock_IsVisualBypassMode() == 0)
     {
-        case RB_ACT_TURN_OUT:
-            if(redblock_bypass_mode == RB_BYPASS_MODE_LEFT)
+        RedBlock_FinishBypass();
+        return 0;
+    }
+
+    switch(redblock_bypass_phase)
+    {
+        case RB_BYPASS_PHASE_SEEK_BOUNDARY:
+            redblock_bypass_speed_cmd =
+                encoder_progress >= REDBLOCK_VISUAL_SEEK_SOFT_DISTANCE ?
+                    REDBLOCK_VISUAL_SEEK_SLOW_SPEED_CMD :
+                    REDBLOCK_VISUAL_SEEK_SPEED_CMD;
+            break;
+
+        case RB_BYPASS_PHASE_BOUNDARY_HOLD:
+        case RB_BYPASS_PHASE_POST_PASS_HOLD:
+            redblock_bypass_speed_cmd = REDBLOCK_VISUAL_HOLD_SPEED_CMD;
+            break;
+
+        case RB_BYPASS_PHASE_BLEND_BACK:
+        case RB_BYPASS_PHASE_RECOVER:
+        case RB_BYPASS_PHASE_IDLE:
+        default:
+            redblock_bypass_speed_cmd = REDBLOCK_RECOVER_SPEED_CMD;
+            break;
+    }
+
+    if(redblock_bypass_phase_counter < 255)
+    {
+        redblock_bypass_phase_counter++;
+    }
+
+    switch(redblock_bypass_phase)
+    {
+        case RB_BYPASS_PHASE_SEEK_BOUNDARY:
+            if(redblock_visual_target_source == RB_VIS_TARGET_LOST &&
+               redblock_visual_boundary_lost_frames >= REDBLOCK_VISUAL_SEEK_LOST_EXIT_FRAMES)
             {
-                redblock_bypass_dif_speed = REDBLOCK_TURN_CMD;
+                printf("[RB_VIS] seek_abort boundary_lost=%u -> line_follow\n",
+                       (unsigned)redblock_visual_boundary_lost_frames);
+                RedBlock_FinishBypass();
+                break;
             }
-            else if(redblock_bypass_mode == RB_BYPASS_MODE_RIGHT)
+
+            if(redblock_visual_target_source == RB_VIS_TARGET_CURRENT &&
+               redblock_visual_boundary_valid_rows >= REDBLOCK_VISUAL_VALID_ROWS_REQUIRED &&
+               redblock_visual_tangent_ready != 0 &&
+               func_abs(err_new) <= REDBLOCK_VISUAL_SEEK_READY_ERR)
             {
-                redblock_bypass_dif_speed = -REDBLOCK_TURN_CMD;
+                if(redblock_visual_seek_ready_count < 255)
+                {
+                    redblock_visual_seek_ready_count++;
+                }
             }
             else
             {
-                redblock_bypass_dif_speed = 0.0f;
+                redblock_visual_seek_ready_count = 0;
             }
 
-            if(RedBlock_GetTurnOutProgress() >= REDBLOCK_TURN_OUT_ANGLE)
+            if(encoder_progress >= REDBLOCK_VISUAL_SEEK_SOFT_DISTANCE &&
+               redblock_visual_seek_slow_logged == 0)
+            {
+                redblock_visual_seek_slow_logged = 1;
+                printf("[RB_VIS] seek_slow err=%.2f distance=%ld enc=%ld\n",
+                       err_new,
+                       (long)encoder_progress,
+                       (long)encoder_acc_avg);
+            }
+
+            if(redblock_visual_seek_ready_count >= REDBLOCK_VISUAL_SEEK_READY_FRAMES)
+            {
+                printf("[RB_VIS] boundary_hold_start err=%.2f tangent_gap=%u power=%.1f ready=%u enc=%ld\n",
+                       err_new,
+                       (unsigned)redblock_visual_tangent_gap,
+                       redblock_visual_tangent_power_applied,
+                       (unsigned)redblock_visual_seek_ready_count,
+                       (long)encoder_acc_avg);
+                redblock_phase_start_encoder_avg = encoder_acc_avg;
+                redblock_visual_seek_ready_count = 0;
+                RedBlock_SetVisualPhase(RB_BYPASS_PHASE_BOUNDARY_HOLD);
+            }
+            break;
+
+        case RB_BYPASS_PHASE_BOUNDARY_HOLD:
+            if(encoder_progress >= REDBLOCK_VISUAL_HOLD_DISTANCE)
             {
                 redblock_phase_start_encoder_avg = encoder_acc_avg;
-                redblock_bypass_dif_speed = 0.0f;
-                RedBlock_SetActionPhase(RB_ACT_PASS_1);
+                RedBlock_SetVisualPhase(RB_BYPASS_PHASE_POST_PASS_HOLD);
             }
             break;
 
-        case RB_ACT_PASS_1:
-            redblock_bypass_dif_speed = 0.0f;
-            if(encoder_progress >= REDBLOCK_PASS1_DISTANCE)
-            {
-                RedBlock_SetActionPhase(RB_ACT_TURN_BACK);
-            }
-            break;
-
-        case RB_ACT_TURN_BACK:
-            if(redblock_bypass_mode == RB_BYPASS_MODE_LEFT)
-            {
-                redblock_bypass_dif_speed = -REDBLOCK_TURN_CMD;
-            }
-            else if(redblock_bypass_mode == RB_BYPASS_MODE_RIGHT)
-            {
-                redblock_bypass_dif_speed = REDBLOCK_TURN_CMD;
-            }
-            else
-            {
-                redblock_bypass_dif_speed = 0.0f;
-            }
-
-            if(func_abs(FJ_Angle - redblock_start_yaw) <= REDBLOCK_TURN_BACK_TOLERANCE)
+        case RB_BYPASS_PHASE_POST_PASS_HOLD:
+            if(encoder_progress >= REDBLOCK_VISUAL_POST_PASS_HOLD_DISTANCE &&
+               redblock_bypass_phase_counter >= REDBLOCK_VISUAL_POST_PASS_HOLD_MIN_FRAMES)
             {
                 redblock_phase_start_encoder_avg = encoder_acc_avg;
-                redblock_bypass_dif_speed = 0.0f;
-                RedBlock_SetActionPhase(RB_ACT_PASS_2);
+                if(redblock_visual_return_mode == RB_VISUAL_RETURN_LEGACY_DIRECT)
+                {
+                    printf("[RB_VIS] return legacy_direct -> recover\n");
+                    RedBlock_SetVisualPhase(RB_BYPASS_PHASE_RECOVER);
+                }
+                else
+                {
+                    printf("[RB_VIS] return smooth_blend -> blend_back\n");
+                    RedBlock_SetVisualPhase(RB_BYPASS_PHASE_BLEND_BACK);
+                }
             }
             break;
 
-        case RB_ACT_PASS_2:
-            redblock_bypass_dif_speed = 0.0f;
-            if(encoder_progress >= REDBLOCK_PASS2_DISTANCE)
+        case RB_BYPASS_PHASE_BLEND_BACK:
+            // 同时满足距离与帧数：距离保证已绕过目标，帧数保证 blend 已衰减至 0
+            if(encoder_progress >= REDBLOCK_VISUAL_EXIT_HOLD_DISTANCE &&
+               redblock_bypass_phase_counter >= REDBLOCK_VISUAL_EXIT_HOLD_MAX_FRAMES)
             {
-                redblock_recover_ready_count = 0;
-                RedBlock_SetActionPhase(RB_ACT_RECOVER);
+                RedBlock_SetVisualPhase(RB_BYPASS_PHASE_RECOVER);
             }
             break;
 
-        case RB_ACT_RECOVER:
-            redblock_bypass_dif_speed = (float)Servo_PID(err_new);
+        case RB_BYPASS_PHASE_RECOVER:
+            {
+            redblock_bypass_speed_cmd = REDBLOCK_RECOVER_SPEED_CMD;
             redblock_recover_diag_div++;
             if(redblock_recover_diag_div >= 10)
             {
                 redblock_recover_diag_div = 0;
+#if 0  // 比赛模式：关闭红块绕行恢复高频诊断日志。
                 printf(
-                    "[RB_RECOVER] ready_cnt=%u err=%.2f far=%.2f effect(L,R)=(%d,%d) dif=%.2f active=%u phase=%u\n",
+                    "[RB_RECOVER] ready_cnt=%u err=%.2f far=%.2f effect(L,R)=(%d,%d) active=%u phase=%u\n",
                     redblock_recover_ready_count,
                     err_new,
                     Farthest_distance,
                     l_effect_num,
                     r_effect_num,
-                    redblock_bypass_dif_speed,
                     redblock_bypass_active_flag,
-                    redblock_action_phase_flag
+                    redblock_bypass_phase_flag
                 );
+#endif
             }
             if(RedBlock_CheckRecoverReady())
             {
@@ -1112,14 +1680,234 @@ uint8 RedBlock_ApplyBypass(void)
             {
                 RedBlock_FinishBypass();
             }
+            else if(redblock_bypass_phase_counter >= REDBLOCK_VISUAL_RECOVER_MAX_FRAMES)
+            {
+                RedBlock_FinishBypass();
+            }
+            }
             break;
 
+        case RB_BYPASS_PHASE_IDLE:
         default:
-            redblock_bypass_dif_speed = 0.0f;
+            RedBlock_SetVisualPhase(RB_BYPASS_PHASE_SEEK_BOUNDARY);
             break;
     }
 
-    return applied;
+    return 1;
+}
+
+uint8 RedBlock_ApplyVisualCenterline(void)
+{
+    int blend_percent = 0;
+    int tangent_control_row = 0;
+    int tangent_far_row = 0;
+    int tangent_near_row = 0;
+    float tangent_power = 0.0f;
+    uint8 row = 0;
+    uint8 changed_rows = 0;
+    int first_target = -1;
+    int last_target = -1;
+    uint8 selected_window = 0;
+
+    if(redblock_state != RB_DEC_MOTION_ACTIVE || redblock_bypass_active_flag == 0)
+    {
+        return 0;
+    }
+
+    if(RedBlock_IsVisualBypassMode() == 0)
+    {
+        return 0;
+    }
+
+    blend_percent = RedBlock_GetVisualBlendPercent();
+    if(blend_percent <= 0 &&
+       redblock_bypass_phase != RB_BYPASS_PHASE_BLEND_BACK)
+    {
+        return 0;
+    }
+
+    RedBlock_UpdateVisualBoundaryCache();
+    selected_window = RedBlock_SelectVisualControlWindow();
+    tangent_control_row = ClampInt(
+        redblock_visual_control_row_valid != 0 ?
+            redblock_visual_control_row : (int)Search_Stop_Line,
+        REDBLOCK_VISUAL_CONTROL_ROW_MIN,
+        Cut_ROW - REDBLOCK_VISUAL_CONTROL_WINDOW);
+    tangent_far_row = ClampInt(
+        tangent_control_row - REDBLOCK_VISUAL_TANGENT_FAR_OFFSET,
+        0,
+        Cut_ROW - 1);
+    tangent_near_row = ClampInt(
+        tangent_control_row + REDBLOCK_VISUAL_TANGENT_NEAR_OFFSET,
+        tangent_far_row + 1,
+        Cut_ROW - 1);
+    tangent_power = ClampFloat(
+        REDBLOCK_VISUAL_TANGENT_POWER,
+        REDBLOCK_VISUAL_TANGENT_POWER_MIN,
+        REDBLOCK_VISUAL_TANGENT_POWER_MAX);
+    redblock_visual_tangent_power_applied = tangent_power;
+    redblock_visual_tangent_ready = 0;
+    redblock_visual_tangent_normal_center = 0;
+    redblock_visual_tangent_boundary_center = 0;
+    redblock_visual_tangent_target_center = 0;
+    redblock_visual_tangent_gap = 0;
+
+    for(row = 0; row < Cut_ROW; row++)
+    {
+        int boundary_center = Center_point[row];
+        const int normal_center = Center_point[row];
+        int current_boundary = 0;
+        int target_center = normal_center;
+        uint8 current_boundary_valid = 0;
+
+        if(RedBlock_GetCurrentBoundaryPoint(row, &current_boundary) != 0)
+        {
+            boundary_center = current_boundary;
+            current_boundary_valid = 1;
+        }
+        else if(redblock_visual_boundary_cache_valid[row] != 0)
+        {
+            boundary_center = (int)redblock_visual_boundary_cache[row];
+        }
+
+        boundary_center = ClampColIndex(boundary_center);
+        target_center = boundary_center;
+
+        if(redblock_bypass_phase == RB_BYPASS_PHASE_SEEK_BOUNDARY)
+        {
+            float tangent_progress = 0.0f;
+            if((int)row <= tangent_far_row)
+            {
+                tangent_progress = 1.0f;
+            }
+            else if((int)row < tangent_near_row)
+            {
+                tangent_progress =
+                    (float)(tangent_near_row - (int)row) /
+                    (float)(tangent_near_row - tangent_far_row);
+            }
+
+            // 先平滑切向进度，使普通中线端和边线端的斜率均为零；p 仍控制靠边速度。
+            const float smooth_progress = tangent_progress * tangent_progress *
+                (3.0f - 2.0f * tangent_progress);
+            const float boundary_blend =
+                1.0f - powf(1.0f - smooth_progress, tangent_power);
+            target_center = ClampColIndex((int)(
+                (float)normal_center +
+                ((float)boundary_center - (float)normal_center) * boundary_blend +
+                0.5f));
+        }
+
+        if(blend_percent >= 100)
+        {
+            Center_point[row] = (uint8)target_center;
+        }
+        else
+        {
+            const int blended_center =
+                (normal_center * (100 - blend_percent) + target_center * blend_percent) / 100;
+            Center_point[row] = (uint8)ClampColIndex(blended_center);
+        }
+        Center_err[row] = Cut_COL / 2 - Center_point[row];
+
+        if((int)row == tangent_control_row)
+        {
+            redblock_visual_tangent_normal_center = (uint8)normal_center;
+            redblock_visual_tangent_boundary_center = (uint8)boundary_center;
+            redblock_visual_tangent_target_center = (uint8)target_center;
+            redblock_visual_tangent_gap = (uint8)func_abs(target_center - boundary_center);
+            if(redblock_bypass_phase == RB_BYPASS_PHASE_SEEK_BOUNDARY &&
+               current_boundary_valid != 0 &&
+               redblock_visual_tangent_gap <= REDBLOCK_VISUAL_TANGENT_READY_GAP)
+            {
+                redblock_visual_tangent_ready = 1;
+            }
+        }
+
+        if(first_target < 0)
+        {
+            first_target = Center_point[row];
+        }
+        last_target = Center_point[row];
+        changed_rows++;
+    }
+
+    redblock_visual_diag_div++;
+    if(redblock_visual_diag_div >= 10)
+    {
+        redblock_visual_diag_div = 0;
+#if 0  // 比赛模式：关闭红块绕行目标路径高频诊断日志。
+        printf("[RB_VIS] phase=%u mode=%u blend=%d rows=%u first=%d last=%d err=%.2f ctrl=%u sel=%u\n",
+               redblock_bypass_phase_flag,
+               redblock_bypass_mode_flag,
+               blend_percent,
+               changed_rows,
+               first_target,
+               last_target,
+               err_new,
+               (unsigned)Search_Stop_Line,
+               selected_window);
+        printf("[RB_VIS_TARGET] phase=%u mode=%u row=%u valid=%u/%u lost=%u source=%s blend=%d p=%.1f normal=%u boundary=%u target=%u gap=%u tangent_ready=%u\n",
+               redblock_bypass_phase_flag,
+               redblock_bypass_mode_flag,
+               (unsigned)Search_Stop_Line,
+               (unsigned)redblock_visual_boundary_valid_rows,
+               (unsigned)REDBLOCK_VISUAL_CONTROL_WINDOW,
+               (unsigned)redblock_visual_boundary_lost_frames,
+               RedBlock_VisualTargetSourceLabel(),
+               blend_percent,
+               tangent_power,
+               (unsigned)redblock_visual_tangent_normal_center,
+               (unsigned)redblock_visual_tangent_boundary_center,
+               (unsigned)redblock_visual_tangent_target_center,
+               (unsigned)redblock_visual_tangent_gap,
+               (unsigned)redblock_visual_tangent_ready);
+#endif
+    }
+
+    return (changed_rows > 0) ? 1 : 0;
+}
+
+void RedBlock_LogVisualControl(float current_err)
+{
+    int row0 = Search_Stop_Line;
+    int row1 = Search_Stop_Line + 9;
+
+    if(redblock_state != RB_DEC_MOTION_ACTIVE || redblock_bypass_active_flag == 0)
+    {
+        return;
+    }
+
+    if(RedBlock_IsVisualBypassMode() == 0)
+    {
+        return;
+    }
+
+    row0 = ClampInt(row0, 0, Cut_ROW - 1);
+    row1 = ClampInt(row1, 0, Cut_ROW - 1);
+
+    redblock_visual_err_diag_div++;
+    if(redblock_visual_err_diag_div < 10)
+    {
+        return;
+    }
+    redblock_visual_err_diag_div = 0;
+
+#if 0  // 比赛模式：关闭红块绕行控制行高频诊断日志。
+    printf("[RB_VIS_ERR] phase=%u mode=%u err=%.2f ctrl=%d row=%d cp=%u l=%u r=%u row2=%d cp2=%u l2=%u r2=%u\n",
+           redblock_bypass_phase_flag,
+           redblock_bypass_mode_flag,
+           current_err,
+           (int)Search_Stop_Line,
+           row0,
+           Center_point[row0],
+           l_border[row0],
+           r_border[row0],
+           row1,
+           Center_point[row1],
+           l_border[row1],
+           r_border[row1]);
+#endif
 }
 
 uint8 RedBlock_GetSearchRect(int16 *x, int16 *y, uint16 *width, uint16 *height)
@@ -1226,10 +2014,12 @@ uint8 RedBlock_GetModelRoi(int16 *x, int16 *y, uint16 *width, uint16 *height)
 
     const int estimated_object_height = static_cast<int>(block_height * RED_MODEL_ROI_OBJECT_HEIGHT_RATIO);
     const int total_height = estimated_object_height + block_height + RED_MODEL_ROI_EDGE_PADDING;
+    const int width_based_side =
+        static_cast<int>(block_width * RED_MODEL_ROI_WIDTH_SCALE);
     int roi_side = total_height;
-    if(roi_side < block_width)
+    if(roi_side < width_based_side)
     {
-        roi_side = block_width;
+        roi_side = width_based_side;
     }
     if(roi_side < RED_MODEL_ROI_MIN_SIDE)
     {
@@ -1309,6 +2099,13 @@ void RedBlock_UpdatePerception(void)
         return;
     }
 
+    if(redblock_cooldown_count > 0)
+    {
+        RedBlock_TickCooldown();
+        redblock_detect_frame_counter = 0;
+        return;
+    }
+
     if(redblock_detect_frame_counter != 0)
     {
         redblock_detect_frame_counter = (redblock_detect_frame_counter + 1) % REDBLOCK_DETECT_INTERVAL;
@@ -1348,33 +2145,19 @@ void RedBlock_UpdateDecision(void)
                     redblock_slowdown_speed_cmd = REDBLOCK_SLOWDOWN_SPEED_CMD;
                     redblock_low_speed_settle_count = 0;
                     redblock_confirm_count = 0;
-                    redblock_brake_ticks = REDBLOCK_BRAKE_TICKS;
-                    pwm0_flag = 1;
+                    RedBlock_SaveRestoreSpeed();
                     RedBlock_ResetModelVoting();
-                    printf("[RB_DEC] confirmed area=%.0f -> braking ticks=%u speed=%ld\n",
+                    printf("[RB_DEC] confirmed area=%.0f -> low_speed_settle %u frames speed=%ld\n",
                            redblock_area,
-                           REDBLOCK_BRAKE_TICKS,
+                           REDBLOCK_LOW_SPEED_SETTLE_FRAMES,
                            (long)redblock_slowdown_speed_cmd);
-                    RedBlock_SetState(RB_DEC_BRAKING);
+                    RedBlock_SetState(RB_DEC_LOW_SPEED_SETTLE);
                 }
             }
             else
             {
                 redblock_confirm_count = 0;
                 RedBlock_SetState(RB_DEC_IDLE);
-            }
-            break;
-
-        case RB_DEC_BRAKING:
-            if(redblock_brake_ticks == 0)
-            {
-                pwm0_flag = 0;
-                redblock_low_speed_settle_count = 0;
-                printf("[RB_DEC] braking_done enc=(%d,%d) -> low_speed_settle %u frames\n",
-                       enconder_left,
-                       enconder_right,
-                       REDBLOCK_LOW_SPEED_SETTLE_FRAMES);
-                RedBlock_SetState(RB_DEC_LOW_SPEED_SETTLE);
             }
             break;
 
@@ -1473,13 +2256,32 @@ void RedBlock_UpdateDecision(void)
     }
 }
 
-void RedBlock_ApplyMotion(void)
-{
-    RedBlock_ApplyBypass();
-}
-
 void RedBlock_Update(void)
 {
+    if(redblock_detection_enable == 0)
+    {
+        // 支持在动作进行中关闭开关，避免残留的低速或绕行状态影响普通巡线。
+        if(redblock_state != RB_DEC_IDLE || redblock_bypass_active_flag != 0)
+        {
+            RedBlock_ResetState();
+        }
+        else
+        {
+            RedBlock_ClearDetectionResult();
+        }
+        return;
+    }
+
     RedBlock_UpdatePerception();
     RedBlock_UpdateDecision();
+    if(redblock_boundary_stop_grace_frames > 0 &&
+       !(redblock_state == RB_DEC_MOTION_ACTIVE && redblock_bypass_active_flag != 0))
+    {
+        redblock_boundary_stop_grace_frames--;
+    }
+}
+
+void RedBlock_ReportClassificationSequenceIfStopped(void)
+{
+    RedBlock_ReportClassificationSequence();
 }

@@ -45,6 +45,7 @@ extern uint16 r_duty2;
  extern uint8 Straight_track_width[Cut_ROW];    //标准直道宽度
  extern float err_new ;                          //误差
  extern volatile int w;                          // 调参：普通赛道前瞻起始行，越小转弯越晚
+ extern volatile float ack_dif_full_scale;       // 调参：阿克曼差速满量程，越小转向越灵敏
 
  /*图像*/
  extern volatile uint8 Image_Use[COL][ROW];                     //图像
@@ -65,6 +66,7 @@ extern uint16 r_duty2;
  extern int16 r_start;                              //右边界的起始行数
  extern uint8 Center_point[Cut_ROW];
  extern uint8 l_border[Cut_ROW], r_border[Cut_ROW]; //左右边界
+ extern int8 l_effect_flag[Cut_ROW], r_effect_flag[Cut_ROW]; //左右边界当前帧有效标志
  extern int16 Center_err[Cut_ROW];                  //赛道误差中线
  extern uint8 width[Cut_ROW];                       //赛道宽度
  extern uint8 land_line;                            //搜索角点的行位置
@@ -81,6 +83,7 @@ volatile extern int8 Search_Stop_Line;                      //搜索停止线
 
 /*停车*/
  extern u_char stop;                        //停车标志位，置1表示停车
+ extern volatile int boundary_stop_enable;   //巡线出界停车菜单开关
  extern uint8 redblock_pause_flag;          //红色色块触发的临时停车标志
  extern uint8 model_request_flag;           //请求开启模型标志
  extern uint8 model_running_flag;           //模型运行标志

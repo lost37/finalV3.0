@@ -15,6 +15,12 @@ typedef struct
     volatile int *land_w;
     volatile int32_t *set_speed;
     volatile int *land_speed;
+    volatile float *ack_dif_full_scale;
+    volatile int *redblock_detection_enable;
+    volatile int *redblock_visual_return_mode;
+    volatile int *redblock_cross_fill_enable;
+    volatile int *boundary_stop_enable;
+    volatile int *zebra_stop_enable;
 } TuningMenuBindings;
 
 uint8_t TuningMenu_Register(MenuCore *menu, TuningMenuBindings *bindings);

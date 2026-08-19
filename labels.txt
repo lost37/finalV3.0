@@ -1,0 +1,7 @@
+suppliers/jijiubao
+suppliers/wangyuan
+vehicle/jiuhu
+vehicle/zhuangjia
+weapon/buqiang
+weapon/shouliu
+weapon/shouqiang

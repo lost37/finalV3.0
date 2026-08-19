@@ -6,6 +6,7 @@
 #include "redblock.h"
 
 #include <cstdio>
+#include <opencv2/imgcodecs.hpp>
 
 namespace
 {
@@ -13,6 +14,11 @@ namespace
     constexpr char MODEL_BIN_PATH[] = "tiny_classifier_fp32.ncnn.bin";
     constexpr int MODEL_INPUT_WIDTH = 96;
     constexpr int MODEL_INPUT_HEIGHT = 96;
+    // 调试开关：设为 1 时保存模型最终接收的 96x96 BGR 输入图；比赛时保持 0，避免磁盘写入影响实时性。
+    constexpr uint8 MODEL_INPUT_SAVE_ENABLE = 0;
+    // 调参：单次程序运行最多保存的模型输入图数量。达到上限后停止写盘。
+    constexpr uint8 MODEL_INPUT_SAVE_MAX_COUNT = 8;
+    constexpr char MODEL_INPUT_SAVE_FILE_PREFIX[] = "redblock_model_input";
 
     // 顺序必须与训练产物 artifacts/labels.txt 完全一致。
     constexpr const char* MODEL_FINE_LABELS[] =
@@ -22,10 +28,8 @@ namespace
         "vehicle/jiuhu",
         "vehicle/zhuangjia",
         "weapon/buqiang",
-        "weapon/c4",
         "weapon/shouliu",
-        "weapon/shouqiang",
-        "weapon/shuzhuang"
+        "weapon/shouqiang"
     };
     constexpr const char* MODEL_COARSE_LABELS[] =
     {
@@ -38,7 +42,7 @@ namespace
     {
         0, 0,
         1, 1,
-        2, 2, 2, 2, 2
+        2, 2, 2
     };
     constexpr int MODEL_FINE_LABEL_COUNT = sizeof(MODEL_FINE_LABELS) / sizeof(MODEL_FINE_LABELS[0]);
     constexpr int MODEL_COARSE_LABEL_COUNT = sizeof(MODEL_COARSE_LABELS) / sizeof(MODEL_COARSE_LABELS[0]);
@@ -48,6 +52,37 @@ namespace
     LQ_NCNN g_ncnn;
     bool g_ncnn_initialized = false;
     bool g_ncnn_init_failed = false;
+    uint8 g_model_input_save_count = 0;
+    uint8 g_model_input_save_limit_logged = 0;
+
+    void SaveModelInputDebugImage(const cv::Mat &input_bgr)
+    {
+        if(MODEL_INPUT_SAVE_ENABLE == 0)
+        {
+            return;
+        }
+
+        if(g_model_input_save_count >= MODEL_INPUT_SAVE_MAX_COUNT)
+        {
+            if(g_model_input_save_limit_logged == 0)
+            {
+                g_model_input_save_limit_logged = 1;
+                printf("[NCNN_DEBUG] model input save limit=%u reached\n",
+                       (unsigned)MODEL_INPUT_SAVE_MAX_COUNT);
+            }
+            return;
+        }
+
+        char file_name[64] = {0};
+        snprintf(file_name, sizeof(file_name), "%s_%02u.png",
+                 MODEL_INPUT_SAVE_FILE_PREFIX,
+                 (unsigned)g_model_input_save_count);
+        const bool saved = cv::imwrite(file_name, input_bgr);
+        printf("[NCNN_DEBUG] model_input file=%s saved=%u\n",
+               file_name,
+               saved ? 1U : 0U);
+        g_model_input_save_count++;
+    }
 
     NCNN_Infer_Result MakeDefaultResult(void)
     {
@@ -115,6 +150,7 @@ NCNN_Infer_Result ncnn_infer_run_once(void)
     }
 
     cv::Mat input_bgr(MODEL_INPUT_HEIGHT, MODEL_INPUT_WIDTH, CV_8UC3, input_buffer.data());
+    SaveModelInputDebugImage(input_bgr);
     const LQ_NCNN_Result infer_result = g_ncnn.InferResult(input_bgr);
 
     result.class_index = infer_result.class_index;
